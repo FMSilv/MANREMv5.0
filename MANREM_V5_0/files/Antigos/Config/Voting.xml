@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Voting>
+	<Method>
+		<Name>Simple Majority</Name>
+		<Type>Voting</Type>
+	</Method>	
+	<Method>
+		<Name>Full Majority</Name>
+		<Type>Voting</Type>
+	</Method>	
+	<Method>
+		<Name>Unanimity</Name>
+		<Type>Voting</Type>
+	</Method>	
+	<Method>
+		<Name>Best Value - Low Total Price</Name>
+		<Type>Direct Choice</Type>
+	</Method>	
+	<Method>
+		<Name>Best Value - Price per Watt</Name>
+		<Type>Direct Choice</Type>
+	</Method>	
+</Voting>

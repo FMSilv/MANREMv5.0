@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<root>
+	<Agent>
+			<Name>ElectroCenter</Name>
+			<Type>Energy Buyer</Type>
+			<NumberAtributes>6</NumberAtributes>	
+			<Config>
+				<!-->
+					<Strategy>Low Priority Concession</Strategy>
+					<Strategy>E-R Concession</Strategy>
+					<Strategy>Demand Management</Strategy>
+				<-->
+				<Strategy>Concession Making</Strategy>
+				<!--><-->
+				<Protocol>Alternating Offers</Protocol>
+				<!--><-->
+				<Preference>Addictive Function</Preference>
+			</Config>
+
+			<Beliefs>
+				<Prices>
+					<Belief>
+						<Price>36.45</Price>			<!-->	1	<-->
+						<Price>38.77</Price>			<!-->	2	<-->
+						<Price>48.17</Price>			<!-->	3	<-->
+						<Price>46.39</Price>			<!-->	4	<-->
+						<Price>34.91</Price>			<!-->	5	<-->
+						<Price>46.54</Price>			<!-->	6	<-->
+					</Belief>
+					<Belief>
+						<pMax>43.45</pMax>				<!-->	1	<-->
+						<pMax>46.10</pMax>				<!-->	2	<-->
+						<pMax>57.27</pMax>				<!-->	3	<-->
+						<pMax>55.16</pMax>				<!-->	4	<-->
+						<pMax>41.50</pMax>				<!-->	5	<-->
+						<pMax>55.33</pMax>				<!-->	6	<-->
+					</Belief>
+					<Belief>
+						<pFlex>1</pFlex>				<!-->	1	<-->
+						<pFlex>1</pFlex>				<!-->	2	<-->
+						<pFlex>1</pFlex>				<!-->	3	<-->
+						<pFlex>1</pFlex>				<!-->	4	<-->
+						<pFlex>1</pFlex>				<!-->	5	<-->
+						<pFlex>1</pFlex>				<!-->	6	<-->
+					</Belief>
+				</Prices>
+				<Volumes>
+					<Belief>
+						<Volume>48.55</Volume>			<!-->	1	<-->
+						<Volume>55.47</Volume>			<!-->	2	<-->
+						<Volume>82.54</Volume>			<!-->	3	<-->
+						<Volume>82.66</Volume>			<!-->	4	<-->
+						<Volume>71.08</Volume>			<!-->	5	<-->
+						<Volume>60.96</Volume>			<!-->	6	<-->
+					</Belief>	
+					<Belief>
+						<vMax>64.92</vMax>				<!-->	1	<-->
+						<vMax>74.33</vMax>				<!-->	2	<-->
+						<vMax>110.60</vMax>				<!-->	3	<-->
+						<vMax>110.77</vMax>				<!-->	4	<-->
+						<vMax>95.24</vMax>				<!-->	5	<-->
+						<vMax>88.33</vMax>				<!-->	6	<-->
+					</Belief>	
+					<Belief>
+						<vMin>32.94</vMin>				<!-->	1	<-->
+						<vMin>37.72</vMin>				<!-->	2	<-->
+						<vMin>56.13</vMin>				<!-->	3	<-->
+						<vMin>56.21</vMin>				<!-->	4	<-->
+						<vMin>48.33</vMin>				<!-->	5	<-->
+						<vMin>41.27</vMin>				<!-->	6	<-->
+					</Belief>
+					<Belief>	
+						<vFlex>1</vFlex>				<!-->	1	<-->
+						<vFlex>1</vFlex>				<!-->	2	<-->
+						<vFlex>1</vFlex>				<!-->	3	<-->
+						<vFlex>1</vFlex>				<!-->	4	<-->
+						<vFlex>1</vFlex>				<!-->	5	<-->
+						<vFlex>1</vFlex>				<!-->	6	<-->
+					</Belief>
+				</Volumes>
+			</Beliefs>
+	</Agent>
+</root>

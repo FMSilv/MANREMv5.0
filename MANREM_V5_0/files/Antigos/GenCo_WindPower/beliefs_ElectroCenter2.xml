@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<agent>
+		<localname>ElectroCenter</localname>
+		<beliefs>
+			<belief>ElectroCenter;profile;v1_84.51-v2_114.14-v3_327.21-v4_249.7-v5_127.83-v6_132.34</belief>
+		</beliefs>
+</agent>

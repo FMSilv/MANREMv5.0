@@ -1,0 +1,399 @@
+package scheduling;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+import java.io.IOException;
+import java.lang.reflect.Array;
+import javax.swing.JFrame;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import personalassistant.LoadAgent_Name;
+import static scheduling.AddGenerator2.TableInfos;
+import scheduling.DataGENcos;
+
+/**
+ *
+ * @author Af
+ */
+public class AddGenerator extends JFrame {
+ 
+    public static int order = 0;
+    private PreliminarInfo geninfwindow;
+    private static ErrorMessage errormess;
+    
+    public static ArrayList<DataThermal> InfoSheet_t = new ArrayList();
+    public static ArrayList<DataHydro> InfoSheet_h = new ArrayList();
+    public static ArrayList<DataWind> InfoSheet_w = new ArrayList();
+    public static ArrayList<DataGENcos> InfoGENCO = new ArrayList();
+    public static String prov_name, prov_address1, prov_address2, prov_email;
+    public static List<String> provisString;
+    
+    public static double [][] preHydroData;// = {{2,62,100,152,200,6,225,0.051,110},{5,163,80,100,150,6,162,0.058,150},{14,464,790,500,1000,6,1200,0.603,200},{19,662,33,50,60,6,66,0.051,250},{18,628,13,8,20,6,26,0.051,350},{14,479,1200,1000,2000,6,2586,0.199,1500},{29,985,50,40,100,6,115,0.500,2000},{30,1028,90,100,150,6,181,0.048,1000}};
+    public static double [][] preLinearization; //= {{0.80,0.30,0.20,0.10,15.00},{0.40,0.30,0.50,0.10,39.50},{0.20,0.10,0.30,0.20,112.50},{0.10,0.10,0.05,0.05,160.75},{0.10,0.40,0.20,0.10,152.50},{1.30,3.00,1.50,0.80,116.25},{0.75,1.50,1.20,0.90,239.00},{0.80,0.30,0.50,0.10,249.50}};
+    public static double [][] preOutputLimits;// = {{1.440,1.530,1.620,28.62},{1.896,2.133,2.370,69.52},{2.700,3.375,4.050,139.05},{1.929,2.894,3.858,116.38},{1.830,2.745,3.660,186.66},{18.135,18.833,19.530,833.28},{21.510,22.944,24.378,1159.63},{23.952,25.449,26.946,550.90}};
+    public static double [] hourlyinflow;// = {0.05,0.1};
+    public static double [] curves;
+    public static double [] preinflow;
+    public static double [][] precosts;
+    
+    
+     public static double [][] preThermalData;// = {{30, 120, 40, 65, 5, 5, 900, 500, 3200, -5},{20, 110, 30, 50, 4, 3, 780, 360, 3200, -6},{130,700,80,110,6,4,4800,2250,3200,1},{100,500,100,130,4,3,7000,3600,3200,1},{120,550,100,120,4,3,6600,3300,3200,-1},{45,210,55,62,3,4,4200,2230,3200,-1}};
+     public static String [] preThermalFuelindex;// = {1,1,1,3,3,2};
+     public static double [][] preThermalcosts;// = {{2200,12},{2400,15},{6500,11},{930.5,20},{900,15},{130.2,20.5}};
+     public static double [][] preThermalFuelCons;// = {{45,0.3},{50,0.25},{90,0.14},{2430.5,55},{2000,0.212},{1.248,0.334}};
+     public static double [][] preThermalEMISSIONS;// = {{3.1604,0.0029},{3.1604,0.0029},{3.1604,0.0029},{1.84,0.00034},{1.84,0.00034},{2.8523,0.00033}};
+     public static double [] preGasesPrice = new double [2];
+     
+     public static double [][] preWindForecast;
+     public static double [][] preWindData;
+     public static double [][] preWindCosts;
+    
+    
+    /**
+     * Creates new form AddGenerator
+     */
+    public AddGenerator() {
+        initComponents();
+        this.setTitle("Add Generator");
+        this.setResizable(false);
+        this.setAlwaysOnTop(true);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+ try{
+        Import_export.LoadHydro();
+        Import_export.LoadThermal();
+        Import_export.LoadWind();
+ }catch(Exception u){
+  System.out.print(u);
+ }     
+ 
+                 if(personalassistant.LoadAgent_Name.isLoaded){
+                    try{
+                        scheduling.Import_export.LoadGENERATOR_toTable(AddGenerator.prov_name);   
+                    }catch(IOException e){
+                        System.out.print(e);
+                    }
+                    
+                    System.out.print(InfoSheet_t.size());
+                    
+                    AddButton.setEnabled(false);
+                    RemoveButton.setEnabled(false);
+                    UpdateButton.setEnabled(false);
+                    
+                    jTable2.setModel(new javax.swing.table.DefaultTableModel(
+                        Import_export.loadedGencoData,
+                        new String [] {
+                        "ID", "Technology", "Fuel",  "Min Power (MW)","Max Power (MW)", "MCost (USD/MW)"
+            }
+        ));
+                
+                
+                }
+        Name1.setText(AddGenerator.prov_name);
+        Name1.setEnabled(false);
+        
+        
+        
+    }
+ 
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        Name1 = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        AddButton = new javax.swing.JButton();
+        RemoveButton = new javax.swing.JButton();
+        UpdateButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "GenCo's Info", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
+
+        jLabel1.setText("Name:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(Name1, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(Name1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Technology Portfolio", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
+
+        AddButton.setText("Add");
+        AddButton.setPreferredSize(new java.awt.Dimension(71, 36));
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddButtonActionPerformed(evt);
+            }
+        });
+
+        RemoveButton.setText("Remove");
+        RemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveButtonActionPerformed(evt);
+            }
+        });
+
+        UpdateButton.setText("Update");
+        UpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateButtonActionPerformed(evt);
+            }
+        });
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(AddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(RemoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(UpdateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 14, 14))
+        );
+
+        jButton1.setText("Cancel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Save");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(25, 25, 25))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+
+//CANCEL BUTTON
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    //SAVE BUTTON
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        
+         if(personalassistant.LoadAgent_Name.isLoaded){
+            try{
+                Import_export.SaveLoadedGenerator(AddGenerator.prov_name);         
+                personalassistant.LoadAgent_Name.isLoaded = false;
+                this.dispose();
+                
+                
+            }catch(IOException e){
+                System.out.print(e);
+            } catch (MinMaxException ex) {
+                 Logger.getLogger(AddGenerator.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (MediumValueException ex) {
+                 Logger.getLogger(AddGenerator.class.getName()).log(Level.SEVERE, null, ex);
+             }
+            
+         }else{
+            errormess = new ErrorMessage("","No units inserted for saving!");
+            errormess.setVisible(true);
+         }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    
+    //ADD BUTTON
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+
+        geninfwindow = new PreliminarInfo();
+        geninfwindow.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_AddButtonActionPerformed
+    
+    
+    //UPDATE BUTTON
+    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
+        errormess = new ErrorMessage("","No units inserted for update");
+        errormess.setVisible(true);
+    }//GEN-LAST:event_UpdateButtonActionPerformed
+
+    private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
+        errormess = new ErrorMessage("","No units available for removal");
+        errormess.setVisible(true);
+    }//GEN-LAST:event_RemoveButtonActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AddGenerator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AddGenerator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AddGenerator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AddGenerator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AddGenerator().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddButton;
+    private javax.swing.JTextField Name1;
+    private javax.swing.JButton RemoveButton;
+    private javax.swing.JButton UpdateButton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    // End of variables declaration//GEN-END:variables
+}

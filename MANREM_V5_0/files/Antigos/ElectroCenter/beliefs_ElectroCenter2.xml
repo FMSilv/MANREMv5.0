@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<agent>
+		<localname>ElectroCenter</localname>
+		<beliefs>
+			<belief>ElectroCenter;is_Buyer</belief>
+			<belief>ElectroCenter;prices;p1_41.92-p2_42.42-p3_58.96-p4_55.01-p5_49.67-p6_47.64</belief>
+			<belief>ElectroCenter;volumes;v1_84.51-v2_114.14-v3_327.21-v4_249.7-v5_127.83-v6_132.34</belief>
+			<belief>ElectroCenter;pricesMax;p1_49.83-p2_50.43-p3_70.10-p4_65.40-p5_59.06-p6_56.64</belief>
+			<belief>ElectroCenter;volumesMax;v1_113.24-v2_152.95-v3_438.46-v4_334.59-v5_171.29-v6_177.34</belief>
+			<belief>ElectroCenter;volumesMin;v1_57.46-v2_77.62-v3_222.5-v4_169.72-v5_86.92-v6_89.99</belief>
+		</beliefs>
+</agent>

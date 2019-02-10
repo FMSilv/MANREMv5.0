@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<agent>
+		<localname>Coalition</localname>
+		<belief>Coalition;prices;p1_42.38-p2_42.89-p3_59.62-p4_55.62-p5_50.23-p6_48.17</belief>
+</agent>

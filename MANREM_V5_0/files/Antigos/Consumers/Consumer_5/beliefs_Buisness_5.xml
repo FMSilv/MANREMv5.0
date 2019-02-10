@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<agent>
+		<localname>Buisness_5</localname>
+		<beliefs>
+			<belief>Buisness_5;is_Buyer</belief>
+			<belief>Buisness_5;prices;p1_68.61-p2_41.07-p3_45.88-p4_44.18-p5_33.25-p6_44.32</belief>
+			<belief>Buisness_5;volumes;v1_334-v2_113-v3_82.54-v4_82.66-v5_71.08-v6_60.69</belief>
+			<belief>Buisness_5;pricesMax;p1_99.68-p2_58.38-p3_57.27-p4_55.16-p5_41.50-p6_55.33</belief>
+			<belief>Buisness_5;volumesMax;v1_64.92-v2_74.33-v3_110.60-v4_110.77-v5_95.24-v6_81.33</belief>
+			<belief>Buisness_5;volumesMin;v1_32.94-v2_37.72-v3_56.13-v4_56.21-v5_48.33-v6_41.27</belief>
+		</beliefs>
+</agent>

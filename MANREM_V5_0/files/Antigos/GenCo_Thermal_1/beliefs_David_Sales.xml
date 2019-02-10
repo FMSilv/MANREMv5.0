@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<agent>
+		<localname>David_Sales</localname>
+		<beliefs>
+			<belief>David_Sales;profile;v1_6.28-v2_6.03-v3_5.90-v4_5.86-v5_6.00-v6_6.30-v7_7.34-v8_8.97-v9_10.30-v10_11.09-v11_11.50-v12_11.79-v13_11.50-v14_11.44-v15_11.21-v16_10.75-v17_9.99-v18_9.29-v19_8.86-v20_8.76-v21_8.65-v22_8.02-v23_7.27-v24_6.75</belief>
+		</beliefs>
+</agent>

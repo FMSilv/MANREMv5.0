@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<agent>
+		<localname>Retail_Energy_Service</localname>
+		<belief>Retail_Energy_Service;prices;p1_43.45-p2_46.10-p3_57.27-p4_55.16-p5_41.50-p6_55.33</belief>
+</agent>

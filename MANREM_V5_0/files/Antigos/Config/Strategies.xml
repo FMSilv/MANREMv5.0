@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Strategies>
+<Method>
+		<Name>Simple Majority</Name>
+		<Type>Voting</Type>
+	</Method>	
+	<Method>
+		<Name>Representative</Name>
+		<Type>Direct Choice</Type>
+	</Method>	
+	<Method>
+		<Name>Similarity Simple Vote - SSV</Name>
+		<Type>Voting</Type>
+	</Method>	
+	<Method>
+		<Name>Similarity Unanimity Borda - SBV</Name>
+		<Type>Voting</Type>
+	</Method>	
+	<Method>
+		<Name>Full Unanimity Mediated - FUM</Name>
+		<Type>Voting</Type>
+	</Method>	
+	<Method>
+		<Name>Auction</Name>
+		<Type>Direct Choice</Type>
+	</Method>	
+</Strategies>

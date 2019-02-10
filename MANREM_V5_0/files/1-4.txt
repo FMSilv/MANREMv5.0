@@ -1,0 +1,59 @@
+ ==  Negotiation in progress... Be patient
+
+****************************************************************************************************************
+              **                                                     STARTING NEGOTIATION                                                 **
+****************************************************************************************************************
+
+      Sent Initial Proposal to Sell at:
+                                                              > Price 1 = 44.67 €/MWh
+                                                              > Price 2 = 47.39 €/MWh
+                                                              > Price 3 = 58.87 €/MWh
+                                                              > Price 4 = 56.7 €/MWh
+                                                              > Price 5 = 42.66 €/MWh
+                                                              > Price 6 = 56.88 €/MWh
+
+      Received Initial Proposal to Sell at:
+                                                                           > Price 1 = 36.54 €/MWh
+                                                                           > Price 2 = 38.77 €/MWh
+                                                                           > Price 3 = 48.17 €/MWh
+                                                                           > Price 4 = 46.39 €/MWh
+                                                                           > Price 5 = 34.91 €/MWh
+                                                                           > Price 6 = 46.54 €/MWh
+
+      Sent Proposal to Sell at:
+                                                              > Price 1 = 43.126 €/MWh
+                                                              > Price 2 = 45.752 €/MWh
+                                                              > Price 3 = 56.838 €/MWh
+                                                              > Price 4 = 54.742 €/MWh
+                                                              > Price 5 = 41.186 €/MWh
+                                                              > Price 6 = 54.916 €/MWh
+
+      Received Counter Proposal to Sell at:
+                                                                           > Price 1 = 40.604 €/MWh
+                                                                           > Price 2 = 43.081 €/MWh
+                                                                           > Price 3 = 53.522 €/MWh
+                                                                           > Price 4 = 51.548 €/MWh
+                                                                           > Price 5 = 38.786 €/MWh
+                                                                           > Price 6 = 51.709 €/MWh
+
+      Sent Proposal to Sell at:
+                                                              > Price 1 = 41.891 €/MWh
+                                                              > Price 2 = 44.442 €/MWh
+                                                              > Price 3 = 55.212 €/MWh
+                                                              > Price 4 = 53.176 €/MWh
+                                                              > Price 5 = 40.007 €/MWh
+                                                              > Price 6 = 53.345 €/MWh
+
+****************************************************************************************************************
+                 **                                                     END OF TRADING                                                          **
+****************************************************************************************************************
+
+      Received ACCEPT Proposal:
+                                                            > Price 1 = 41.891 €/MWh
+                                                            > Price 2 = 44.442 €/MWh
+                                                            > Price 3 = 55.212 €/MWh
+                                                            > Price 4 = 53.176 €/MWh
+                                                            > Price 5 = 40.007 €/MWh
+                                                            > Price 6 = 53.345 €/MWh
+                                                            > Sent Proposals: 3 Proposals
+                                                            > Received Proposals: 2 Proposals

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Proposals>
+	<Proposal>
+		<Name>Composition - Low Price</Name>
+		<Type>By Element</Type>
+	</Proposal>
+	<Proposal>
+		<Name>Composition - Average Price</Name>
+		<Type>By Element</Type>
+	</Proposal>
+	<Proposal>
+		<Name>Composition Total- Low Price</Name>
+		<Type>By Element</Type>
+	</Proposal>
+	<Proposal>
+		<Name>Composition Total- Average Price</Name>
+		<Type>By Element</Type>
+	</Proposal>
+	<Proposal>
+		<Name>Proposal - Low Price</Name>
+		<Type>By Proposal</Type>
+	</Proposal>
+	<Proposal>
+		<Name>Proposal - Average Price</Name>
+		<Type>By Proposal</Type>
+	</Proposal>
+	
+</Proposals>
