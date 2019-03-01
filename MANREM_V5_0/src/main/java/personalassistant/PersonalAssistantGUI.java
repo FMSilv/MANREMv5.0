@@ -1,7 +1,7 @@
 package personalassistant;
 
 
-import DayAheadInterface.Dayaheadinterface;
+import DayAheadInterface.DayaheadinterfaceBDI;
 import wholesalemarket_LMP.Wholesale_InputData;
 import jade.core.AID;
 //import jade.core.behaviours.CyclicBehaviour;
@@ -253,8 +253,8 @@ public class PersonalAssistantGUI extends JFrame {
     //private Pricing_Mechanism_Form priceMechanism = new Pricing_Mechanism_Form(this, wholesale, marketPool_SMP);
     
     
-    private Dayaheadinterface dayaheadMarket = new Dayaheadinterface(this, wholesale, marketPool_SMP);
-    private Dayaheadinterface dayaheadMarketChooseParticipant = new Dayaheadinterface();
+    private DayaheadinterfaceBDI dayaheadMarket = new DayaheadinterfaceBDI(this, wholesale, marketPool_SMP);
+    private DayaheadinterfaceBDI dayaheadMarketChooseParticipant = new DayaheadinterfaceBDI();
     
     private Offers_Data Offers_Data_Window;
 
@@ -1161,7 +1161,7 @@ public class PersonalAssistantGUI extends JFrame {
                     int buyerNumb = buyer_names.getSize()+largeConsumer_names.getSize()+mediumConsumer_names.getSize();
 
                     if (sellerNumb > 0 && buyerNumb > 0) {
-                        System.out.println("VAI ESCOLHER PRODUTOR A PARTICIPAR NO MERCADO!!");
+                        System.out.println("VAI ESCOLHER O PRODUTOR A PARTICIPAR NO MERCADO!!");
                         //market.chooseParticipants(true, isPool, isSMP, isOTC);
                         dayaheadMarketChooseParticipant.chooseParticipants(market, true, isPool, isSMP, isOTC);
                     } else {

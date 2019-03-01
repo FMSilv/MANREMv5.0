@@ -1,11 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DayAheadInterface;
 
-import jade.core.Agent;
+import chatService.ChatService;
+import chatService.IChatService;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.types.clock.IClockService;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentArgument;
+import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.Argument;
+import jadex.micro.annotation.Arguments;
+import jadex.micro.annotation.Binding;
+import jadex.micro.annotation.Description;
+import jadex.micro.annotation.Implementation;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
+import jadex.micro.annotation.RequiredService;
+import jadex.micro.annotation.RequiredServices;
 import personalassistant.MarketParticipants;
 import personalassistant.PersonalAssistant;
 import personalassistant.PersonalAssistantGUI;
@@ -15,21 +25,29 @@ import wholesalemarket_SMP.SMP_Market_Controller;
 
 /**
  *
- * @author Filipe
+ * @author Filipe Silvério
  */
-public class Dayaheadinterface extends Agent{
+@Agent
+@Description("DayaheadinterfaceBDI agent. <br>")
+@Arguments
+(value={
+	@Argument(name="chatOn", description="dayaheadinterfaceBDI.chatOn", clazz=String.class, defaultvalue="\"0\""), 
+})
+@RequiredServices
+({
+		@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
+		@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
+})
+@ProvidedServices(@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class)))
+public class DayaheadinterfaceBDI{
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private MarketParticipants participants;
+	
+	@AgentArgument
+	protected String chatOn;
     
     private String[][] producerOffers = new String[23][2];
     private String[][] buyerOffers = new String[23][2];
-    
-    //private PersonalAssistant mo_pa;
     
     /*
      * Pricing Mechanism GUI variables
@@ -37,20 +55,20 @@ public class Dayaheadinterface extends Agent{
     private PersonalAssistantGUI mo_gui;
     private Wholesale_InputData lmpMode;
     private SMP_Market_Controller smpMode;
-    
-    @Override
-    protected void setup(){
-        
-    }
    
-    public Dayaheadinterface(){
+    public DayaheadinterfaceBDI(){
         
     }
+    
+	@AgentCreated
+	public void init() {
+		
+	}
     
     /*
      * Pricing Mechanism GUI constructor
      */
-    public Dayaheadinterface(PersonalAssistantGUI _market, Wholesale_InputData _lmpMode, SMP_Market_Controller _smpMode){
+    public DayaheadinterfaceBDI(PersonalAssistantGUI _market, Wholesale_InputData _lmpMode, SMP_Market_Controller _smpMode){
         mo_gui = _market;
         lmpMode = _lmpMode;
         smpMode = _smpMode;
@@ -82,8 +100,6 @@ public class Dayaheadinterface extends Agent{
         participants.setVisible(true);
     }
     
-    
-     
     /*
     * Method to store producer offer values
     */

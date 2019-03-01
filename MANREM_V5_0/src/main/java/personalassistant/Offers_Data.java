@@ -5,7 +5,7 @@
  */
 package personalassistant;
 
-import DayAheadInterface.Dayaheadinterface;
+import DayAheadInterface.DayaheadinterfaceBDI;
 import DayAheadInterface.Offers_Data_editTable;
 import DayAheadInterface.SharedUpdateTableData;
 
@@ -18,7 +18,7 @@ import DayAheadInterface.SharedUpdateTableData;
 
 public class Offers_Data extends javax.swing.JFrame {
     PersonalAssistant PA;
-    Dayaheadinterface DAI;
+    DayaheadinterfaceBDI DAI;
     boolean isProducer;
     int AgentIndex;
     private final String[] TableTitle = new String[] {"Period", "Price [$/MW]", "Power [MW]"};
