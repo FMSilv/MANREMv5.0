@@ -148,8 +148,8 @@ public class SellerOntology {
         }
         
        
-                                                                                // Request Negotiaton to Seller
-        public void                                 sendNegoReq2Seller(){
+        // Request Negotiaton to Seller
+        public void sendNegoReq2Seller(){
             ACLMessage msg  =   new ACLMessage(ACLMessage.REQUEST);                
             msg.addReceiver(cFront.negotiationSeller);
             msg.setOntology("market_ontology");
@@ -161,9 +161,8 @@ public class SellerOntology {
  
         }
         
-        public void                                 send1stOffer(){
+        public void send1stOffer(){
             ACLMessage msg  =   new ACLMessage(ACLMessage.PROPOSE);                
-            
             
             msg.setOntology         ("COALITION");
             msg.setProtocol         ("NEGOTIATION");;
@@ -196,8 +195,9 @@ public class SellerOntology {
             
             cFront.send(msg);
         }
-                                                                                // Proposed value has combined volume for all colaition members
-        public void                                 sendProposal2Seller(double[] propStream){
+        
+        // Proposed value has combined volume for all colaition members
+        public void sendProposal2Seller(double[] propStream){
             
             ACLMessage msg  =   new ACLMessage(ACLMessage.PROPOSE);
             
@@ -256,7 +256,7 @@ public class SellerOntology {
         }
     
     
-        public void                                 prices2C(ArrayList<AID> list, ACLMessage msg){
+        public void prices2C(ArrayList<AID> list, ACLMessage msg){
         
             msgA = new ACLMessage(ACLMessage.INFORM);
             msgA.setOntology("COALITION");
@@ -266,9 +266,7 @@ public class SellerOntology {
             for(int i = 0; i < list.size(); i++){
                 msgA.addReceiver(list.get(i));
             }
-           
             cFront.send(msgA);
-       
         }
         
         private void                                sendPrices2Coaltion(ArrayList<AID>  list, ACLMessage msgR) throws ClassNotFoundException{

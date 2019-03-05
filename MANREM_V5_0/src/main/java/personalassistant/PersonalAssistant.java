@@ -1,16 +1,5 @@
 package personalassistant;
 
-import Trader.AgentData;
-import buying.BuyerInputGui;
-import wholesalemarket_LMP.Wholesale_InputData;
-
-import jade.core.AID;
-import jade.core.Agent;
-import jade.core.behaviours.CyclicBehaviour;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
-import jade.wrapper.AgentController;
-import jade.wrapper.PlatformController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -35,9 +24,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -58,25 +47,31 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.basic.BasicArrowButton;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import buying.BuyerInputGui;
+import jade.core.AID;
+import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
+import jade.wrapper.AgentController;
+import jade.wrapper.PlatformController;
 import market.panel.DR;
 import market.panel.deadline;
 import market.panel.protocol;
 import market.panel.rbuyer;
 import market.panel.rseller;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import scheduling.EnterGENCO;
 import tools.TimeChooser;
 
 
-
 public class PersonalAssistant extends Agent {
-    
+	
     private Bilateral_ContractType_Form contractTypeForm;
     Bilateral_NegotiationOption negotiationForm;
     
@@ -419,7 +414,6 @@ public class PersonalAssistant extends Agent {
             ACLMessage msg = myAgent.receive(mt);
             ACLMessage hello_msg = myAgent.receive(hello_mt);
             
-            
             if (msg != null) {
                 if (msg.getOntology().equals("market_ontology")) {
                     MarketOntology market_ontology = new MarketOntology();
@@ -437,7 +431,6 @@ public class PersonalAssistant extends Agent {
         }
     }
 
-    
     class MarketOntology {
 
         private void resolve(ACLMessage msg) {
@@ -454,16 +447,8 @@ public class PersonalAssistant extends Agent {
                     mo_gui.text_log.append(msg.getContent());
                     text++;
                 } else {
-//                    JPanel panel = new JPanel(new BorderLayout());
-//          //Panel center - icon
-//                    JPanel panel_center = new JPanel();
-//                    panel_center.setMinimumSize(new Dimension(100, 50));
-//                    panel_center.setPreferredSize(new Dimension(200, 150));
                     Object aux = msg.getContent();
-
                     String[] choices4 = {"OK"};
-//                     JOptionPane.showOptionDialog(null,aux, "System: New Bilateral Contract deal Received", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4,null);
-//                    System.out.println(msg.getContent());
                 }
 
             }
@@ -480,10 +465,7 @@ public class PersonalAssistant extends Agent {
                 String info = msg.getContent();
                 
                 StoreBuyerInfo(info);
-                        
-                
             }
-            
         }
         
         private void resolveCFP(ACLMessage msg) {
@@ -498,24 +480,14 @@ public class PersonalAssistant extends Agent {
             if (content.contains(";is_buyer") || content.contains(";is_producer") ||content.contains(";is_seller") || content.contains(";is_coalition") || content.contains(";is_consumer")) {
                 String[] content_information = content.split(";");
                 String agent_name = content_information[0];
-//                String agent_type = content_information[1].split("_")[1];
 
                 if (agent_name.equals(msg.getSender().getLocalName())) {
-
                     String[] content_split = content.split(";");
                     addBelif(agent_name, content_split[0] + ";" + content_split[1]);
                     addBelif(agent_name, content_split[0] + ";" + content_split[2]);
                     addBelif(agent_name, content_split[0] + ";" + content_split[3]);
                     addBelif(agent_name, content_split[0] + ";" + content_split[4]);
                     addBelif(agent_name, content_split[0] + ";" + content_split[5]);
-//                    if (agent_type.equals("buyer")){
-//                        if(largeConsumer_names.contains(agent_name)){
-//                            agent_type="large_consumer";
-//                        }else if(mediumConsumer_names.contains(agent_name)){
-//                            agent_type="consumer";}
-//                    }
-//                    addAgent(new AID(agent_name, AID.ISLOCALNAME), agent_type);
-
                 }
             }else if(content.contains("Offer")){
                 
@@ -2021,7 +1993,7 @@ public class PersonalAssistant extends Agent {
 
     public void createAgent(String AgentName, String ClassName) {                // Creates a new agent via the platform controller
         PlatformController container = getContainerController();                // In - Agent Name * Agent Type i.e. "buying.Buyer" "selling.Seller" ... 
-        try {
+        try {        	
             AgentController newBuyer = container.createNewAgent(AgentName, ClassName, null);
             newBuyer.start();
         } catch (Exception e) {

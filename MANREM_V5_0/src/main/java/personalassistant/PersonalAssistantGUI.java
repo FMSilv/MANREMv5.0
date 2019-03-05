@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import externalassistant.ExternalAssistant;
+import externalassistant.ExternalAssistantBDI;
 import webfileenergyprices.ReadWebFile;
 
 
@@ -1469,44 +1469,7 @@ public class PersonalAssistantGUI extends JFrame {
         return bufferedImage;
     }
     
-    
-//    private class MessageManager extends CyclicBehaviour {
-//
-//        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("no_protocol"));
-////        MessageTemplate mt2 = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("no_protocol"));
-//
-//        @Override
-//        public void action() {
-//            ACLMessage msg = myAgent.receive(mt);
-////            ACLMessage msg2 = myAgent.receive(mt2);
-//            if (msg != null) {
-//                if (msg.getOntology().equals("market_ontology")) {
-//                    MarketOntology market_ontology = new MarketOntology();
-//                    market_ontology.resolve(msg);
-//                }
-////            }if (msg2 != null) {
-////                if (msg2.getOntology().equals("market_ontology")) {
-////                    MarketOntology market_ontology = new MarketOntology();
-////                    market_ontology.resolve(msg2);
-////                }
-//            } else {
-//                block();
-//            }
-//
-//        }
-//    }
-//
-//    class MarketOntology {
-//
-//        private void resolve(ACLMessage msg) {
-//
-//            if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-//                System.out.println(msg);
-//            }
-//
-//        }
-//    }
-
+  
     
     /**
      * @author Filipe Silvério
@@ -1520,15 +1483,15 @@ public class PersonalAssistantGUI extends JFrame {
         jTextArea_webtext.setEditable(false);
         jTextArea_webtext.setColumns(20);
         jTextArea_webtext.setRows(5);
-        //System.out.println(Arrays.toString(ExternalAssistant.ptmarginalenergyprices));
-        //System.out.println(Arrays.toString(ExternalAssistant.esmarginalenergyprices));
-        //System.out.println(df2.format(ExternalAssistant.ptmarginalenergyprices[3]));
+        //System.out.println(Arrays.toString(ExternalAssistantBDI.ptmarginalenergyprices));
+        //System.out.println(Arrays.toString(ExternalAssistantBDI.esmarginalenergyprices));
+        //System.out.println(df2.format(ExternalAssistantBDI.ptmarginalenergyprices[3]));
 
-        if(Arrays.toString(ExternalAssistant.ptmarginalenergyprices).equals(Arrays.toString(ExternalAssistant.esmarginalenergyprices))){
-            jTextArea_webtext.setText(" "+Arrays.toString(ExternalAssistant.date)+"  -  Preço marginal no sistema eléctrico Português (EUR/MWh):\n"+ "  Hora:      01h      02h      03h     04h     05h      06h     07h     08h     09h     10h     11h      12h     13h      14h     15h     16h     17h      18h     19h      20h     21h     22h      23h     24h  \n Preço:    "+df2.format(ExternalAssistant.ptmarginalenergyprices[0])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[1])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[2])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[3])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[4])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[5])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[6])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[7])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[8])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[9])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[10])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[11])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[12])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[13])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[14])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[15])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[16])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[17])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[18])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[19])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[20])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[21])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[22])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[23])+"   \n");
+        if(Arrays.toString(ExternalAssistantBDI.ptmarginalenergyprices).equals(Arrays.toString(ExternalAssistantBDI.esmarginalenergyprices))){
+            jTextArea_webtext.setText(" "+Arrays.toString(ExternalAssistantBDI.date)+"  -  Preço marginal no sistema eléctrico Português (EUR/MWh):\n"+ "  Hora:      01h      02h      03h     04h     05h      06h     07h     08h     09h     10h     11h      12h     13h      14h     15h     16h     17h      18h     19h      20h     21h     22h      23h     24h  \n Preço:    "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[0])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[1])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[2])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[3])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[4])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[5])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[6])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[7])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[8])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[9])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[10])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[11])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[12])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[13])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[14])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[15])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[16])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[17])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[18])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[19])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[20])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[21])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[22])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[23])+"   \n");
             System.out.println("Preços Marginais de Portugal e Espanha são iguais");
         }else{
-            jTextArea_webtext.setText(" "+Arrays.toString(ExternalAssistant.date)+"  -  Preço marginal no sistema eléctrico Português (EUR/MWh):\n"+ "  Hora:      01h      02h      03h     04h     05h      06h     07h     08h     09h     10h     11h      12h     13h      14h     15h     16h     17h      18h     19h      20h     21h     22h      23h     24h  \n Preço:    "+df2.format(ExternalAssistant.ptmarginalenergyprices[0])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[1])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[2])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[3])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[4])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[5])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[6])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[7])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[8])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[9])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[10])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[11])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[12])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[13])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[14])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[15])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[16])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[17])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[18])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[19])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[20])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[21])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[22])+"  "+df2.format(ExternalAssistant.ptmarginalenergyprices[23])+"   \n"+"\n "+Arrays.toString(ExternalAssistant.date)+"  -  Preço marginal no sistema eléctrico Espanhol (EUR/MWh):\n"+ "  Hora:      01h      02h      03h     04h     05h      06h     07h     08h     09h     10h     11h      12h     13h      14h     15h     16h     17h      18h     19h      20h     21h     22h      23h     24h  \n Preço:    "+df2.format(ExternalAssistant.esmarginalenergyprices[0])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[1])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[2])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[3])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[4])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[5])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[6])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[7])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[8])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[9])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[10])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[11])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[12])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[13])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[14])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[15])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[16])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[17])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[18])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[19])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[20])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[21])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[22])+"  "+df2.format(ExternalAssistant.esmarginalenergyprices[23])+"   \n");
+            jTextArea_webtext.setText(" "+Arrays.toString(ExternalAssistantBDI.date)+"  -  Preço marginal no sistema eléctrico Português (EUR/MWh):\n"+ "  Hora:      01h      02h      03h     04h     05h      06h     07h     08h     09h     10h     11h      12h     13h      14h     15h     16h     17h      18h     19h      20h     21h     22h      23h     24h  \n Preço:    "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[0])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[1])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[2])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[3])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[4])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[5])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[6])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[7])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[8])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[9])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[10])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[11])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[12])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[13])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[14])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[15])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[16])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[17])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[18])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[19])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[20])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[21])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[22])+"  "+df2.format(ExternalAssistantBDI.ptmarginalenergyprices[23])+"   \n"+"\n "+Arrays.toString(ExternalAssistantBDI.date)+"  -  Preço marginal no sistema eléctrico Espanhol (EUR/MWh):\n"+ "  Hora:      01h      02h      03h     04h     05h      06h     07h     08h     09h     10h     11h      12h     13h      14h     15h     16h     17h      18h     19h      20h     21h     22h      23h     24h  \n Preço:    "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[0])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[1])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[2])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[3])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[4])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[5])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[6])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[7])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[8])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[9])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[10])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[11])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[12])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[13])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[14])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[15])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[16])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[17])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[18])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[19])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[20])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[21])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[22])+"  "+df2.format(ExternalAssistantBDI.esmarginalenergyprices[23])+"   \n");
         }
         
         jTextArea_webtext.setToolTipText("");
@@ -1544,7 +1507,7 @@ public class PersonalAssistantGUI extends JFrame {
         jLabel_clock = new javax.swing.JLabel();
         jLabel_clock.setFont(new java.awt.Font("Century Gothic", 0, 14));
 //        jLabel_clock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/clock.png")));
-        jLabel_clock.setIcon(new ImageIcon("personalassistant\\images\\clock.jpg"));
+        jLabel_clock.setIcon(new ImageIcon("\\personalassistant\\images\\clock.jpg"));
         jLabel_date = new javax.swing.JLabel();
         jLabel_date.setFont(new java.awt.Font("Century Gothic", 0, 14));
     }

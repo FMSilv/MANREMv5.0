@@ -1,4 +1,4 @@
-package jadexStarterBoot;
+package starterBoot;
 
 import jadex.base.PlatformConfiguration;
 import jadex.base.RootComponentConfiguration;
@@ -57,10 +57,19 @@ public class Main {
     	/** Passing argumnts to the agent **/
     	CreationInfo parameters = new CreationInfo(SUtil.createHashMap(new String[]{"chatOn"}, new Object[]{args[1]}));
     	
-    	/** Starting the component **/
-    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFut = cms.createComponent("dayaheadinterfaceBDIAgent", "DayAheadInterface.DayaheadinterfaceBDI.class", parameters);
-    	IComponentIdentifier cid = iTupleFut.getFirstResult();
-    	System.out.println("Started component: " + cid);
+    	/** Starting the components **/
+    	// ExternalAssistantBDI
+    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA1 = cms.createComponent("ExternalAssistantBDIAgent", "externalassistant.ExternalAssistantBDI.class", parameters);
+    	IComponentIdentifier cidA1 = iTupleFutA1.getFirstResult();
+    	System.out.println("Started component: " + cidA1);
+    	// PersonalAssistant
+    	
+    	// MarketOperator
+    	
+    	// DayaheadinterfaceBDI
+    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA4 = cms.createComponent("DayaheadinterfaceBDIAgent", "DayAheadInterface.DayaheadinterfaceBDI.class", parameters);
+    	IComponentIdentifier cidA4 = iTupleFutA4.getFirstResult();
+    	System.out.println("Started component: " + cidA4);
     	
     	/** Call this to destroy conponents **/
 //    	Map<String,Object> results = cms.destroyComponent(cid).get();
