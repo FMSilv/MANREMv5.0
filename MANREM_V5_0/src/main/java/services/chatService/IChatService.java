@@ -1,4 +1,4 @@
-package chatService;
+package services.chatService;
 
 public interface IChatService {
 

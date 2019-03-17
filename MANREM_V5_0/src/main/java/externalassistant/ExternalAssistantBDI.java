@@ -8,8 +8,8 @@ package externalassistant;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import chatService.ChatService;
-import chatService.IChatService;
+import services.chatService.ChatService;
+import services.chatService.IChatService;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.features.IBDIAgentFeature;
 import jadex.bridge.service.RequiredServiceInfo;
@@ -42,10 +42,13 @@ import webfileenergyprices.ReadWebFile;
 })
 @RequiredServices
 ({
-		@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
-		@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
+	@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
+	@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
 })
-@ProvidedServices(@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class)))
+@ProvidedServices
+({
+	@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class))
+})
 public class ExternalAssistantBDI{
 
 	@AgentFeature 

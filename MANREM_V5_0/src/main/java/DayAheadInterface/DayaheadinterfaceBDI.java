@@ -1,7 +1,7 @@
 package DayAheadInterface;
 
-import chatService.ChatService;
-import chatService.IChatService;
+import services.chatService.ChatService;
+import services.chatService.IChatService;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.micro.annotation.Agent;
@@ -35,10 +35,13 @@ import wholesalemarket_SMP.SMP_Market_Controller;
 })
 @RequiredServices
 ({
-		@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
-		@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
+	@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
+	@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
 })
-@ProvidedServices(@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class)))
+@ProvidedServices
+({
+	@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class))
+})
 public class DayaheadinterfaceBDI{
     
 	private MarketParticipants participants;

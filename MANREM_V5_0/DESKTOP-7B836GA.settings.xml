@@ -25,100 +25,113 @@
 		<p0:property __ID="19" type="autocreate">true</p0:property>
 		<p0:property __ID="20" type="autodelete">true</p0:property>
 	</p0:properties>
-	<p0:properties __ID="21" type="StarterServicePanel">
-		<p0:properties __ID="22" type="mpanel">
-			<p0:property __ID="23" type="tree"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+	<p0:properties __ID="21" type="awa@DESKTOP-7B836GA_8a3">
+		<p0:property __ID="22" type="fast">false</p0:property>
+		<p0:property __ID="23" type="autocreate">true</p0:property>
+		<p0:property __ID="24" type="autodelete">true</p0:property>
+	</p0:properties>
+	<p0:properties __ID="25" type="StarterServicePanel">
+		<p0:properties __ID="26" type="mpanel">
+			<p0:property __ID="27" type="tree"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <p0:TreeProperties xmlns:p0="typeinfo:jadex.base.gui.filetree" __ID="0">
-	<selectedNode>
-		<p0:NodePath __ID="1" entry="0">
-			<path>
-				<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="2" __len="2">
-					<entries>
-						<p1:String __ID="3">DayAheadInterface</p1:String>
-						<p1:String __ID="4">DayaheadinterfaceBDI.class</p1:String>
-					</entries>
-				</p1:String__1>
-			</path>
-		</p0:NodePath>
-	</selectedNode>
 	<expandedNodes>
-		<p0:NodePath__1 __ID="5" __len="2">
+		<p0:NodePath__1 __ID="1" __len="3">
 			<entries>
-				<p0:NodePath __ID="6" entry="0">
+				<p0:NodePath __ID="2" entry="0">
 					<path>
-						<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="7" __len="1">
+						<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="3" __len="0"></p1:String__1>
+					</path>
+				</p0:NodePath>
+				<p0:NodePath __ID="4" entry="0">
+					<path>
+						<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="5" __len="1">
 							<entries>
-								<p1:String __ID="8">DayAheadInterface</p1:String>
+								<p1:String __ID="6">personalassistant</p1:String>
 							</entries>
 						</p1:String__1>
 					</path>
 				</p0:NodePath>
-				<p0:NodePath __ID="9" entry="0">
+				<p0:NodePath __ID="7" entry="0">
 					<path>
-						<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="10" __len="0"></p1:String__1>
+						<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="8" __len="2">
+							<entries>
+								<p1:String __ID="9">personalassistant</p1:String>
+								<p1:String __ID="10">images</p1:String>
+							</entries>
+						</p1:String__1>
 					</path>
 				</p0:NodePath>
 			</entries>
 		</p0:NodePath__1>
 	</expandedNodes>
+	<selectedNode>
+		<p0:NodePath __ID="11" entry="0">
+			<path>
+				<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="12" __len="2">
+					<entries>
+						<p1:String __ID="13">personalassistant</p1:String>
+						<p1:String __ID="14">PersonalAssistantAgent.class</p1:String>
+					</entries>
+				</p1:String__1>
+			</path>
+		</p0:NodePath>
+	</selectedNode>
 	<rootPathEntries>
-		<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="11" __len="1">
+		<p1:String__1 xmlns:p1="typeinfo:java.lang" __ID="15" __len="1">
 			<entries>
-				<p1:String __ID="12">target\classes</p1:String>
+				<p1:String __ID="16">target\classes</p1:String>
 			</entries>
 		</p1:String__1>
 	</rootPathEntries>
 </p0:TreeProperties>
 ]]></p0:property>
-			<p0:properties __ID="24" type="mic">
-				<p0:property __ID="25" type="Micro Agent">true</p0:property>
-				<p0:property __ID="26" type="BPMN Legacy Process">true</p0:property>
-				<p0:property __ID="27" type="BDIV3 Agent">true</p0:property>
-				<p0:property __ID="28" type="Component">true</p0:property>
-				<p0:property __ID="29" type="BPMN Process">true</p0:property>
+			<p0:properties __ID="28" type="mic">
+				<p0:property __ID="29" type="Micro Agent">true</p0:property>
+				<p0:property __ID="30" type="BPMN Legacy Process">true</p0:property>
+				<p0:property __ID="31" type="BDIV3 Agent">true</p0:property>
+				<p0:property __ID="32" type="Component">true</p0:property>
+				<p0:property __ID="33" type="BPMN Process">true</p0:property>
 			</p0:properties>
 		</p0:properties>
-		<p0:properties __ID="30" type="spanel">
-			<p0:property __ID="31" type="model">target\classes\DayAheadInterface\DayaheadinterfaceBDI.class</p0:property>
-			<p0:property __ID="32" type="ridurl">file:target/classes</p0:property>
-			<p0:property __ID="33" type="globalrid"></p0:property>
-			<p0:property __ID="34" type="startsuspended">false</p0:property>
-			<p0:property __ID="35" type="autogenerate">false</p0:property>
-			<p0:property __ID="36" type="number">1</p0:property>
-			<p0:property __ID="37" type="name">Translation</p0:property>
+		<p0:properties __ID="34" type="spanel">
+			<p0:property __ID="35" type="startsuspended">false</p0:property>
+			<p0:property __ID="36" type="autogenerate">false</p0:property>
+			<p0:property __ID="37" type="number">1</p0:property>
+			<p0:property __ID="38" type="name"></p0:property>
+			<p0:property __ID="39" type="argument"></p0:property>
 		</p0:properties>
 	</p0:properties>
-	<p0:properties __ID="38" type="clockservice">
-		<p0:property __ID="39" type="type">system</p0:property>
-		<p0:property __ID="40" type="delta">100</p0:property>
-		<p0:property __ID="41" type="dilation">1.0</p0:property>
+	<p0:properties __ID="40" type="clockservice">
+		<p0:property __ID="41" type="type">system</p0:property>
+		<p0:property __ID="42" type="delta">100</p0:property>
+		<p0:property __ID="43" type="dilation">1.0</p0:property>
 	</p0:properties>
-	<p0:properties __ID="42" type="simulationservice">
-		<p0:property __ID="43" type="executing">true</p0:property>
+	<p0:properties __ID="44" type="simulationservice">
+		<p0:property __ID="45" type="executing">true</p0:property>
 	</p0:properties>
-	<p0:properties __ID="44" type="chat">
-		<p0:property __ID="45" type="nickname">user_d71</p0:property>
+	<p0:properties __ID="46" type="chat">
+		<p0:property __ID="47" type="nickname">user_d71</p0:property>
 	</p0:properties>
-	<p0:properties __ID="46" type="securityservice">
-		<p0:property __ID="47" type="validityduration">327680</p0:property>
-		<p0:property __ID="48" type="usepass">true</p0:property>
-		<p0:property __ID="49" type="password">4f8b00f1-556</p0:property>
-		<p0:property __ID="50" type="selected_mechanism">0</p0:property>
-		<p0:property __ID="51" type="trustedlan">false</p0:property>
-		<p0:property __ID="52" type="storepath">./keystore</p0:property>
-		<p0:property __ID="53" type="storepass">keystore</p0:property>
-		<p0:property __ID="54" type="keypass">keystore</p0:property>
-		<p0:property __ID="55" type="selmech">0</p0:property>
-		<p0:properties __ID="56" type="DecentralizedAcquisitionMechanism">
-			<p0:property __ID="57" type="responses">1</p0:property>
+	<p0:properties __ID="48" type="securityservice">
+		<p0:property __ID="49" type="validityduration">327680</p0:property>
+		<p0:property __ID="50" type="usepass">true</p0:property>
+		<p0:property __ID="51" type="password">4f8b00f1-556</p0:property>
+		<p0:property __ID="52" type="selected_mechanism">0</p0:property>
+		<p0:property __ID="53" type="trustedlan">false</p0:property>
+		<p0:property __ID="54" type="storepath">./keystore</p0:property>
+		<p0:property __ID="55" type="storepass">keystore</p0:property>
+		<p0:property __ID="56" type="keypass">keystore</p0:property>
+		<p0:property __ID="57" type="selmech">0</p0:property>
+		<p0:properties __ID="58" type="DecentralizedAcquisitionMechanism">
+			<p0:property __ID="59" type="responses">1</p0:property>
 		</p0:properties>
-		<p0:properties __ID="58" type="TTPAcquisitionMechanism">
-			<p0:property __ID="59" type="verify">true</p0:property>
+		<p0:properties __ID="60" type="TTPAcquisitionMechanism">
+			<p0:property __ID="61" type="verify">true</p0:property>
 		</p0:properties>
 	</p0:properties>
-	<p0:properties __ID="60" type="awa@DESKTOP-7B836GA_8a3">
-		<p0:property __ID="61" type="fast">false</p0:property>
-		<p0:property __ID="62" type="autocreate">true</p0:property>
-		<p0:property __ID="63" type="autodelete">true</p0:property>
+	<p0:properties __ID="62" type="awa@DESKTOP-7B836GA_a69">
+		<p0:property __ID="63" type="fast">false</p0:property>
+		<p0:property __ID="64" type="autocreate">true</p0:property>
+		<p0:property __ID="65" type="autodelete">true</p0:property>
 	</p0:properties>
 </p0:properties>

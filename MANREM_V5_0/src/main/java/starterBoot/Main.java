@@ -63,9 +63,13 @@ public class Main {
     	IComponentIdentifier cidA1 = iTupleFutA1.getFirstResult();
     	System.out.println("Started component: " + cidA1);
     	// PersonalAssistant
-    	
+//    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA2 = cms.createComponent("PersonalAssistantBDIAgent", "personalAssistant.PersonalAssistantBDI.class", parameters);
+//    	IComponentIdentifier cidA2 = iTupleFutA2.getFirstResult();
+//    	System.out.println("Started component: " + cidA2);
     	// MarketOperator
-    	
+//    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA3 = cms.createComponent("MarketOperatorBDIAgent", "marketOperator.MarketOperatorBDI.class", parameters);
+//    	IComponentIdentifier cidA3 = iTupleFutA3.getFirstResult();
+//    	System.out.println("Started component: " + cidA3);
     	// DayaheadinterfaceBDI
     	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA4 = cms.createComponent("DayaheadinterfaceBDIAgent", "DayAheadInterface.DayaheadinterfaceBDI.class", parameters);
     	IComponentIdentifier cidA4 = iTupleFutA4.getFirstResult();
