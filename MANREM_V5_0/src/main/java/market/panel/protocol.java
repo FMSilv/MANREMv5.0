@@ -6,7 +6,8 @@ package market.panel;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import personalassistant.PersonalAssistant;
+
+import personalassistant.PersonalAssistantBDI;
 
 /**
  *
@@ -18,9 +19,9 @@ public class protocol extends javax.swing.JPanel {
      * Creates new form protocol
      */
     
-    public PersonalAssistant mark;
+    public PersonalAssistantBDI mark;
     
-    public protocol(PersonalAssistant market) {
+    public protocol(PersonalAssistantBDI market) {
         initComponents();
     }
 

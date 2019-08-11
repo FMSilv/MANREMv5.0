@@ -5,20 +5,21 @@
  */
 package OTC;
 
-import jade.core.Agent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+
+import jade.core.Agent;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import personalassistant.PersonalAssistant;
-import wholesalemarket_SMP.SMP_Market_Controller;
+import personalassistant.PersonalAssistantBDI;
 
 /**
  * Based on wholesalemarket_SMP.SMP_Market_Controller.java
@@ -47,7 +48,7 @@ public class OTC_Controller {
         sellers = new ArrayList<>();
     }
 
-    public void start_InputData(PersonalAssistant market, boolean _isSeller, DefaultListModel _sellerNames, DefaultListModel _buyerNames) {
+    public void start_InputData(PersonalAssistantBDI market, boolean _isSeller, DefaultListModel _sellerNames, DefaultListModel _buyerNames) {
         isSeller = _isSeller;
         sellerNames = splitAgentTotalNames(_sellerNames.toString(), _sellerNames.getSize());
         buyerNames = splitAgentTotalNames(_buyerNames.toString(), _buyerNames.getSize()); 
@@ -62,7 +63,7 @@ public class OTC_Controller {
         return agentNames;
     }
     
-    public void InputData_Window(Agent market) {
+    public void InputData_Window(PersonalAssistantBDI market) {
         window = new Participants(market, this, isSeller, START_HOUR, END_HOUR);
         window.setVisible(true);
     }

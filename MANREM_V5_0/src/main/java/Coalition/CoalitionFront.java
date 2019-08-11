@@ -5,21 +5,20 @@
 package Coalition;
 
 
-import jade.core.AID;
-import jade.core.Agent;
-import jade.core.behaviours.*;
-import jade.domain.DFService;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.domain.FIPAException;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
-import jade.wrapper.AgentController;
-import jade.wrapper.PlatformController;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import jade.core.AID;
+import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
+import jade.wrapper.AgentController;
+import jade.wrapper.PlatformController;
 
 /**
  *
@@ -30,7 +29,7 @@ public class CoalitionFront extends Agent {
     //<editor-fold defaultstate="collapsed" desc="Variables Declaration">
     private HashMap <String, ArrayList<String>>                 BeliefsOfOthers;       
     private HashMap <String, ArrayList<Double>>                 PriceVolume;
-    private HashMap <AID, ArrayList<ArrayList<ACLMessage>>>     MsgHistoric;
+//    private HashMap <AID, ArrayList<ArrayList<ACLMessage>>>     MsgHistoric;
     private HashMap <AID, Integer>                              MsgID;     
     private HashMap <String, ArrayList<Double>>                 Prices;
     private ArrayList<String>                                   ThisAgentBeliefs;
@@ -524,7 +523,7 @@ public class CoalitionFront extends Agent {
     
 
                                                                                
-   class                            MessageManager extends CyclicBehaviour{                     
+   class MessageManager extends CyclicBehaviour{
         @Override
         public void action(){
             ACLMessage msg = myAgent.receive();
@@ -564,7 +563,7 @@ public class CoalitionFront extends Agent {
     }
                                                                                 //  methods to filter message contents  used 
                                                                                 //  in MessaManager()
-   class                            MessageParameters{              // message geeneral parameters passed by reference
+   class MessageParameters{              // message geeneral parameters passed by reference
         boolean oCOALITION,    oMARKET;                                                // avoids to have to re-write checking parametres
                                                                                  // everytime we want to use them
         boolean prtkNO,     prtkPING,   prtkNEGOTIATION,  prtkCONTACT,    
@@ -592,7 +591,7 @@ public class CoalitionFront extends Agent {
         
         
         
-        private void                                getMessageStatus(ACLMessage msg){                          // all results are True/False
+        private void getMessageStatus(ACLMessage msg){                          // all results are True/False
             if (msg.getOntology() != null ){
                 oCOALITION          =   msg.getOntology().equals("COALITION");
                 oMARKET             =   msg.getOntology().equals("MARKET");

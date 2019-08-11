@@ -26,8 +26,6 @@ public class MarketOperator extends Agent {
     @Override
     protected void setup() {
         this.addBehaviour(new MessageManager());
-
-//        buy_gui = new Init(this);
     }
     
     public class MessageManager extends CyclicBehaviour {
@@ -60,17 +58,18 @@ public class MarketOperator extends Agent {
             private void resolveInform(ACLMessage msg){
                 String results = null;
                 
-                if(msg.getContent().contains("Start Simulation")){
-                    if(msg.getContent().contains("SMPsym")){
+                if(msg.getContent().contains("Start Simulation"))
+                {
+                    if(msg.getContent().contains("SMPsym"))
+                    {
                         results = DAController.SMPsymsimulation();
-                    }else if(msg.getContent().contains("SMPasym")){
-                        results = DAController.SMPasymsimulation();    
-                    }else if(msg.getContent().contains("LMP")){
-                        
-                    }else if(msg.getContent().contains("OTC")){
-                        
                     }
-                    
+                    else if(msg.getContent().contains("SMPasym"))
+                    {
+                    	results = DAController.SMPasymsimulation();    
+                    }
+                    else if(msg.getContent().contains("LMP")){}
+                    else if(msg.getContent().contains("OTC")){}
                     send_results(results);
                 }
             }
@@ -91,4 +90,6 @@ public class MarketOperator extends Agent {
         info_msg.addReceiver(system_agent);
         send(info_msg);
     }
+    
+    
 }

@@ -16,7 +16,7 @@ public class NewJFrameGUI extends javax.swing.JFrame {
     private float xsize;
     private float ysize;
     
-    private PersonalAssistant market;
+    private PersonalAssistantBDI market;
     /**
      * Creates new form NewJFrameGUI
      */

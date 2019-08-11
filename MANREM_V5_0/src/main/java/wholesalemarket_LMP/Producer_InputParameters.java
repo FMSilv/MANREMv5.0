@@ -1,6 +1,7 @@
 package wholesalemarket_LMP;
 
 import jade.core.Agent;
+import personalassistant.PersonalAssistantBDI;
 import wholesalemarket_LMP.simul.ProducerData;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -18,7 +19,7 @@ public class Producer_InputParameters extends JFrame {
 
     private Wholesale_InputData market;
     
-    private Agent Market;
+    private PersonalAssistantBDI Market;
     
     private final int initHour = WholesaleMarket.START_HOUR;
     private final int endHour = WholesaleMarket.END_HOUR;
@@ -67,7 +68,7 @@ public class Producer_InputParameters extends JFrame {
     private double[] startCost_Producer;
     private double[] slopeCost_Producer;
 
-    public Producer_InputParameters(Agent Market, Wholesale_InputData _market) {
+    public Producer_InputParameters(PersonalAssistantBDI Market, Wholesale_InputData _market) {
         Market = Market;
         market = _market;
         initComponents();

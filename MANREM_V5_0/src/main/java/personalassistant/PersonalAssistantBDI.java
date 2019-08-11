@@ -53,14 +53,15 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import buying.BuyerInputGui;
-import jade.core.AID;
-import jade.core.Agent;
-import jade.core.behaviours.CyclicBehaviour;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
-import jade.wrapper.AgentController;
-import jade.wrapper.PlatformController;
+import jadex.micro.annotation.AgentCreated;
+//import buying.BuyerInputGui;
+//import jade.core.AID;
+//import jade.core.Agent;
+//import jade.core.behaviours.CyclicBehaviour;
+//import jade.lang.acl.ACLMessage;
+//import jade.lang.acl.MessageTemplate;
+//import jade.wrapper.AgentController;
+//import jade.wrapper.PlatformController;
 import market.panel.DR;
 import market.panel.deadline;
 import market.panel.protocol;
@@ -70,7 +71,7 @@ import scheduling.EnterGENCO;
 import tools.TimeChooser;
 
 
-public class PersonalAssistant extends Agent {
+public class PersonalAssistantBDI{
 	
     private Bilateral_ContractType_Form contractTypeForm;
     Bilateral_NegotiationOption negotiationForm;
@@ -81,18 +82,18 @@ public class PersonalAssistant extends Agent {
     private String[] protocol_list = {"Alternating Offers"};
     public String agent_type = "";
     
-    public ArrayList<AID> seller_names = new ArrayList<>();
-    public ArrayList<AID> buyer_names = new ArrayList<>();
-    public ArrayList<AID> producer_names = new ArrayList<>();
-    public ArrayList<AID> largeConsumer_names = new ArrayList<>();
-    public ArrayList<AID> mediumConsumer_names = new ArrayList<>();
-    private AID MarketOperator = new AID("MarketOperator", AID.ISLOCALNAME);
+    public ArrayList<String> seller_names = new ArrayList<>();
+    public ArrayList<String> buyer_names = new ArrayList<>();
+    public ArrayList<String> producer_names = new ArrayList<>();
+    public ArrayList<String> largeConsumer_names = new ArrayList<>();
+    public ArrayList<String> mediumConsumer_names = new ArrayList<>();
+//    private AID MarketOperator = new AID("MarketOperator", AID.ISLOCALNAME);
     public PersonalAssistantGUI mo_gui;
-    private AID[] new_pair;
-    public BuyerInputGui buy_gui;
-    private ArrayList<AID[]> negotiation_pairs = new ArrayList<>();
-    private HashMap<AID, ArrayList<ArrayList<ACLMessage>>> message_history = new HashMap<>();
-    private HashMap<AID, Integer> message_conversation_ids = new HashMap<>();
+    private String[] new_pair;
+//    public BuyerInputGui buy_gui;
+    private ArrayList<String[]> negotiation_pairs = new ArrayList<>();
+//    private HashMap<AID, ArrayList<ArrayList<ACLMessage>>> message_history = new HashMap<>();
+//    private HashMap<AID, Integer> message_conversation_ids = new HashMap<>();
     public int text = 0;
     public int N_PERIODS = 24;
     public javax.swing.JSlider jS1;
@@ -146,50 +147,50 @@ public class PersonalAssistant extends Agent {
 
     // Usar os métodos get já desenvolvidos para obtenção das variáveis do contrato bilateral estabelecidas no menu "Markets"
     //=====================================================================================
-    @Override
+    @AgentCreated
     protected void setup() {
 
-        this.addBehaviour(new MessageManager());
+//        this.addBehaviour(new MessageManager());
         mo_gui = new PersonalAssistantGUI(this);    
 
         
 //        buy_gui = new Init(this);
     }
 
-    public void addAgent(AID agent, String type, ProducerData newProducer, BuyerData newBuyer) {
-        if (type.equals("seller")) {
-            this.seller_names.add(agent);
-        } else if (type.equals("producer")) {
-            this.Producers_Information.add(newProducer);
-            this.producer_names.add(agent);
-            String name;
-            name = newProducer.getName().replace(" ", "_");
-            addBelif(newProducer.getName(), name + ";" + "isSeller");
-            addBelif(newProducer.getName(), name + ";" + "name_" + "name");
-            addBelif(newProducer.getName(), name + ";" + "address_" + newProducer.getAddress());
-            addBelif(newProducer.getName(), name + ";" + "telephone_" + newProducer.getPhone_number());
-            addBelif(newProducer.getName(), name + ";" + "email_" + newProducer.getEmail());
-        } else if (type.equals("buyer")) {
-            this.Buyers_Information.add(newBuyer);
-            this.buyer_names.add(agent);
-            String name;
-            name = newBuyer.getName().replace(" ", "_");
-            addBelif(newBuyer.getName(), name + ";" + "isBuyer");
-            addBelif(newBuyer.getName(), name + ";" + "name_" + "name");
-            addBelif(newBuyer.getName(), name + ";" + "address_" + newBuyer.getAddress());
-            addBelif(newBuyer.getName(), name + ";" + "telephone_" + newBuyer.getPhone_number());
-            addBelif(newBuyer.getName(), name + ";" + "email_" + newBuyer.getEmail());
-        } else if (type.equals("large_consumer")) {
-            this.largeConsumer_names.add(agent);
-        } else if (type.equals("coalition")) {
-            this.largeConsumer_names.add(agent);
-        }else if (type.equals("consumer")) {
-            this.mediumConsumer_names.add(agent);
-        } else if (type.equals("MarketOperator")) {
-            this.MarketOperator = agent;
-        } 
-        mo_gui.addAgent(agent.getLocalName(), type);
-    }
+//    public void addAgent(AID agent, String type, ProducerData newProducer, BuyerData newBuyer) {
+//        if (type.equals("seller")) {
+//            this.seller_names.add(agent);
+//        } else if (type.equals("producer")) {
+//            this.Producers_Information.add(newProducer);
+//            this.producer_names.add(agent);
+//            String name;
+//            name = newProducer.getName().replace(" ", "_");
+//            addBelif(newProducer.getName(), name + ";" + "isSeller");
+//            addBelif(newProducer.getName(), name + ";" + "name_" + "name");
+//            addBelif(newProducer.getName(), name + ";" + "address_" + newProducer.getAddress());
+//            addBelif(newProducer.getName(), name + ";" + "telephone_" + newProducer.getPhone_number());
+//            addBelif(newProducer.getName(), name + ";" + "email_" + newProducer.getEmail());
+//        } else if (type.equals("buyer")) {
+//            this.Buyers_Information.add(newBuyer);
+//            this.buyer_names.add(agent);
+//            String name;
+//            name = newBuyer.getName().replace(" ", "_");
+//            addBelif(newBuyer.getName(), name + ";" + "isBuyer");
+//            addBelif(newBuyer.getName(), name + ";" + "name_" + "name");
+//            addBelif(newBuyer.getName(), name + ";" + "address_" + newBuyer.getAddress());
+//            addBelif(newBuyer.getName(), name + ";" + "telephone_" + newBuyer.getPhone_number());
+//            addBelif(newBuyer.getName(), name + ";" + "email_" + newBuyer.getEmail());
+//        } else if (type.equals("large_consumer")) {
+//            this.largeConsumer_names.add(agent);
+//        } else if (type.equals("coalition")) {
+//            this.largeConsumer_names.add(agent);
+//        }else if (type.equals("consumer")) {
+//            this.mediumConsumer_names.add(agent);
+//        } else if (type.equals("MarketOperator")) {
+//            this.MarketOperator = agent;
+//        } 
+//        mo_gui.addAgent(agent.getLocalName(), type);
+//    }
 
     private HashMap<String, ArrayList<String>> getBelifsAboutOthers() {
         return this.beliefs_about_others;
@@ -198,26 +199,26 @@ public class PersonalAssistant extends Agent {
     public void startsimulation(boolean isSMPsym, boolean isSMPasym, boolean isLMP, boolean isOTC){
         
         // Sends message to MarketOperator to start the simulation
-        AID rec = new AID("MarketOperator", AID.ISLOCALNAME);
-        
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        msg.setOntology("market_ontology");
-        msg.setProtocol("no_protocol");
-        
-        if(isSMPsym){
-            this.Write_Input_File();
-            msg.setContent("Start Simulation SMPsym");
-        } else if(isSMPasym) {
-            msg.setContent("Start Simulation SMPasym");
-        } else if(isLMP) {
-            msg.setContent("Start Simulation LMP");
-        } else if(isOTC) {
-            msg.setContent("Start Simulation OTC");
-        }
-        
-        msg.addReceiver(rec);
-        
-        send(msg);
+//        AID rec = new AID("MarketOperator", AID.ISLOCALNAME);
+//        
+//        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+//        msg.setOntology("market_ontology");
+//        msg.setProtocol("no_protocol");
+//        
+//        if(isSMPsym){
+//            this.Write_Input_File();
+//            msg.setContent("Start Simulation SMPsym");
+//        } else if(isSMPasym) {
+//            msg.setContent("Start Simulation SMPasym");
+//        } else if(isLMP) {
+//            msg.setContent("Start Simulation LMP");
+//        } else if(isOTC) {
+//            msg.setContent("Start Simulation OTC");
+//        }
+//        
+//        msg.addReceiver(rec);
+//        
+//        send(msg);
         
     }
     
@@ -339,170 +340,170 @@ public class PersonalAssistant extends Agent {
     }
     */
     // <------------------------------------------------------------------------------------------------------
-    public void start_OTC_simul(String Agent){
-        
-        AID rec = new AID(Agent, AID.ISLOCALNAME);
-        
-        ACLMessage msg = new ACLMessage(ACLMessage.CFP);
-        msg.setOntology("market_ontology");
-        msg.setProtocol("no_protocol");
-        msg.setContent("Sending simulation information");
-        msg.addReceiver(rec);
-        
-        send(msg);
-    }
+//    public void start_OTC_simul(String Agent){
+//        
+//        AID rec = new AID(Agent, AID.ISLOCALNAME);
+//        
+//        ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+//        msg.setOntology("market_ontology");
+//        msg.setProtocol("no_protocol");
+//        msg.setContent("Sending simulation information");
+//        msg.addReceiver(rec);
+//        
+//        send(msg);
+//    }
     
-    public void send_OTC_sim_data(String Agent, String[] message){
-        
-        AID rec = new AID(Agent, AID.ISLOCALNAME);
-        
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        msg.setOntology("market_ontology");
-        msg.setProtocol("no_protocol");
-        msg.setContent("" + message[0] + " " + message[1] + " " + message[2] + " " 
-                + message[3] + " volume_bids " + message[4] + "price_bids " + message[5] + "end");
-        msg.addReceiver(rec);
-        
-
-        
-        send(msg);
-        
-    }
+//    public void send_OTC_sim_data(String Agent, String[] message){
+//        
+//        AID rec = new AID(Agent, AID.ISLOCALNAME);
+//        
+//        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+//        msg.setOntology("market_ontology");
+//        msg.setProtocol("no_protocol");
+//        msg.setContent("" + message[0] + " " + message[1] + " " + message[2] + " " 
+//                + message[3] + " volume_bids " + message[4] + "price_bids " + message[5] + "end");
+//        msg.addReceiver(rec);
+//        
+//
+//        
+//        send(msg);
+//        
+//    }
     
     
 // Inform Method makes market agent send the results of the SMP simulation to 
 // the respective agent. The receiver of the message comes as an argument (Rec)
 
     
-    public void inform(AID Rec, String prices, String volumes){
-        
-        //Send prices
-        
-        ACLMessage msg_prices = new ACLMessage(ACLMessage.INFORM);
-        msg_prices.setOntology("Market_Ontology");
-        msg_prices.setProtocol("hello_protocol");
-        msg_prices.setContent(prices);  //Need to make this send prices and volumes
-        msg_prices.addReceiver(Rec);
-        
-        send(msg_prices);
-        
-        //Send Volumes
-        
-        ACLMessage msg_volumes = new ACLMessage(ACLMessage.INFORM);
-        msg_volumes.setOntology("Market_Ontology");
-        msg_volumes.setProtocol("hello_protocol");
-        msg_volumes.setContent(volumes);  //Need to make this send prices and volumes
-        msg_volumes.addReceiver(Rec);
-        
-        send(msg_volumes);
-        
-        //Need to make agents handle the messages
-        
-        
-    }
+//    public void inform(AID Rec, String prices, String volumes){
+//        
+//        //Send prices
+//        
+//        ACLMessage msg_prices = new ACLMessage(ACLMessage.INFORM);
+//        msg_prices.setOntology("Market_Ontology");
+//        msg_prices.setProtocol("hello_protocol");
+//        msg_prices.setContent(prices);  //Need to make this send prices and volumes
+//        msg_prices.addReceiver(Rec);
+//        
+//        send(msg_prices);
+//        
+//        //Send Volumes
+//        
+//        ACLMessage msg_volumes = new ACLMessage(ACLMessage.INFORM);
+//        msg_volumes.setOntology("Market_Ontology");
+//        msg_volumes.setProtocol("hello_protocol");
+//        msg_volumes.setContent(volumes);  //Need to make this send prices and volumes
+//        msg_volumes.addReceiver(Rec);
+//        
+//        send(msg_volumes);
+//        
+//        //Need to make agents handle the messages
+//        
+//        
+//    }
     
 // Modificações <---------------------------------------------------------------
     
     
-    public class MessageManager extends CyclicBehaviour {
-
-        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("no_protocol"));
-        MessageTemplate hello_mt = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol"));
-        @Override
-        public void action() {
-            
-            ACLMessage msg = myAgent.receive(mt);
-            ACLMessage hello_msg = myAgent.receive(hello_mt);
-            
-            if (msg != null) {
-                if (msg.getOntology().equals("market_ontology")) {
-                    MarketOntology market_ontology = new MarketOntology();
-                    market_ontology.resolve(msg);
-                }
-            } else if(hello_msg != null){
-                if (hello_msg.getOntology().equals("market_ontology")) {
-                    MarketOntology market_ontology = new MarketOntology();
-                    market_ontology.resolve_hello(hello_msg);
-                }
-            } else {
-                block();
-            }
-
-        }
-    }
+//    public class MessageManager extends CyclicBehaviour {
+//
+//        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("no_protocol"));
+//        MessageTemplate hello_mt = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol"));
+//        @Override
+//        public void action() {
+//            
+//            ACLMessage msg = myAgent.receive(mt);
+//            ACLMessage hello_msg = myAgent.receive(hello_mt);
+//            
+//            if (msg != null) {
+//                if (msg.getOntology().equals("market_ontology")) {
+//                    MarketOntology market_ontology = new MarketOntology();
+//                    market_ontology.resolve(msg);
+//                }
+//            } else if(hello_msg != null){
+//                if (hello_msg.getOntology().equals("market_ontology")) {
+//                    MarketOntology market_ontology = new MarketOntology();
+//                    market_ontology.resolve_hello(hello_msg);
+//                }
+//            } else {
+//                block();
+//            }
+//
+//        }
+//    }
 
     class MarketOntology {
 
-        private void resolve(ACLMessage msg) {
-            
-            if (msg.getPerformative() == ACLMessage.INFORM) {
-                resolveInform(msg);
-            }
-
-            if (msg.getPerformative() == ACLMessage.CFP) {
-                resolveCFP(msg);
-            }
-            if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-                if (text == 0) {
-                    mo_gui.text_log.append(msg.getContent());
-                    text++;
-                } else {
-                    Object aux = msg.getContent();
-                    String[] choices4 = {"OK"};
-                }
-
-            }
-        }
+//        private void resolve(ACLMessage msg) {
+//            
+//            if (msg.getPerformative() == ACLMessage.INFORM) {
+//                resolveInform(msg);
+//            }
+//
+//            if (msg.getPerformative() == ACLMessage.CFP) {
+//                resolveCFP(msg);
+//            }
+//            if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
+//                if (text == 0) {
+//                    mo_gui.text_log.append(msg.getContent());
+//                    text++;
+//                } else {
+//                    Object aux = msg.getContent();
+//                    String[] choices4 = {"OK"};
+//                }
+//
+//            }
+//        }
         
-        private void resolve_hello(ACLMessage msg) {
-            
-            if(msg.getContent().contains("isProducer")){
-                String info = msg.getContent();
-                
-                StoreProducerInfo(info);
-                
-            }else if(msg.getContent().contains("isBuyer")){
-                String info = msg.getContent();
-                
-                StoreBuyerInfo(info);
-            }
-        }
+//        private void resolve_hello(ACLMessage msg) {
+//            
+//            if(msg.getContent().contains("isProducer")){
+//                String info = msg.getContent();
+//                
+//                StoreProducerInfo(info);
+//                
+//            }else if(msg.getContent().contains("isBuyer")){
+//                String info = msg.getContent();
+//                
+//                StoreBuyerInfo(info);
+//            }
+//        }
         
-        private void resolveCFP(ACLMessage msg) {
-            String content = msg.getContent();
-            if (content.contains("propose_opponent")) {
-                addBelif(msg.getSender().getLocalName(), msg.getSender().getLocalName() + ";waiting_for_opponent");
-            }
-        }
+//        private void resolveCFP(ACLMessage msg) {
+//            String content = msg.getContent();
+//            if (content.contains("propose_opponent")) {
+//                addBelif(msg.getSender().getLocalName(), msg.getSender().getLocalName() + ";waiting_for_opponent");
+//            }
+//        }
 
-        public void resolveInform(ACLMessage msg) {
-            String content = msg.getContent();
-            if (content.contains(";is_buyer") || content.contains(";is_producer") ||content.contains(";is_seller") || content.contains(";is_coalition") || content.contains(";is_consumer")) {
-                String[] content_information = content.split(";");
-                String agent_name = content_information[0];
-
-                if (agent_name.equals(msg.getSender().getLocalName())) {
-                    String[] content_split = content.split(";");
-                    addBelif(agent_name, content_split[0] + ";" + content_split[1]);
-                    addBelif(agent_name, content_split[0] + ";" + content_split[2]);
-                    addBelif(agent_name, content_split[0] + ";" + content_split[3]);
-                    addBelif(agent_name, content_split[0] + ";" + content_split[4]);
-                    addBelif(agent_name, content_split[0] + ";" + content_split[5]);
-                }
-            }else if(content.contains("Offer")){
-                
-                Store_Offer_Data(content);
-                
-            }else if(content.contains("Results")){
-                if(content.contains("SMPsym")){
-                    Store_and_send_SMP_results(content);
-                }else if(content.contains("SMPasym")){
-                    Store_and_send_SMP_results(content);
-                }
-                
-                
-            }
-        }
+//        public void resolveInform(ACLMessage msg) {
+//            String content = msg.getContent();
+//            if (content.contains(";is_buyer") || content.contains(";is_producer") ||content.contains(";is_seller") || content.contains(";is_coalition") || content.contains(";is_consumer")) {
+//                String[] content_information = content.split(";");
+//                String agent_name = content_information[0];
+//
+//                if (agent_name.equals(msg.getSender().getLocalName())) {
+//                    String[] content_split = content.split(";");
+//                    addBelif(agent_name, content_split[0] + ";" + content_split[1]);
+//                    addBelif(agent_name, content_split[0] + ";" + content_split[2]);
+//                    addBelif(agent_name, content_split[0] + ";" + content_split[3]);
+//                    addBelif(agent_name, content_split[0] + ";" + content_split[4]);
+//                    addBelif(agent_name, content_split[0] + ";" + content_split[5]);
+//                }
+//            }else if(content.contains("Offer")){
+//                
+//                Store_Offer_Data(content);
+//                
+//            }else if(content.contains("Results")){
+//                if(content.contains("SMPsym")){
+//                    Store_and_send_SMP_results(content);
+//                }else if(content.contains("SMPasym")){
+//                    Store_and_send_SMP_results(content);
+//                }
+//                
+//                
+//            }
+//        }
     }
     
     private void Store_and_send_SMP_results(String Results){
@@ -512,12 +513,12 @@ public class PersonalAssistant extends Agent {
         String content; // content of message to be sent to each participating agent
         int k = -1; // contains agent index
         int f = -1; // contains buyers information start
-        AID rec; // receiver of message
+//        AID rec; // receiver of message
         
         // Set up message with results to be sent to each participating Agent
-        ACLMessage Propose_msg = new ACLMessage(ACLMessage.PROPOSE);
-        Propose_msg.setOntology("market_ontology");
-        Propose_msg.setProtocol("no_protocol");
+//        ACLMessage Propose_msg = new ACLMessage(ACLMessage.PROPOSE);
+//        Propose_msg.setOntology("market_ontology");
+//        Propose_msg.setProtocol("no_protocol");
         Data = Results.split(";");
         
         if(Data[0].contains("SMPsym")){
@@ -548,11 +549,11 @@ public class PersonalAssistant extends Agent {
                     }
                     
                     content = Data[0] + ";" + Data[1] + ";" + Data[i];
-                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
-                    Propose_msg.setContent(content);
-                    Propose_msg.addReceiver(rec);
-                    send(Propose_msg);
-                    Propose_msg.clearAllReceiver();
+//                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
+//                    Propose_msg.setContent(content);
+//                    Propose_msg.addReceiver(rec);
+//                    send(Propose_msg);
+//                    Propose_msg.clearAllReceiver();
                 }else{
                     System.out.println("Agent " + Info[0] + " was not found on list");
                 }
@@ -582,11 +583,11 @@ public class PersonalAssistant extends Agent {
                     }
                     
                     content = Data[0] + ";" + Data[1] + ";" + Data[i];
-                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
-                    Propose_msg.setContent(content);
-                    Propose_msg.addReceiver(rec);
-                    send(Propose_msg);
-                    Propose_msg.clearAllReceiver();
+//                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
+//                    Propose_msg.setContent(content);
+//                    Propose_msg.addReceiver(rec);
+//                    send(Propose_msg);
+//                    Propose_msg.clearAllReceiver();
                 }else{
                     System.out.println("Agent " + Info[0] + " was not found on list");
                 }
@@ -623,11 +624,11 @@ public class PersonalAssistant extends Agent {
                     }
                     
                     content = Data[0] + ";" + Data[1] + ";" + Data[i];
-                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
-                    Propose_msg.setContent(content);
-                    Propose_msg.addReceiver(rec);
-                    send(Propose_msg);
-                    Propose_msg.clearAllReceiver();
+//                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
+//                    Propose_msg.setContent(content);
+//                    Propose_msg.addReceiver(rec);
+//                    send(Propose_msg);
+//                    Propose_msg.clearAllReceiver();
                 }else{
                     System.out.println("Agent " + Info[0] + " was not found on list");
                 }
@@ -657,11 +658,11 @@ public class PersonalAssistant extends Agent {
                     }
                     
                     content = Data[0] + ";" + Data[1] + ";" + Data[i];
-                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
-                    Propose_msg.setContent(content);
-                    Propose_msg.addReceiver(rec);
-                    send(Propose_msg);
-                    Propose_msg.clearAllReceiver();
+//                    rec = new AID("" + Info[0], AID.ISLOCALNAME);
+//                    Propose_msg.setContent(content);
+//                    Propose_msg.addReceiver(rec);
+//                    send(Propose_msg);
+//                    Propose_msg.clearAllReceiver();
                 }else{
                     System.out.println("Agent " + Info[0] + " was not found on list");
                 }
@@ -833,205 +834,198 @@ public class PersonalAssistant extends Agent {
     }
     
     
-    public void sendMarketSelection(boolean isDayahead, boolean isSMP, boolean isOTC){
-        AID rec;
-        
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        msg.setOntology("market_ontology");
-        msg.setProtocol("no_protocol");
-        
-        String content;
-        
-        content = "Market ";
-        
-        if(isDayahead){
-            content = content + "Dayahead ";
-            if(isSMP){
-                content = content + "SMP";
-            }else{
-                content = content + "LMP";
-            }
-        }
-        if(isOTC){
-            content = content + "OTC";
-        }
-        
-        msg.setContent(content);
-        
-        for(int i = 0; i < Buyers_Information.size(); i++){
-            rec = new AID(Buyers_Information.get(i).getName().replace(" ", "_"), AID.ISLOCALNAME);
-            msg.addReceiver(rec);  
-        }
-        
-        
-        send(msg);
-        msg.clearAllReceiver();
-        
-        for(int i = 0; i < Producers_Information.size(); i++){
-            rec = new AID(Producers_Information.get(i).getName().replace(" ", "_"), AID.ISLOCALNAME);
-            msg.addReceiver(rec);
-        }
-        send(msg);
-    }
+//    public void sendMarketSelection(boolean isDayahead, boolean isSMP, boolean isOTC){
+//        AID rec;
+//        
+//        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+//        msg.setOntology("market_ontology");
+//        msg.setProtocol("no_protocol");
+//        
+//        String content;
+//        
+//        content = "Market ";
+//        
+//        if(isDayahead){
+//            content = content + "Dayahead ";
+//            if(isSMP){
+//                content = content + "SMP";
+//            }else{
+//                content = content + "LMP";
+//            }
+//        }
+//        if(isOTC){
+//            content = content + "OTC";
+//        }
+//        
+//        msg.setContent(content);
+//        
+//        for(int i = 0; i < Buyers_Information.size(); i++){
+//            rec = new AID(Buyers_Information.get(i).getName().replace(" ", "_"), AID.ISLOCALNAME);
+//            msg.addReceiver(rec);  
+//        }
+//        
+//        
+//        send(msg);
+//        msg.clearAllReceiver();
+//        
+//        for(int i = 0; i < Producers_Information.size(); i++){
+//            rec = new AID(Producers_Information.get(i).getName().replace(" ", "_"), AID.ISLOCALNAME);
+//            msg.addReceiver(rec);
+//        }
+//        send(msg);
+//    }
     
-    public void inform_participants(boolean isProducer, String AgentName, String Strategy){
-        
-        AID rec;
-        String content;
-        
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        msg.setOntology("market_ontology");
-        msg.setProtocol("no_protocol");
-        
-        content = "Participating " + Strategy;
-        
-        msg.setContent(content);
-        
-        rec = new AID(AgentName.replace(" ", "_"), AID.ISLOCALNAME);
-        
-        msg.addReceiver(rec);
-        
-        send(msg);
-        
-    }
-    
-    
+//    public void inform_participants(boolean isProducer, String AgentName, String Strategy){
+//        
+//        AID rec;
+//        String content;
+//        
+//        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+//        msg.setOntology("market_ontology");
+//        msg.setProtocol("no_protocol");
+//        
+//        content = "Participating " + Strategy;
+//        
+//        msg.setContent(content);
+//        
+//        rec = new AID(AgentName.replace(" ", "_"), AID.ISLOCALNAME);
+//        
+//        msg.addReceiver(rec);
+//        
+//        send(msg);
+//        
+//    }
     
     
     
-    
-    
-    
-    
-    
-    public void addNegotiationPairAndInformThem(AID[] new_pair) {
+//    public void addNegotiationPairAndInformThem(AID[] new_pair) {
+//
+//        this.new_pair = new_pair;
+//        this.negotiation_pairs.add(new_pair);
+////        ACLMessage msg_seller = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_seller.setOntology("market_ontology");
+//        msg_seller.setProtocol("hello_protocol");
+//        msg_seller.setContent(new_pair[1].getLocalName() + ";opponent_proposal");
+//        msg_seller.addReceiver(new_pair[0]);
+//
+////        ACLMessage msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_buyer.setOntology("market_ontology");
+//        msg_buyer.setProtocol("hello_protocol");
+//        msg_buyer.setContent(new_pair[0].getLocalName() + ";opponent_proposal");
+//        msg_buyer.addReceiver(new_pair[1]);
+//
+//        send(msg_seller);
+//        send(msg_buyer);
+//
+////        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_buyer.setOntology("market_ontology");
+//        msg_buyer.setProtocol("hello_protocol");
+//        msg_buyer.setContent(new_pair[0].getLocalName() + ";opponent_proposal");
+////        msg_buyer.addReceiver(MarketOperator);
+//
+//        send(msg_buyer);
+//
+////        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_seller.setOntology("contract_ontology");
+//        msg_seller.setProtocol("hello_protocol");
+//        msg_seller.setContent(contract);
+//        msg_seller.addReceiver(new_pair[0]);
+//
+////        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_buyer.setOntology("contract_ontology");
+//        msg_buyer.setProtocol("hello_protocol");
+//        msg_buyer.setContent(contract);
+//        msg_buyer.addReceiver(new_pair[1]);
+//
+//        send(msg_seller);
+//        send(msg_buyer);
+//
+////        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_seller.setOntology("day_ontology");
+//        msg_seller.setProtocol("hello_protocol");
+//        msg_seller.setContent(String.valueOf(contractduration));
+//        msg_seller.addReceiver(new_pair[0]);
+//
+////        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_buyer.setOntology("day_ontology");
+//        msg_buyer.setProtocol("hello_protocol");
+//        msg_buyer.setContent(String.valueOf(contractduration));
+//        msg_buyer.addReceiver(new_pair[1]);
+//
+//        send(msg_seller);
+//        send(msg_buyer);
+//
+////        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_seller.setOntology("inf_ontology");
+//        msg_seller.setProtocol("hello_protocol");
+//        msg_seller.setContent(String.valueOf(N_PERIODS));
+//        msg_seller.addReceiver(new_pair[0]);
+//
+////        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_buyer.setOntology("inf_ontology");
+//        msg_buyer.setProtocol("hello_protocol");
+//        msg_buyer.setContent(String.valueOf(N_PERIODS));
+//        msg_buyer.addReceiver(new_pair[1]);
+//
+//        send(msg_seller);
+//        send(msg_buyer);
+//
+//        if (N_PERIODS != 24) {
+//            String[] hoursaux = new String[1];
+//            hoursaux[0] = "";
+//            for (int i = 0; i < HOURS.size(); i++) {
+//                hoursaux[0] = hoursaux[0] + HOURS.get(i) + ",";
+//            }
+//
+////            msg_seller = new ACLMessage(ACLMessage.PROPOSE);
+//            msg_seller.setOntology("hour_ontology");
+//            msg_seller.setProtocol("hello_protocol");
+//            msg_seller.setContent(hoursaux[0]);
+//            msg_seller.addReceiver(new_pair[0]);
+//
+////            msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//            msg_buyer.setOntology("hour_ontology");
+//            msg_buyer.setProtocol("hello_protocol");
+//            msg_buyer.setContent(hoursaux[0]);
+//            msg_buyer.addReceiver(new_pair[1]);
+//
+//            send(msg_seller);
+//            send(msg_buyer);
+//
+//        }
+//
+////        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_seller.setOntology("volume_ontology");
+//        msg_seller.setProtocol("hello_protocol");
+//        msg_seller.setContent(String.valueOf(demandresponse));
+//        msg_seller.addReceiver(new_pair[0]);
+//
+////        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_buyer.setOntology("volume_ontology");
+//        msg_buyer.setProtocol("hello_protocol");
+//        msg_buyer.setContent(String.valueOf(demandresponse));
+//        msg_buyer.addReceiver(new_pair[1]);
+//
+//        send(msg_seller);
+//        send(msg_buyer);
+//
+////        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_seller.setOntology("risk_ontology");
+//        msg_seller.setProtocol("hello_protocol");
+//        msg_seller.setContent("" + seller_risk);
+//        msg_seller.addReceiver(new_pair[0]);
+//
+////        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
+//        msg_buyer.setOntology("risk_ontology");
+//        msg_buyer.setProtocol("hello_protocol");
+//        msg_buyer.setContent("" + buyer_risk);
+//        msg_buyer.addReceiver(new_pair[1]);
+//
+//        send(msg_seller);
+//        send(msg_buyer);
+//    }
 
-        this.new_pair = new_pair;
-        this.negotiation_pairs.add(new_pair);
-        ACLMessage msg_seller = new ACLMessage(ACLMessage.PROPOSE);
-        msg_seller.setOntology("market_ontology");
-        msg_seller.setProtocol("hello_protocol");
-        msg_seller.setContent(new_pair[1].getLocalName() + ";opponent_proposal");
-        msg_seller.addReceiver(new_pair[0]);
-
-        ACLMessage msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-        msg_buyer.setOntology("market_ontology");
-        msg_buyer.setProtocol("hello_protocol");
-        msg_buyer.setContent(new_pair[0].getLocalName() + ";opponent_proposal");
-        msg_buyer.addReceiver(new_pair[1]);
-
-        send(msg_seller);
-        send(msg_buyer);
-
-        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-        msg_buyer.setOntology("market_ontology");
-        msg_buyer.setProtocol("hello_protocol");
-        msg_buyer.setContent(new_pair[0].getLocalName() + ";opponent_proposal");
-        msg_buyer.addReceiver(MarketOperator);
-
-        send(msg_buyer);
-
-        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
-        msg_seller.setOntology("contract_ontology");
-        msg_seller.setProtocol("hello_protocol");
-        msg_seller.setContent(contract);
-        msg_seller.addReceiver(new_pair[0]);
-
-        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-        msg_buyer.setOntology("contract_ontology");
-        msg_buyer.setProtocol("hello_protocol");
-        msg_buyer.setContent(contract);
-        msg_buyer.addReceiver(new_pair[1]);
-
-        send(msg_seller);
-        send(msg_buyer);
-
-        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
-        msg_seller.setOntology("day_ontology");
-        msg_seller.setProtocol("hello_protocol");
-        msg_seller.setContent(String.valueOf(contractduration));
-        msg_seller.addReceiver(new_pair[0]);
-
-        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-        msg_buyer.setOntology("day_ontology");
-        msg_buyer.setProtocol("hello_protocol");
-        msg_buyer.setContent(String.valueOf(contractduration));
-        msg_buyer.addReceiver(new_pair[1]);
-
-        send(msg_seller);
-        send(msg_buyer);
-
-        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
-        msg_seller.setOntology("inf_ontology");
-        msg_seller.setProtocol("hello_protocol");
-        msg_seller.setContent(String.valueOf(N_PERIODS));
-        msg_seller.addReceiver(new_pair[0]);
-
-        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-        msg_buyer.setOntology("inf_ontology");
-        msg_buyer.setProtocol("hello_protocol");
-        msg_buyer.setContent(String.valueOf(N_PERIODS));
-        msg_buyer.addReceiver(new_pair[1]);
-
-        send(msg_seller);
-        send(msg_buyer);
-
-        if (N_PERIODS != 24) {
-            String[] hoursaux = new String[1];
-            hoursaux[0] = "";
-            for (int i = 0; i < HOURS.size(); i++) {
-                hoursaux[0] = hoursaux[0] + HOURS.get(i) + ",";
-            }
-
-            msg_seller = new ACLMessage(ACLMessage.PROPOSE);
-            msg_seller.setOntology("hour_ontology");
-            msg_seller.setProtocol("hello_protocol");
-            msg_seller.setContent(hoursaux[0]);
-            msg_seller.addReceiver(new_pair[0]);
-
-            msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-            msg_buyer.setOntology("hour_ontology");
-            msg_buyer.setProtocol("hello_protocol");
-            msg_buyer.setContent(hoursaux[0]);
-            msg_buyer.addReceiver(new_pair[1]);
-
-            send(msg_seller);
-            send(msg_buyer);
-
-        }
-
-        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
-        msg_seller.setOntology("volume_ontology");
-        msg_seller.setProtocol("hello_protocol");
-        msg_seller.setContent(String.valueOf(demandresponse));
-        msg_seller.addReceiver(new_pair[0]);
-
-        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-        msg_buyer.setOntology("volume_ontology");
-        msg_buyer.setProtocol("hello_protocol");
-        msg_buyer.setContent(String.valueOf(demandresponse));
-        msg_buyer.addReceiver(new_pair[1]);
-
-        send(msg_seller);
-        send(msg_buyer);
-
-        msg_seller = new ACLMessage(ACLMessage.PROPOSE);
-        msg_seller.setOntology("risk_ontology");
-        msg_seller.setProtocol("hello_protocol");
-        msg_seller.setContent("" + seller_risk);
-        msg_seller.addReceiver(new_pair[0]);
-
-        msg_buyer = new ACLMessage(ACLMessage.PROPOSE);
-        msg_buyer.setOntology("risk_ontology");
-        msg_buyer.setProtocol("hello_protocol");
-        msg_buyer.setContent("" + buyer_risk);
-        msg_buyer.addReceiver(new_pair[1]);
-
-        send(msg_seller);
-        send(msg_buyer);
-    }
-
-    public PersonalAssistant Init() {
+    public PersonalAssistantBDI Init() {
 
         N_PERIODS = 24;
         return this;
@@ -1570,7 +1564,7 @@ public class PersonalAssistant extends Agent {
             panel_pic_background.add(label_pic);
             panel_north.add(panel_pic_background, BorderLayout.EAST);
         } catch (IOException ex) {
-            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JPanel panel_center = new DR(this);
@@ -1683,10 +1677,10 @@ public class PersonalAssistant extends Agent {
     public int checkseller(String Seller) {
         int j = 0;
         for (int i = 0; i < seller_names.size(); i++) {
-            if (Seller.trim().replace(" ", "_").equals(seller_names.get(i).getLocalName().trim().replace(" ", "_"))) {
-                i = seller_names.size();
-                j = 1;
-            }
+//            if (Seller.trim().replace(" ", "_").equals(seller_names.get(i).getLocalName().trim().replace(" ", "_"))) {
+//                i = seller_names.size();
+//                j = 1;
+//            }
         }
         return j;
     }
@@ -1743,7 +1737,7 @@ public class PersonalAssistant extends Agent {
             return;
         }else if (result == 1) {
                 //createAgent(toString,"Coalition.CoalitionFront");
-                createAgent("Coalition","Coalition.CoalitionFront");
+//                createAgent("Coalition","Coalition.CoalitionFront");
         }
     
     }
@@ -1793,9 +1787,9 @@ public class PersonalAssistant extends Agent {
         String[] auxName;
 
         for (String lse1 : LSEs) {
-            if (checkbuyer(lse1) == 0) {
-                menu2.addItem(lse1);
-            }
+//            if (checkbuyer(lse1) == 0) {
+//                menu2.addItem(lse1);
+//            }
         }
         auxName = new String[menu2.getItemCount()];
         for (int i = 0; i < auxName.length; i++) {
@@ -1907,11 +1901,11 @@ public class PersonalAssistant extends Agent {
         JComboBox menu2 = new JComboBox();
         String[] auxName;
 
-        for (String lse1 : LSEs) {
-            if (checkbuyer(lse1) == 0) {
-                menu2.addItem(lse1);
-            }
-        }
+//        for (String lse1 : LSEs) {
+//            if (checkbuyer(lse1) == 0) {
+//                menu2.addItem(lse1);
+//            }
+//        }
         auxName = new String[menu2.getItemCount()];
         for (int i = 0; i < auxName.length; i++) {
             auxName[i] = menu2.getItemAt(i).toString();
@@ -1979,38 +1973,43 @@ public class PersonalAssistant extends Agent {
          }*/
     }
 
-    public int checkbuyer(String Buyer) {
-        int j = 0;
-        for (int i = 0; i < buyer_names.size(); i++) {
-            
-            if (Buyer.trim().replace(" ", "_").equals(buyer_names.get(i).getLocalName().trim().replace(" ", "_"))) {
-                i = buyer_names.size();
-                j = 1;
-            }
-        }
-        return j;
-    }
+//    public int checkbuyer(String Buyer) {
+//        int j = 0;
+//        for (int i = 0; i < buyer_names.size(); i++) {
+//            
+//            if (Buyer.trim().replace(" ", "_").equals(buyer_names.get(i).getLocalName().trim().replace(" ", "_"))) {
+//                i = buyer_names.size();
+//                j = 1;
+//            }
+//        }
+//        return j;
+//    }
 
-    public void createAgent(String AgentName, String ClassName) {                // Creates a new agent via the platform controller
-        PlatformController container = getContainerController();                // In - Agent Name * Agent Type i.e. "buying.Buyer" "selling.Seller" ... 
-        try {        	
-            AgentController newBuyer = container.createNewAgent(AgentName, ClassName, null);
-            newBuyer.start();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Entrou no catch!",
-                    "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-    }
+    // Creates a new agent via the platform controller
+    // In - Agent Name * Agent Type i.e. "buying.Buyer" "selling.Seller" ... 
+//    public void createAgent(String AgentName, String ClassName) {
+//    	
+//    	PlatformController container = getContainerController();
+//        try
+//        {
+//            AgentController newBuyer = container.createNewAgent(AgentName, ClassName, null);
+//            newBuyer.start();
+//        } 
+//        catch (Exception e)
+//        {
+//            JOptionPane.showMessageDialog(null, "Entrou no catch!", "Warning", JOptionPane.WARNING_MESSAGE);
+//        }
+//    }
 
-    public void killAgent(String AgentName, String ClassName) {
-        PlatformController container = getContainerController();
-        try {
-            AgentController x = container.getAgent(AgentName);
-            x.kill();
-
-        } catch (Exception e) {
-        }
-    }
+//    public void killAgent(String AgentName, String ClassName) {
+//        PlatformController container = getContainerController();
+//        try {
+//            AgentController x = container.getAgent(AgentName);
+//            x.kill();
+//
+//        } catch (Exception e) {
+//        }
+//    }
 
     public void seller_risk(PersonalAssistantGUI parent) {
 
@@ -2046,7 +2045,7 @@ public class PersonalAssistant extends Agent {
             panel_pic_background.add(label_pic);
             panel_north.add(panel_pic_background, BorderLayout.EAST);
         } catch (IOException ex) {
-            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JPanel panel_center = new rseller(this);
@@ -2102,7 +2101,7 @@ public class PersonalAssistant extends Agent {
             panel_pic_background.add(label_pic);
             panel_north.add(panel_pic_background, BorderLayout.EAST);
         } catch (IOException ex) {
-            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JPanel panel_center = new rbuyer(this);
@@ -2251,7 +2250,7 @@ public class PersonalAssistant extends Agent {
             panel_pic_background.add(label_pic);
             panel_north.add(panel_pic_background, BorderLayout.EAST);
         } catch (IOException ex) {
-            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JPanel panel_center = new protocol(this);
@@ -2310,7 +2309,7 @@ public class PersonalAssistant extends Agent {
             panel_pic_background.add(label_pic);
             panel_north.add(panel_pic_background, BorderLayout.EAST);
         } catch (IOException ex) {
-            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JPanel panel_center = new contract();
@@ -2375,7 +2374,7 @@ public class PersonalAssistant extends Agent {
             panel_pic_background.add(label_pic);
             panel_north.add(panel_pic_background, BorderLayout.EAST);
         } catch (IOException ex) {
-            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JPanel panel_center = new tperiods();
@@ -2705,10 +2704,9 @@ public class PersonalAssistant extends Agent {
         return false;
     }
 
-    public void removeNegotiationPair(AID[] pair) {
-
-        this.negotiation_pairs.remove(pair);
-    }
+//    public void removeNegotiationPair(AID[] pair) {
+//        this.negotiation_pairs.remove(pair);
+//    }
 
     public ArrayList<String> getBelifsAboutMyAgent() {
         return this.beliefs_about_myagent;
@@ -2790,30 +2788,30 @@ public class PersonalAssistant extends Agent {
         }
     }
 
-    public ArrayList<AID> getBuyerNames() {
-        return buyer_names;
-    }
-
-    public ArrayList<AID> getSellerNames() {
-        return seller_names;
-    }
-    
-    public ArrayList<AID> getLargeConsumersNames() {
-        return largeConsumer_names;
-    }
-
-    public ArrayList<AID> getMediumConsumerNames() {
-        return mediumConsumer_names;
-    }
- public ArrayList<AID> getProducerNames() {
-        return producer_names;
-    }
-    public class BuyerAgentsName {
-
-        public String BuyerAgentsName() {
-            return getSellerNames().toString();
-        }
-    }
+//    public ArrayList<AID> getBuyerNames() {
+//        return buyer_names;
+//    }
+//
+//    public ArrayList<AID> getSellerNames() {
+//        return seller_names;
+//    }
+//    
+//    public ArrayList<AID> getLargeConsumersNames() {
+//        return largeConsumer_names;
+//    }
+//
+//    public ArrayList<AID> getMediumConsumerNames() {
+//        return mediumConsumer_names;
+//    }
+// public ArrayList<AID> getProducerNames() {
+//        return producer_names;
+//    }
+//    public class BuyerAgentsName {
+//
+//        public String BuyerAgentsName() {
+//            return getSellerNames().toString();
+//        }
+//    }
 
     public class tperiods extends javax.swing.JPanel {
 
@@ -3122,12 +3120,12 @@ public class PersonalAssistant extends Agent {
      */
     public class risk_seller extends javax.swing.JPanel {
 
-        public PersonalAssistant mark;
+        public PersonalAssistantBDI mark;
 
         /**
          * Creates new form risk
          */
-        public risk_seller(PersonalAssistant market) {
+        public risk_seller(PersonalAssistantBDI market) {
             mark = market;
             initComponents();
 
@@ -3361,12 +3359,12 @@ public class PersonalAssistant extends Agent {
      */
     public class risk_buyer extends javax.swing.JPanel {
 
-        public PersonalAssistant mark;
+        public PersonalAssistantBDI mark;
 
         /**
          * Creates new form risk
          */
-        public risk_buyer(PersonalAssistant market) {
+        public risk_buyer(PersonalAssistantBDI market) {
             mark = market;
             initComponents();
 
@@ -3590,8 +3588,7 @@ public class PersonalAssistant extends Agent {
         // End of variables declaration
     }
 
-    public class Tools
-            extends JInternalFrame {
+    public class Tools extends JInternalFrame {
 
         private JTabbedPane tabbedPane;
         private JTabbedPane panel1;
@@ -3599,7 +3596,7 @@ public class PersonalAssistant extends Agent {
         private JTabbedPane panel3;
         private JTabbedPane panel4;
 
-        public Tools(PersonalAssistant market) {
+        public Tools(PersonalAssistantBDI market) {
             // NOTE: to reduce the amount of code in this example, it uses
             // panels with a NULL layout.  This is NOT suitable for
             // production code since it may not display correctly for

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import jxl.read.biff.BiffException;
+import personalassistant.PersonalAssistantBDI;
 
 /**
  *
@@ -26,7 +27,7 @@ public class Participants extends javax.swing.JFrame {
      */
     
     private OTC_Controller Controller;
-    private Agent market;
+    private PersonalAssistantBDI market;
     private boolean isSeller;
     private int StartHour;
     private int EndHour;
@@ -44,7 +45,7 @@ public class Participants extends javax.swing.JFrame {
     
     //Alternate Constructors for class Participants 
      
-    public Participants(Agent _market, OTC_Controller _Controller, boolean _isSeller, int _StartHour, int _EndHour) {
+    public Participants(PersonalAssistantBDI _market, OTC_Controller _Controller, boolean _isSeller, int _StartHour, int _EndHour) {
         
         initComponents();
         

@@ -1,12 +1,11 @@
 package wholesalemarket_SMP;
 
-import jade.core.AID;
-import jade.core.Agent;
-import jade.lang.acl.ACLMessage;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import javax.swing.JOptionPane;
-import scheduling.ProducerScheduling;
+
+import personalassistant.PersonalAssistantBDI;
 import wholesalemarket_LMP.ProducerInputData_Dynamic;
 import wholesalemarket_LMP.Producer_InputParameters;
 
@@ -17,9 +16,9 @@ public class RiskAttitude extends javax.swing.JFrame {
     private InputData_Agents mainGenerator;
     private int algoritm;
     private String agentName;
-    private Agent market;
+    private PersonalAssistantBDI market;
 
-    public RiskAttitude(Agent Market, Producer_InputParameters _mainSupplier, InputData_Agents _mainGenerator, String _name, int _algorithm) {
+    public RiskAttitude(PersonalAssistantBDI Market, Producer_InputParameters _mainSupplier, InputData_Agents _mainGenerator, String _name, int _algorithm) {
         market=Market;
         initComponents();
         algoritm = _algorithm;

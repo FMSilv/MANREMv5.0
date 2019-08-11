@@ -13,41 +13,41 @@ import javax.swing.table.TableModel;
 
 public class LoadAgent_Name extends javax.swing.JFrame {
 
-    private final PersonalAssistant market;
+    private final PersonalAssistantBDI market;
     private DefaultTableModel model;
     private ArrayList<String> agentList;
     private String agentInfo, agentType;
     public static boolean isLoaded = false;
     
-    public LoadAgent_Name(PersonalAssistant _market, int _agentType, String[] _agentNameList) {
+    public LoadAgent_Name(PersonalAssistantBDI _market, int _agentType, String[] _agentNameList) {
         market = _market;
         initComponents();
         setWindow();
         jButton_Back.setEnabled(false);
         agentList = new ArrayList<>();
         if (_agentType == 1) {
-            for (int i = 0; i < market.getSellerNames().size(); i++) {
-                agentList.add(market.getSellerNames().get(i).getLocalName());
-            }
+//            for (int i = 0; i < market.getSellerNames().size(); i++) {
+//                agentList.add(market.getSellerNames().get(i).getLocalName());
+//            }
             agentType = "Generator";
             agentInfo = "selling.Seller";
 
         } else if (_agentType == 2) {
-            for (int i = 0; i < market.getBuyerNames().size(); i++) {
-                agentList.add(market.getBuyerNames().get(i).getLocalName());
-            }
+//            for (int i = 0; i < market.getBuyerNames().size(); i++) {
+//                agentList.add(market.getBuyerNames().get(i).getLocalName());
+//            }
             agentType = "Retailer";
             agentInfo = "buying.Buyer";
         } else if (_agentType == 3) {
-            for (int i = 0; i < market.getMediumConsumerNames().size(); i++) {
-                agentList.add(market.getMediumConsumerNames().get(i).getLocalName());
-            }
+//            for (int i = 0; i < market.getMediumConsumerNames().size(); i++) {
+//                agentList.add(market.getMediumConsumerNames().get(i).getLocalName());
+//            }
             agentType = "Consumer";
             agentInfo = "buying.Buyer";
         } else if (_agentType == 4) {
-            for (int i = 0; i < market.getProducerNames().size(); i++) {
-                agentList.add(market.getProducerNames().get(i).getLocalName());
-            }
+//            for (int i = 0; i < market.getProducerNames().size(); i++) {
+//                agentList.add(market.getProducerNames().get(i).getLocalName());
+//            }
             agentType = "Producer";
             agentInfo = "producing.Producer";
         }
@@ -301,7 +301,7 @@ public class LoadAgent_Name extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Invalid Agent Name!",
                 "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            market.createAgent((String) agentName.trim().replace(" ", "_"), agentInfo);
+//            market.createAgent((String) agentName.trim().replace(" ", "_"), agentInfo);
             isLoaded = true;
             this.dispose();
         }

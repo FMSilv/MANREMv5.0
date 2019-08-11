@@ -6,7 +6,8 @@ package market.panel;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import personalassistant.PersonalAssistant;
+
+import personalassistant.PersonalAssistantBDI;
 
 /**
  *
@@ -14,11 +15,11 @@ import personalassistant.PersonalAssistant;
  */
 public class DR extends javax.swing.JPanel {
 
-    public PersonalAssistant mark;
+    public PersonalAssistantBDI mark;
     /**
      * Creates new form risk
      */
-    public DR(PersonalAssistant market) {
+    public DR(PersonalAssistantBDI market) {
         mark=market;
         initComponents();
     }

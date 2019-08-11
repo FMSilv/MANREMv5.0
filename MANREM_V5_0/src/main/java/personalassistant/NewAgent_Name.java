@@ -1,6 +1,7 @@
 package personalassistant;
 
 import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -9,38 +10,37 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import wholesalemarket_SMP.AgentData;
 
 public class NewAgent_Name extends javax.swing.JFrame {
 
-    private final PersonalAssistant market;
+    private final PersonalAssistantBDI market;
     private DefaultTableModel model;
     private ArrayList<String> agentList;
     private String agentInfo, agentType;
 
-    public NewAgent_Name(PersonalAssistant _market, int _agentType) {
+    public NewAgent_Name(PersonalAssistantBDI _market, int _agentType) {
         market = _market;
         initComponents();
         setWindow();
         jButton_Back.setEnabled(false);
         agentList = new ArrayList<>();
         if (_agentType == 1) {
-            for (int i = 0; i < market.getSellerNames().size(); i++) {
-                agentList.add(market.getSellerNames().get(i).getLocalName());
-            }
+//            for (int i = 0; i < market.getSellerNames().size(); i++) {
+//                agentList.add(market.getSellerNames().get(i).getLocalName());
+//            }
             agentType = "Generator";
             agentInfo = "selling.Seller";
 
         } else if (_agentType == 2) {
-            for (int i = 0; i < market.getBuyerNames().size(); i++) {
-                agentList.add(market.getBuyerNames().get(i).getLocalName());
-            }
+//            for (int i = 0; i < market.getBuyerNames().size(); i++) {
+//                agentList.add(market.getBuyerNames().get(i).getLocalName());
+//            }
             agentType = "Retailer";
             agentInfo = "buying.Buyer";
         } else if (_agentType == 3) {
-            for (int i = 0; i < market.getBuyerNames().size(); i++) {
-                agentList.add(market.getBuyerNames().get(i).getLocalName());
-            }
+//            for (int i = 0; i < market.getBuyerNames().size(); i++) {
+//                agentList.add(market.getBuyerNames().get(i).getLocalName());
+//            }
             agentType = "Consumer";
             agentInfo = "buying.Buyer";
         }
@@ -298,7 +298,7 @@ public class NewAgent_Name extends javax.swing.JFrame {
         } else {
             String warning = searchAgent(agentTable, jTextField_Name.getText().trim().replace(" ", "_"));
             if (warning.isEmpty()) {
-                market.createAgent((String) jTextField_Name.getText().trim().replace(" ", "_"), agentInfo);
+//                market.createAgent((String) jTextField_Name.getText().trim().replace(" ", "_"), agentInfo);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, warning,

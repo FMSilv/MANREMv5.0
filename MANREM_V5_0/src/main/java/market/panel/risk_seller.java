@@ -16,7 +16,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import personalassistant.PersonalAssistant;
+import personalassistant.PersonalAssistantBDI;
 
 /**
  *
@@ -24,11 +24,11 @@ import personalassistant.PersonalAssistant;
  */
 public class risk_seller extends javax.swing.JPanel {
 
-    public PersonalAssistant mark;
+    public PersonalAssistantBDI mark;
     /**
      * Creates new form risk
      */
-    public risk_seller(PersonalAssistant market) {
+    public risk_seller(PersonalAssistantBDI market) {
         mark=market;
         initComponents();
         

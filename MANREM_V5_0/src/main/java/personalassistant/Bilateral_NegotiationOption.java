@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -26,7 +27,7 @@ import org.jdesktop.swingx.JXDatePicker;
 public class Bilateral_NegotiationOption extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private final PersonalAssistant market;
+	private final PersonalAssistantBDI market;
     private final int DayHours = 24;
     private int inter_protocol, tariff, hoursPeriod, hourDeadline, minutesDeadline, dayDeadline, monthDeadline, yearDeadline;
 	JXDatePicker jXDatePicker2 = new JXDatePicker();
@@ -35,7 +36,7 @@ public class Bilateral_NegotiationOption extends javax.swing.JFrame {
     /**
      * Creates new form Bilateral_NegotiationOption
      */
-    public Bilateral_NegotiationOption(PersonalAssistant _market) {
+    public Bilateral_NegotiationOption(PersonalAssistantBDI _market) {
         market = _market;
         initComponents();
         setWindow();

@@ -17,7 +17,7 @@ import DayAheadInterface.SharedUpdateTableData;
  */
 
 public class Offers_Data extends javax.swing.JFrame {
-    PersonalAssistant PA;
+    PersonalAssistantBDI PA;
     DayaheadinterfaceBDI DAI;
     boolean isProducer;
     int AgentIndex;
@@ -35,7 +35,7 @@ public class Offers_Data extends javax.swing.JFrame {
         
     }
     
-    public Offers_Data(PersonalAssistant _PA, boolean _isProducer, int _AgentIndex){
+    public Offers_Data(PersonalAssistantBDI _PA, boolean _isProducer, int _AgentIndex){
         initComponents();
         
         this.isProducer = _isProducer;

@@ -1,20 +1,11 @@
 package scheduling;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*import com.orsonpdf.font.TableInfo;*/
-import java.io.IOException;
-import javax.swing.JFrame;
+import static scheduling.AddGenerator.prov_name;
+
 import java.util.ArrayList;
 import java.util.List;
-import producing.Producer;
-import static scheduling.AddGenerator.InfoSheet_h;
-//import static scheduling.AddGenerator.InfoSheet_t;
-import static scheduling.AddGenerator.InfoSheet_w;
-import static scheduling.AddGenerator.prov_name;
+
+import javax.swing.JFrame;
 
 /**
  *
@@ -31,7 +22,7 @@ public class AddGenerator2 extends JFrame {
     public static boolean UP;
     public static int ROW;
     public static int row_to_remove;
-    private Producer generatorData;
+//    private Producer generatorData;
     
     /**
      * Creates new form AddGenerator2

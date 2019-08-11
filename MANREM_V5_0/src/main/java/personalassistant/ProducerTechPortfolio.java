@@ -18,7 +18,7 @@ public class ProducerTechPortfolio extends javax.swing.JFrame {
     /**
      * Creates new form ProducerTechPortfolio
      */
-    private PersonalAssistant PA;
+    private PersonalAssistantBDI PA;
     private ProducerData Producer;
     private String[] TableTitle = new String[] {"ID", "Technology", "Fuel",  "Max Power (MW)","Min Power (MW)", "MCost (USD/MW)"};
     
@@ -28,7 +28,7 @@ public class ProducerTechPortfolio extends javax.swing.JFrame {
         initComponents();
     }
 
-    public ProducerTechPortfolio(ProducerData Producer, PersonalAssistant PA) {
+    public ProducerTechPortfolio(ProducerData Producer, PersonalAssistantBDI PA) {
         initComponents();
         
         this.Producer = Producer;
@@ -226,7 +226,7 @@ public class ProducerTechPortfolio extends javax.swing.JFrame {
         // TODO add your handling code here:
         
 
-        PA.killAgent(Producer.getName().replace(" ", "_"), "producing.Producer");
+//        PA.killAgent(Producer.getName().replace(" ", "_"), "producing.Producer");
         this.dispose();
         
     }//GEN-LAST:event_jButton_CancelActionPerformed

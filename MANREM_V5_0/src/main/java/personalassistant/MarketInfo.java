@@ -5,17 +5,15 @@
  */
 package personalassistant;
 
-/**
- *
- * @author João
- */
+
+
 public class MarketInfo extends javax.swing.JFrame {
 
     /**
      * Creates new form MarketInfo
      */
     
-    PersonalAssistant PA;
+    PersonalAssistantBDI PA;
     String AgentName;
     boolean isDayAhead;
     boolean isSMP;
@@ -25,7 +23,7 @@ public class MarketInfo extends javax.swing.JFrame {
     BuyerData Buyer;
 
     
-    public MarketInfo(PersonalAssistant _PA, String _AgentName, boolean _isDayAhead, boolean _isSMP , boolean _isOTC, boolean _isProducer) {
+    public MarketInfo(PersonalAssistantBDI _PA, String _AgentName, boolean _isDayAhead, boolean _isSMP , boolean _isOTC, boolean _isProducer) {
         
         AgentName = _AgentName;
         PA = _PA;
@@ -286,7 +284,7 @@ public class MarketInfo extends javax.swing.JFrame {
                     PA.Producers_Information.get(i).setStrategy(jComboBox_BStrat.getSelectedItem().toString());
                     PA.Producers_Information.get(i).setParticipating(true);
                     // calls method to inform agent it is participating
-                    PA.inform_participants(true, Producer.getName(), jComboBox_BStrat.getSelectedItem().toString());
+//                    PA.inform_participants(true, Producer.getName(), jComboBox_BStrat.getSelectedItem().toString());
                     break;
                 }    
             }
@@ -297,7 +295,7 @@ public class MarketInfo extends javax.swing.JFrame {
                     PA.Buyers_Information.get(i).setStrategy(jComboBox_BStrat.getSelectedItem().toString());
                     PA.Buyers_Information.get(i).setParticipating(true);
                     // calls method to inform agent it is participating
-                    PA.inform_participants(false, Buyer.getName(), jComboBox_BStrat.getSelectedItem().toString());
+//                    PA.inform_participants(false, Buyer.getName(), jComboBox_BStrat.getSelectedItem().toString());
                     break;
                 }    
             }

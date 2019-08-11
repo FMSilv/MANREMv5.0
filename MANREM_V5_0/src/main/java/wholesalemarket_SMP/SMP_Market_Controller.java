@@ -1,18 +1,19 @@
 package wholesalemarket_SMP;
 
-import jade.core.AID;
-import jade.core.Agent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
+
+import jade.core.Agent;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import personalassistant.PersonalAssistant;
+import personalassistant.PersonalAssistantBDI;
 
 public class SMP_Market_Controller {
 
@@ -34,11 +35,11 @@ public class SMP_Market_Controller {
         sellers = new ArrayList<>();
     }
 
-    public void start_InputData(PersonalAssistant market, boolean _isSeller, DefaultListModel _sellerNames, DefaultListModel _buyerNames) {
+    public void start_InputData(PersonalAssistantBDI market, boolean _isSeller, DefaultListModel _sellerNames, DefaultListModel _buyerNames) {
         isSeller = _isSeller;
         sellerNames = splitAgentTotalNames(_sellerNames.toString(), _sellerNames.getSize());
         buyerNames = splitAgentTotalNames(_buyerNames.toString(), _buyerNames.getSize());     
-        InputData_Window(market);
+//        InputData_Window(market);
         
     }
 
@@ -94,8 +95,8 @@ public class SMP_Market_Controller {
 // Added PersonalAssistant agent as argument for run method. João de Sá <------------------
     
     
-    public void casetudy(boolean with_wind, PersonalAssistant market){
-        PersonalAssistant PA = market;
+    public void casetudy(boolean with_wind, PersonalAssistantBDI market){
+        PersonalAssistantBDI PA = market;
         String agent;
         int id;
         int k;
@@ -391,9 +392,9 @@ public class SMP_Market_Controller {
         
     }
  
-    public void run(boolean is_Sym, PersonalAssistant market) {
+    public void run(boolean is_Sym, PersonalAssistantBDI market) {
         
-            PersonalAssistant PA = market;
+            PersonalAssistantBDI PA = market;
             String agent;
             int id;
             int k;

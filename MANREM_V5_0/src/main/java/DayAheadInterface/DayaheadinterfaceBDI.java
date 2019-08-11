@@ -17,7 +17,7 @@ import jadex.micro.annotation.ProvidedServices;
 import jadex.micro.annotation.RequiredService;
 import jadex.micro.annotation.RequiredServices;
 import personalassistant.MarketParticipants;
-import personalassistant.PersonalAssistant;
+import personalassistant.PersonalAssistantBDI;
 import personalassistant.PersonalAssistantGUI;
 import wholesalemarket_LMP.Pricing_Mechanism_Form;
 import wholesalemarket_LMP.Wholesale_InputData;
@@ -98,7 +98,7 @@ public class DayaheadinterfaceBDI{
     /*
     * Call GenCo Data GUI
     */
-    public void chooseParticipants(PersonalAssistant market, boolean isProducer, boolean isDayAhead, boolean isSMP, boolean isOTC){
+    public void chooseParticipants(PersonalAssistantBDI market, boolean isProducer, boolean isDayAhead, boolean isSMP, boolean isOTC){
         participants = new MarketParticipants(market, isProducer, isDayAhead, isSMP, isOTC);
         participants.setVisible(true);
     }

@@ -3,7 +3,7 @@ package personalassistant;
 
 import DayAheadInterface.DayaheadinterfaceBDI;
 import wholesalemarket_LMP.Wholesale_InputData;
-import jade.core.AID;
+//import jade.core.AID;
 //import jade.core.behaviours.CyclicBehaviour;
 //import jade.lang.acl.ACLMessage;
 //import jade.lang.acl.MessageTemplate;
@@ -246,7 +246,7 @@ public class PersonalAssistantGUI extends JFrame {
     private JSplitPane split_pane_log_image = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
     private Listener listener = new Listener();
     private ListListener list_listener = new ListListener();
-    private PersonalAssistant market;
+    private PersonalAssistantBDI market;
     
     private Wholesale_InputData wholesale = new Wholesale_InputData(market);
     private SMP_Market_Controller marketPool_SMP = new SMP_Market_Controller();
@@ -287,7 +287,7 @@ public class PersonalAssistantGUI extends JFrame {
     private int MARKET_TYPE = 0;
     
     
-    public PersonalAssistantGUI(PersonalAssistant market) {
+    public PersonalAssistantGUI(PersonalAssistantBDI market) {
         this.market = market;
         initComponents();
         
@@ -855,7 +855,7 @@ public class PersonalAssistantGUI extends JFrame {
     
     public void InformMarketSelection(boolean isDayahead, boolean isSMP, boolean isOTC){
         
-        market.sendMarketSelection(isDayahead, isSMP, isOTC);
+//        market.sendMarketSelection(isDayahead, isSMP, isOTC);
         
     }
 
@@ -1011,23 +1011,23 @@ public class PersonalAssistantGUI extends JFrame {
         @Override
         public void valueChanged(ListSelectionEvent e) {
 
-            if (e.getSource().equals(list_sellers)) {
-                AID seller_selected = new AID(list_sellers.getSelectedValue(), AID.ISLOCALNAME);
-                seller_info.setText("Name: " + market.searchPartialBelief(seller_selected.getLocalName(), "name").split(";")[1].split("_")[1] + "\n");
-                seller_info.append("Address: " + market.searchPartialBelief(seller_selected.getLocalName(), "address").split(";")[1].split("_")[1] + "\n");
-                seller_info.append("Telephone: " + market.searchPartialBelief(seller_selected.getLocalName(), "telephone").split(";")[1].split("_")[1] + "\n");
-                //seller_info.append("Fax: " + market.searchPartialBelief(seller_selected.getLocalName(), "fax").split(";")[1].split("_")[1] + "\n");
-                seller_info.append("E-mail: " + market.searchPartialBelief(seller_selected.getLocalName(), "email").split(";")[1].split("_")[1] + "\n");
-                repaint();
-            } else if (e.getSource().equals(list_buyers)) {
-                AID buyer_selected = new AID(list_buyers.getSelectedValue(), AID.ISLOCALNAME);
-                buyer_info.setText("Name: " + market.searchPartialBelief(buyer_selected.getLocalName(), "name").split(";")[1].split("_")[1] + "\n");
-                buyer_info.append("Address: " + market.searchPartialBelief(buyer_selected.getLocalName(), "address").split(";")[1].split("_")[1] + "\n");
-                buyer_info.append("Telephone: " + market.searchPartialBelief(buyer_selected.getLocalName(), "telephone").split(";")[1].split("_")[1] + "\n");
-                //buyer_info.append("Fax: " + market.searchPartialBelief(buyer_selected.getLocalName(), "fax").split(";")[1].split("_")[1] + "\n");
-                buyer_info.append("E-mail: " + market.searchPartialBelief(buyer_selected.getLocalName(), "email").split(";")[1].split("_")[1] + "\n");
-                repaint();
-            }
+//            if (e.getSource().equals(list_sellers)) {
+//                AID seller_selected = new AID(list_sellers.getSelectedValue(), AID.ISLOCALNAME);
+//                seller_info.setText("Name: " + market.searchPartialBelief(seller_selected.getLocalName(), "name").split(";")[1].split("_")[1] + "\n");
+//                seller_info.append("Address: " + market.searchPartialBelief(seller_selected.getLocalName(), "address").split(";")[1].split("_")[1] + "\n");
+//                seller_info.append("Telephone: " + market.searchPartialBelief(seller_selected.getLocalName(), "telephone").split(";")[1].split("_")[1] + "\n");
+//                //seller_info.append("Fax: " + market.searchPartialBelief(seller_selected.getLocalName(), "fax").split(";")[1].split("_")[1] + "\n");
+//                seller_info.append("E-mail: " + market.searchPartialBelief(seller_selected.getLocalName(), "email").split(";")[1].split("_")[1] + "\n");
+//                repaint();
+//            } else if (e.getSource().equals(list_buyers)) {
+//                AID buyer_selected = new AID(list_buyers.getSelectedValue(), AID.ISLOCALNAME);
+//                buyer_info.setText("Name: " + market.searchPartialBelief(buyer_selected.getLocalName(), "name").split(";")[1].split("_")[1] + "\n");
+//                buyer_info.append("Address: " + market.searchPartialBelief(buyer_selected.getLocalName(), "address").split(";")[1].split("_")[1] + "\n");
+//                buyer_info.append("Telephone: " + market.searchPartialBelief(buyer_selected.getLocalName(), "telephone").split(";")[1].split("_")[1] + "\n");
+//                //buyer_info.append("Fax: " + market.searchPartialBelief(buyer_selected.getLocalName(), "fax").split(";")[1].split("_")[1] + "\n");
+//                buyer_info.append("E-mail: " + market.searchPartialBelief(buyer_selected.getLocalName(), "email").split(";")[1].split("_")[1] + "\n");
+//                repaint();
+//            }
         }
     }
 
@@ -1208,21 +1208,21 @@ public class PersonalAssistantGUI extends JFrame {
                 
             } else if (e.getSource().equals(OTC_simul)){
               
-                market.createAgent("OTC_Market_Controller", "OTC.OTC_Market_Operator");
-                market.start_OTC_simul("OTC_Market_Controller");
+//                market.createAgent("OTC_Market_Controller", "OTC.OTC_Market_Operator");
+//                market.start_OTC_simul("OTC_Market_Controller");
                 try{
                     String[] message;
                     for(int i = 0; i < seller_names.getSize(); i++){
                         message = OTC_Controller.Message_generator(true, i);
-                        market.send_OTC_sim_data("OTC_Market_Controller", message);
+//                        market.send_OTC_sim_data("OTC_Market_Controller", message);
                     }
                 
                     for(int i = 0; i < buyer_names.getSize(); i++){
                         message = OTC_Controller.Message_generator(false, i);
-                        market.send_OTC_sim_data("OTC_Market_Controller", message);
+//                        market.send_OTC_sim_data("OTC_Market_Controller", message);
                     }
                     
-                    market.start_OTC_simul("OTC_Market_Controller");
+//                    market.start_OTC_simul("OTC_Market_Controller");
                 }    
                 catch(Exception ex){
                     
@@ -1419,34 +1419,36 @@ public class PersonalAssistantGUI extends JFrame {
             } else if (e.getSource().equals(marketPool_aSym_simulation)) {
                 System.out.println("Market Pool Simulation");
                 market.startsimulation(false, true, false, false);
-//                try {
-//                    marketPool_SMP.run(false, market);
-//                    
-//                } catch (Exception ex) {
-//                    JOptionPane.showMessageDialog(null, "Wholesale Simulation not available! Please insert agents' data!",
-//                            "Warning", JOptionPane.ERROR_MESSAGE);
-//                }
-            } else if (e.getSource().equals(menu_action_pairing)) {
+                try {
+                    marketPool_SMP.run(false, market);
+                    
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Wholesale Simulation not available! Please insert agents' data!",
+                            "Warning", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else if (e.getSource().equals(menu_action_pairing)) 
+            {
                 if (list_sellers.getSelectedIndex() != -1 && (list_buyers.getSelectedIndex() != -1)||(list_MediumConsumers.getSelectedIndex() != -1)||(list_LargeConsumers.getSelectedIndex() != -1)) {
-                    AID[] pair = {new AID(list_sellers.getSelectedValue(), AID.ISLOCALNAME), new AID(list_buyers.getSelectedValue(), AID.ISLOCALNAME)};
+//                    AID[] pair = {new AID(list_sellers.getSelectedValue(), AID.ISLOCALNAME), new AID(list_buyers.getSelectedValue(), AID.ISLOCALNAME)};
                     if(list_MediumConsumers.getSelectedIndex() != -1){
-                    pair[1] = new AID(list_MediumConsumers.getSelectedValue(), AID.ISLOCALNAME);
+//                    pair[1] = new AID(list_MediumConsumers.getSelectedValue(), AID.ISLOCALNAME);
                     } else if(list_LargeConsumers.getSelectedIndex() != -1){
-                        pair[1] = new AID(list_LargeConsumers.getSelectedValue(), AID.ISLOCALNAME);
+//                        pair[1] = new AID(list_LargeConsumers.getSelectedValue(), AID.ISLOCALNAME);
                     }
                     
                     
-                    String belief_seller = pair[0].getLocalName() + ";waiting_for_opponent";
-                    String belief_buyer = pair[1].getLocalName() + ";waiting_for_opponent";
-                    if (market.beliefExists(pair[0].getLocalName(), belief_seller) && market.beliefExists(pair[1].getLocalName(), belief_buyer)) {
-                        market.removeBelief(pair[0].getLocalName(), belief_seller);
-                        market.removeBelief(pair[1].getLocalName(), belief_buyer);
-                        market.addNegotiationPairAndInformThem(pair);
-                    } else {
-                        market.removeBelief(pair[0].getLocalName(), belief_seller);
-                        market.removeBelief(pair[1].getLocalName(), belief_buyer);
-                        market.addNegotiationPairAndInformThem(pair);
-                    }
+//                    String belief_seller = pair[0].getLocalName() + ";waiting_for_opponent";
+//                    String belief_buyer = pair[1].getLocalName() + ";waiting_for_opponent";
+//                    if (market.beliefExists(pair[0].getLocalName(), belief_seller) && market.beliefExists(pair[1].getLocalName(), belief_buyer)) {
+//                        market.removeBelief(pair[0].getLocalName(), belief_seller);
+//                        market.removeBelief(pair[1].getLocalName(), belief_buyer);
+//                        market.addNegotiationPairAndInformThem(pair);
+//                    } else {
+//                        market.removeBelief(pair[0].getLocalName(), belief_seller);
+//                        market.removeBelief(pair[1].getLocalName(), belief_buyer);
+//                        market.addNegotiationPairAndInformThem(pair);
+//                    }
                 }
             }
         }

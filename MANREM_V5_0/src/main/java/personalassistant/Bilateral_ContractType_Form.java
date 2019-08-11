@@ -6,10 +6,10 @@ import javax.swing.JOptionPane;
 
 public class Bilateral_ContractType_Form extends javax.swing.JFrame {
 
-    private PersonalAssistant market;
+    private PersonalAssistantBDI market;
     private int duration;
     
-    public Bilateral_ContractType_Form(PersonalAssistant _market) {
+    public Bilateral_ContractType_Form(PersonalAssistantBDI _market) {
         market = _market;
         initComponents();
         setWindow();

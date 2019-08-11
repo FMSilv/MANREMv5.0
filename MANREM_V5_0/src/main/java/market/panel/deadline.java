@@ -76,7 +76,7 @@ public class deadline extends javax.swing.JPanel {
             panel_pic_background.add(label_pic);
             panel_north.add(panel_pic_background, BorderLayout.EAST);
         } catch (IOException ex) {
-            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BuyerInputGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        
         this.add(panel_north, BorderLayout.NORTH);

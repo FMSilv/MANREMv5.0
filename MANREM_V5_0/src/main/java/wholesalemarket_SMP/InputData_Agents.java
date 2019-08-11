@@ -919,8 +919,8 @@ public class InputData_Agents extends javax.swing.JFrame {
         if (jComboBox_SelectAgent.getSelectedIndex() != 0) {
             read_usedAgents();
             if (isSeller) {
-                RiskAttitude riskAttitude = new RiskAttitude(market,null, this, jComboBox_SelectAgent.getSelectedItem().toString(), 2);
-                riskAttitude.setVisible(true);
+//                RiskAttitude riskAttitude = new RiskAttitude(market,null, this, jComboBox_SelectAgent.getSelectedItem().toString(), 2);
+//                riskAttitude.setVisible(true);
             } else {
                 openRiskAttitude();
             }

@@ -24,7 +24,7 @@ public class MarketParticipants extends javax.swing.JFrame {
      */
     
 
-    private PersonalAssistant PA;
+    private PersonalAssistantBDI PA;
     private boolean isProducer;
     private final String[] Table = {"Id", "Name", "Day Ahead", "OTC"};
     String AgentName;
@@ -41,7 +41,7 @@ public class MarketParticipants extends javax.swing.JFrame {
     
     //Alternate Constructors for class MarketParticipants 
      
-    public MarketParticipants(PersonalAssistant _PA, boolean _isProducer, boolean _isDayAhead, boolean _isSMP, boolean _isOTC) {
+    public MarketParticipants(PersonalAssistantBDI _PA, boolean _isProducer, boolean _isDayAhead, boolean _isSMP, boolean _isOTC) {
         
         initComponents();
         

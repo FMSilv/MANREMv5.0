@@ -1,6 +1,7 @@
 package wholesalemarket_LMP;
 
 import jade.core.Agent;
+import personalassistant.PersonalAssistantBDI;
 import wholesalemarket_LMP.simul.SupplierData;
 import wholesalemarket_LMP.simul.GridData;
 import wholesalemarket_LMP.simul.ProducerData;
@@ -30,7 +31,7 @@ public class Wholesale_InputData {
     private ArrayList<ProducerData> PRODUCER;
     private ArrayList<SupplierData> SUPPLIER;
     
-    private Agent market;
+    private PersonalAssistantBDI market;
 
     private GridGlobalParameters frame_GRID;
     private BranchesInputParameters frame_GRID_Branches;
@@ -42,7 +43,7 @@ public class Wholesale_InputData {
 
     public static boolean editHour = false;
 
-    public Wholesale_InputData(Agent Market) {
+    public Wholesale_InputData(PersonalAssistantBDI Market) {
         market = Market;
         initJFrames();
         VOLTAGE_BASE = 10;

@@ -1,8 +1,8 @@
 package personalassistant;
 
 import Coalition.CoalitionGui;
-import buying.Buyer;
-import buying.BuyerInputGui;
+//import buying.Buyer;
+//import buying.BuyerInputGui;
 import jade.core.AID;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -11,7 +11,7 @@ import selling.SellerInputGui;
 
 public class NewAgent_Info extends javax.swing.JFrame {
     
-    private PersonalAssistant PA;
+    private PersonalAssistantBDI PA;
     private boolean isProducer;
     private String address;
     private String phone;
@@ -21,7 +21,7 @@ public class NewAgent_Info extends javax.swing.JFrame {
     private ProducerData Producer;
     private BuyerData Buyer;
 
-    public NewAgent_Info(boolean isProducer, ProducerData Producer, BuyerData Buyer, PersonalAssistant PA) {
+    public NewAgent_Info(boolean isProducer, ProducerData Producer, BuyerData Buyer, PersonalAssistantBDI PA) {
         
         this.isProducer = isProducer;
         
@@ -230,11 +230,11 @@ public class NewAgent_Info extends javax.swing.JFrame {
             
             
             if(isProducer){
-                PA.addAgent(new AID(this.Producer.getName(), AID.ISLOCALNAME), "producer", Producer, null);
+//                PA.addAgent(new AID(this.Producer.getName(), AID.ISLOCALNAME), "producer", Producer, null);
                 ProducerTechPortfolio Portfolio = new ProducerTechPortfolio(Producer, PA);
                 Portfolio.setVisible(true);
             }else{
-                PA.addAgent(new AID(this.Buyer.getName(), AID.ISLOCALNAME), "buyer", null, Buyer);
+//                PA.addAgent(new AID(this.Buyer.getName(), AID.ISLOCALNAME), "buyer", null, Buyer);
             }
             
             this.dispose();
@@ -249,9 +249,9 @@ public class NewAgent_Info extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         if(isProducer){
-            PA.killAgent(name.replace(" ", "_"), "producing.Producer");
+//            PA.killAgent(name.replace(" ", "_"), "producing.Producer");
         }else{
-            PA.killAgent(name.replace(" ", "_"), "buying.Buyer");
+//            PA.killAgent(name.replace(" ", "_"), "buying.Buyer");
         }
             
         

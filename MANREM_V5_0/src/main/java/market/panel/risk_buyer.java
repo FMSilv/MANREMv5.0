@@ -4,19 +4,12 @@
  */
 package market.panel;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.DecimalFormat;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import personalassistant.PersonalAssistant;
+
+import personalassistant.PersonalAssistantBDI;
 
 /**
  *
@@ -24,11 +17,11 @@ import personalassistant.PersonalAssistant;
  */
 public class risk_buyer extends javax.swing.JPanel {
 
-    public PersonalAssistant mark;
+    public PersonalAssistantBDI mark;
     /**
      * Creates new form risk
      */
-    public risk_buyer(PersonalAssistant market) {
+    public risk_buyer(PersonalAssistantBDI market) {
         mark=market;
         initComponents();
         

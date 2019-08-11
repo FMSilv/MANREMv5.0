@@ -1,16 +1,17 @@
 package producing;
 
-import selling.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import javax.swing.JOptionPane;
-import personalassistant.PersonalAssistant;
+
+import personalassistant.PersonalAssistantBDI;
 import wholesalemarket_LMP.Wholesale_InputData;
 
 public class RiskAttitudeForm extends javax.swing.JFrame {
 
     private Wholesale_InputData market;
-    private PersonalAssistant data;
+    private PersonalAssistantBDI data;
     
     private String agentTotalNames;
     private String[] agentName;

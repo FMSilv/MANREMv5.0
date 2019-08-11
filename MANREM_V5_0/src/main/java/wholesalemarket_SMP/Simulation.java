@@ -13,7 +13,7 @@ import wholesalemarket_SMP.results.SMP_Wholesale_Results;
 
 
 
-import personalassistant.PersonalAssistant;
+import personalassistant.PersonalAssistantBDI;
 
 
 public class Simulation {
@@ -22,7 +22,7 @@ public class Simulation {
     private ArrayList<AgentData> sellers;
     private ArrayList<AgentOffers> buyers_sim;
     private ArrayList<AgentOffers> sellers_sim;
-    private PersonalAssistant market_agent;   //  Added market agent ref. João de Sá <-----
+    private PersonalAssistantBDI market_agent;   //  Added market agent ref. João de Sá <-----
     private boolean is_Sym;
     private String prices;   //  Added String variable to hold prices of period to send to the respective agents
     private String volumes;  //  Added String variable to hold volumes of period to sendo to the respective agent
