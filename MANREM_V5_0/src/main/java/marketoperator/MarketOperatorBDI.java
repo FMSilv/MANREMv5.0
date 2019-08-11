@@ -37,7 +37,7 @@ import services.messageServices.IMessageService;
 
 /**
  *
- * @author Hugo / Filipe Silvério
+ * @author Filipe Silvério
  */
 @Agent
 @Description("MarketOperatorBDI agent. <br>")

@@ -38,7 +38,7 @@ import webfileenergyprices.ReadWebFile;
 @Description("ExternalAssistant agent. <br>")
 @Arguments
 (value={
-	@Argument(name="chatOn", description="dayaheadinterfaceBDI.chatOn", clazz=String.class, defaultvalue="\"0\""), 
+	@Argument(name="chatOn", description="externalAssistantBDI.chatOn", clazz=String.class, defaultvalue="\"0\""), 
 })
 @RequiredServices
 ({

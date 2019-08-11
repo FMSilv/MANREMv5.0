@@ -3,10 +3,6 @@ package personalassistant;
 
 import DayAheadInterface.DayaheadinterfaceBDI;
 import wholesalemarket_LMP.Wholesale_InputData;
-//import jade.core.AID;
-//import jade.core.behaviours.CyclicBehaviour;
-//import jade.lang.acl.ACLMessage;
-//import jade.lang.acl.MessageTemplate;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -1202,10 +1198,7 @@ public class PersonalAssistantGUI extends JFrame {
 
 // <----------------------------------------------------------------------------------------------------------------------------
 
-                
-                
-                
-                
+               
             } else if (e.getSource().equals(OTC_simul)){
               
 //                market.createAgent("OTC_Market_Controller", "OTC.OTC_Market_Operator");

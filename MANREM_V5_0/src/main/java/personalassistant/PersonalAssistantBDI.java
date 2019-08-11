@@ -53,24 +53,49 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.types.clock.IClockService;
+import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentCreated;
-//import buying.BuyerInputGui;
-//import jade.core.AID;
-//import jade.core.Agent;
-//import jade.core.behaviours.CyclicBehaviour;
-//import jade.lang.acl.ACLMessage;
-//import jade.lang.acl.MessageTemplate;
-//import jade.wrapper.AgentController;
-//import jade.wrapper.PlatformController;
+import jadex.micro.annotation.Argument;
+import jadex.micro.annotation.Arguments;
+import jadex.micro.annotation.Binding;
+import jadex.micro.annotation.Description;
+import jadex.micro.annotation.Implementation;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
+import jadex.micro.annotation.RequiredService;
+import jadex.micro.annotation.RequiredServices;
 import market.panel.DR;
 import market.panel.deadline;
 import market.panel.protocol;
 import market.panel.rbuyer;
 import market.panel.rseller;
 import scheduling.EnterGENCO;
+import services.chatService.ChatService;
+import services.chatService.IChatService;
 import tools.TimeChooser;
 
 
+/**
+*
+* @author Filipe Silvério
+*/
+@Agent
+@Description("PersonalAssistant agent. <br>")
+@Arguments
+(value={
+	@Argument(name="chatOn", description="personalAssistantBDI.chatOn", clazz=String.class, defaultvalue="\"0\""), 
+})
+@RequiredServices
+({
+	@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
+	@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
+})
+@ProvidedServices
+({
+	@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class))
+})
 public class PersonalAssistantBDI{
 	
     private Bilateral_ContractType_Form contractTypeForm;
