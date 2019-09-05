@@ -53,10 +53,22 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import starterBoot.CreateAgentPlan;
+import jadex.base.Starter;
+import jadex.bdiv3.annotation.Body;
+import jadex.bdiv3.annotation.Plan;
+import jadex.bdiv3.annotation.Plans;
+import jadex.bdiv3.features.IBDIAgentFeature;
+import jadex.bridge.IExternalAccess;
 import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.bridge.service.types.clock.IClockService;
+import jadex.bridge.service.types.cms.IComponentManagementService;
+import jadex.commons.future.IFuture;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.AgentFeature;
+import jadex.micro.annotation.AgentService;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Binding;
@@ -90,13 +102,22 @@ import tools.TimeChooser;
 @RequiredServices
 ({
 	@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
-	@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
+	@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true)),
+	@RequiredService(type= IComponentManagementService.class, name = "cms", binding=@Binding(scope="platform"))
 })
 @ProvidedServices
 ({
 	@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class))
 })
+@Plans(@Plan(body=@Body(CreateAgentPlan.class)))
 public class PersonalAssistantBDI{
+	
+	@AgentFeature 
+	protected IBDIAgentFeature bdiFeature;
+	
+	@AgentService
+	private IComponentManagementService cms;
+	
 	
     private Bilateral_ContractType_Form contractTypeForm;
     Bilateral_NegotiationOption negotiationForm;
@@ -1762,7 +1783,7 @@ public class PersonalAssistantBDI{
             return;
         }else if (result == 1) {
                 //createAgent(toString,"Coalition.CoalitionFront");
-//                createAgent("Coalition","Coalition.CoalitionFront");
+                createAgent("Coalition","Coalition.CoalitionFront");
         }
     
     }
@@ -2025,6 +2046,16 @@ public class PersonalAssistantBDI{
 //            JOptionPane.showMessageDialog(null, "Entrou no catch!", "Warning", JOptionPane.WARNING_MESSAGE);
 //        }
 //    }
+    
+    
+    // Creates a new agent via Jadex platform controller
+    public void createAgent(String AgentName, String ClassName) {
+
+    	bdiFeature.adoptPlan(new CreateAgentPlan(cms, new String[]{AgentName, ClassName}));
+    	System.out.println("Agent sucessfully created!");
+    }
+    
+    
 
 //    public void killAgent(String AgentName, String ClassName) {
 //        PlatformController container = getContainerController();
