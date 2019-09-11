@@ -47,7 +47,7 @@ import services.messageServices.IMessageService;
 })
 @RequiredServices
 ({
-	@RequiredService(name="clockservice", type=IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
+	@RequiredService(name="clockservice", type =IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
 	@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
 })
 @ProvidedServices
@@ -66,7 +66,7 @@ public class MarketOperatorBDI{
 	@AgentArgument
 	protected String chatOn;
     
-    public DayAheadController DAController = new DayAheadController();
+    DayAheadController DAController = new DayAheadController();
     
     @AgentBody
     public void init()

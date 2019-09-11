@@ -2051,8 +2051,17 @@ public class PersonalAssistantBDI{
     // Creates a new agent via Jadex platform controller
     public void createAgent(String AgentName, String ClassName) {
 
-    	bdiFeature.adoptPlan(new CreateAgentPlan(cms, new String[]{AgentName, ClassName}));
-    	System.out.println("Agent sucessfully created!");
+    	try 
+    	{
+        	bdiFeature.adoptPlan(new CreateAgentPlan(cms, new String[]{AgentName, ClassName}));
+        	System.out.println("Agent sucessfully created!");
+    	}
+    	catch (Exception e) 
+    	{
+    		JOptionPane.showMessageDialog(null, "Erro ao carregar agente!", "Warning", JOptionPane.WARNING_MESSAGE);
+		}
+    	
+
     }
     
     

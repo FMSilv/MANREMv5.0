@@ -2,6 +2,7 @@ package producing;
 
 import Trader.AgentData;
 import Trader.Trader;
+import Trader.TraderBDI;
 import graphics.utility;
 import jade.core.AID;
 import jade.core.Agent;
@@ -27,7 +28,7 @@ import scheduling.ProducerScheduling;
 import xml.FileManager;
 import wholesalemarket_SMP.InputData_Agents;
 
-public class Producer extends Trader {
+public class Producer extends TraderBDI {
 
     InputData_Agents mainGenerator; 
     private int phase = 0;
@@ -111,7 +112,11 @@ public class Producer extends Trader {
                 this.setAvailiable_Tech(_avaliable_Tech);
                 
                 // Send information to PersonalAssisntant
-                addBehaviour(new helloProtocol());
+                
+                
+                
+                
+//                addBehaviour(new helloProtocol());
                 
                 // Code for introducing new producer to Personal Assistant has been changed.
                 // Previous Code is commented below

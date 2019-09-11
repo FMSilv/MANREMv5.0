@@ -1,12 +1,10 @@
 package DayAheadInterface;
 
-import services.chatService.ChatService;
-import services.chatService.IChatService;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentArgument;
-import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Binding;
@@ -19,6 +17,8 @@ import jadex.micro.annotation.RequiredServices;
 import personalassistant.MarketParticipants;
 import personalassistant.PersonalAssistantBDI;
 import personalassistant.PersonalAssistantGUI;
+import services.chatService.ChatService;
+import services.chatService.IChatService;
 import wholesalemarket_LMP.Pricing_Mechanism_Form;
 import wholesalemarket_LMP.Wholesale_InputData;
 import wholesalemarket_SMP.SMP_Market_Controller;
@@ -53,18 +53,19 @@ public class DayaheadinterfaceBDI{
     private String[][] buyerOffers = new String[23][2];
     
     /*
-     * Pricing Mechanism GUI variables
+     * Pricing Mechanism GUI variables 
      */
     private PersonalAssistantGUI mo_gui;
     private Wholesale_InputData lmpMode;
     private SMP_Market_Controller smpMode;
    
     public DayaheadinterfaceBDI(){
-        
+        System.out.println();
     }
     
-	@AgentCreated
-	public void init() {
+    @AgentBody
+	public void init()
+    {
 		
 	}
     
@@ -83,7 +84,8 @@ public class DayaheadinterfaceBDI{
         
         priceMechanism.setVisible(true);
         
-        switch(mode){
+        switch(mode)
+        {
             case "DayAheadMarket":
                 priceMechanism.editWindow_options(true);
                 break;

@@ -71,11 +71,13 @@ public class Main {
     	IComponentIdentifier cidA3 = iTupleFutA3.getFirstResult();
     	System.out.println("Started component: " + cidA3);
     	// DayaheadinterfaceBDI
-    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA4 = cms.createComponent("DayaheadinterfaceBDIAgent", "DayAheadInterface.DayaheadinterfaceBDI.class", parameters);
-    	IComponentIdentifier cidA4 = iTupleFutA4.getFirstResult();
-    	System.out.println("Started component: " + cidA4);
+//    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA4 = cms.createComponent("DayaheadinterfaceBDIAgent", "DayAheadInterface.DayaheadinterfaceBDI.class", parameters);
+//    	IComponentIdentifier cidA4 = iTupleFutA4.getFirstResult();
+//    	System.out.println("Started component: " + cidA4);
     	
-    	/** Call this to destroy conponents **/
+    	
+    	
+    	/** Call this to destroy components **/
 //    	Map<String,Object> results = cms.destroyComponent(cid).get();
     	
     }

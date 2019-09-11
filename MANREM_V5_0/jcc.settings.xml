@@ -21,7 +21,7 @@
 				<p1:String xmlns:p1="typeinfo:java.lang" __ID="2">Starter.console.height</p1:String>
 			</key>
 			<value>
-				<p1:Double xmlns:p1="typeinfo:java.lang" __ID="3" content="0.9979550102249489"></p1:Double>
+				<p1:Double xmlns:p1="typeinfo:java.lang" __ID="3" content="0.997920997920998"></p1:Double>
 			</value>
 		</entry>
 	</entries>
@@ -29,8 +29,8 @@
 ]]></p0:property>
 	</p0:properties>
 	<p0:properties __ID="14" type="Starter">
-		<p0:property __ID="15" type="leftsplit_location">0.6736842105263158</p0:property>
-		<p0:property __ID="16" type="mainsplit_location">0.24764595103578155</p0:property>
+		<p0:property __ID="15" type="leftsplit_location">0.6723768736616702</p0:property>
+		<p0:property __ID="16" type="mainsplit_location">0.49528301886792453</p0:property>
 	</p0:properties>
 	<p0:properties __ID="17" type="Chat">
 		<p0:properties __ID="18" type="panelproperties">
