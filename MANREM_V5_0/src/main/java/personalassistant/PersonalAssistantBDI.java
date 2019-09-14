@@ -512,7 +512,7 @@ public class PersonalAssistantBDI{
 	    	{
 	    		 bdiFeature.adoptPlan(new MarketOntology(params));
 	    	}
-	    	return "Chegou a MarketOperatorBDI";
+	    	return "Chegou a PersonalAssistantBDIAgent";
 	    }
 	}
     
