@@ -55,16 +55,25 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import starterBoot.CreateAgentPlan;
 import jadex.base.Starter;
+import jadex.bdiv3.IBDIAgent;
 import jadex.bdiv3.annotation.Body;
 import jadex.bdiv3.annotation.Plan;
+import jadex.bdiv3.annotation.PlanBody;
+import jadex.bdiv3.annotation.PlanPrecondition;
 import jadex.bdiv3.annotation.Plans;
+import jadex.bdiv3.annotation.ServiceTrigger;
+import jadex.bdiv3.annotation.Trigger;
 import jadex.bdiv3.features.IBDIAgentFeature;
 import jadex.bridge.IExternalAccess;
+import jadex.bridge.IInternalAccess;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.search.SServiceProvider;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.bridge.service.types.cms.IComponentManagementService;
 import jadex.commons.future.IFuture;
+import jadex.commons.future.IResultListener;
+import jadex.commons.future.IntermediateDefaultResultListener;
+import jadex.commons.gui.future.SwingResultListener;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.AgentFeature;
@@ -83,9 +92,11 @@ import market.panel.deadline;
 import market.panel.protocol;
 import market.panel.rbuyer;
 import market.panel.rseller;
+import marketoperator.MarketOperatorBDI.MarketOntology;
 import scheduling.EnterGENCO;
 import services.chatService.ChatService;
 import services.chatService.IChatService;
+import services.messageServices.IMessageService;
 import tools.TimeChooser;
 
 
@@ -107,10 +118,14 @@ import tools.TimeChooser;
 })
 @ProvidedServices
 ({
+	@ProvidedService(name="msgser", type=IMessageService.class, implementation=@Implementation(IBDIAgent.class)),
 	@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class))
 })
 @Plans(@Plan(body=@Body(CreateAgentPlan.class)))
 public class PersonalAssistantBDI{
+	
+    @Agent
+    protected IInternalAccess agent;
 	
 	@AgentFeature 
 	protected IBDIAgentFeature bdiFeature;
@@ -199,10 +214,10 @@ public class PersonalAssistantBDI{
 //        this.addBehaviour(new MessageManager());
         mo_gui = new PersonalAssistantGUI(this);    
 
-        
 //        buy_gui = new Init(this);
     }
-
+    
+    
 //    public void addAgent(AID agent, String type, ProducerData newProducer, BuyerData newBuyer) {
 //        if (type.equals("seller")) {
 //            this.seller_names.add(agent);
@@ -246,24 +261,25 @@ public class PersonalAssistantBDI{
         
         // Sends message to MarketOperator to start the simulation
 //        AID rec = new AID("MarketOperator", AID.ISLOCALNAME);
-//        
 //        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 //        msg.setOntology("market_ontology");
 //        msg.setProtocol("no_protocol");
-//        
-//        if(isSMPsym){
-//            this.Write_Input_File();
+        
+        if(isSMPsym){
+            this.Write_Input_File();
 //            msg.setContent("Start Simulation SMPsym");
-//        } else if(isSMPasym) {
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation SMPsym", "market_ontology", "no_protocol", "INFORM");
+        } else if(isSMPasym) {
 //            msg.setContent("Start Simulation SMPasym");
-//        } else if(isLMP) {
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation SMPasym", "market_ontology", "no_protocol", "INFORM");
+        } else if(isLMP) {
 //            msg.setContent("Start Simulation LMP");
-//        } else if(isOTC) {
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation LMP", "market_ontology", "no_protocol", "INFORM");
+        } else if(isOTC) {
 //            msg.setContent("Start Simulation OTC");
-//        }
-//        
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation OTC", "market_ontology", "no_protocol", "INFORM");
+        }
 //        msg.addReceiver(rec);
-//        
 //        send(msg);
         
     }
@@ -478,78 +494,130 @@ public class PersonalAssistantBDI{
 //        }
 //    }
 
+	@Plan(trigger=@Trigger(service=@ServiceTrigger(type=IMessageService.class)))
+	public class iMessageServiceTrigger
+	{
+	    @PlanPrecondition
+	    public boolean checkPrecondition(Object[] params)
+	    {
+	    	return params[1].equals(agent.getComponentIdentifier().getLocalName());
+	    }
+	    
+	    @PlanBody
+	    public String body(Object[] params)
+	    {
+	    	System.out.println("Sender: "+params[0]+"/ Receiver: "+params[1]+"/ Message: "+params[2]);
+	    	
+	    	if(params[3].equals("market_ontology"))
+	    	{
+	    		 bdiFeature.adoptPlan(new MarketOntology(params));
+	    	}
+	    	return "Chegou a MarketOperatorBDI";
+	    }
+	}
+    
+    
+    
+	@Plan
     class MarketOntology {
 
-//        private void resolve(ACLMessage msg) {
-//            
-//            if (msg.getPerformative() == ACLMessage.INFORM) {
-//                resolveInform(msg);
-//            }
-//
-//            if (msg.getPerformative() == ACLMessage.CFP) {
-//                resolveCFP(msg);
-//            }
-//            if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-//                if (text == 0) {
-//                    mo_gui.text_log.append(msg.getContent());
-//                    text++;
-//                } else {
-//                    Object aux = msg.getContent();
-//                    String[] choices4 = {"OK"};
-//                }
-//
-//            }
-//        }
-        
-//        private void resolve_hello(ACLMessage msg) {
-//            
-//            if(msg.getContent().contains("isProducer")){
-//                String info = msg.getContent();
-//                
-//                StoreProducerInfo(info);
-//                
-//            }else if(msg.getContent().contains("isBuyer")){
-//                String info = msg.getContent();
-//                
-//                StoreBuyerInfo(info);
-//            }
-//        }
-        
-//        private void resolveCFP(ACLMessage msg) {
-//            String content = msg.getContent();
-//            if (content.contains("propose_opponent")) {
-//                addBelif(msg.getSender().getLocalName(), msg.getSender().getLocalName() + ";waiting_for_opponent");
-//            }
-//        }
+    	protected String sender;
+    	protected String receiver;
+    	protected String content;
+    	protected String ontology;
+    	protected String protocol;
+    	protected String performative;
+    	
+    	public MarketOntology(Object[] params) {
+    		sender = params[0].toString();
+    		receiver = params[1].toString();
+    		content = params[2].toString();
+    		ontology = params[3].toString();
+    		protocol = params[4].toString();
+    		performative = params[5].toString();
+    	}
+		
+    	
+    	@PlanBody
+    	public void initBody()
+    	{
+          if (protocol.equals("no_protocol")) {
+        	  resolve();
+	      }
+	      if (protocol.equals("hello_protocol")) {
+	    	  resolve_hello();
+	      }
+    	}
+    	
+    	
+        private void resolve() {
+            
+            if (performative.equals("INFORM")){
+                resolveInform();
+            }
 
-//        public void resolveInform(ACLMessage msg) {
-//            String content = msg.getContent();
-//            if (content.contains(";is_buyer") || content.contains(";is_producer") ||content.contains(";is_seller") || content.contains(";is_coalition") || content.contains(";is_consumer")) {
-//                String[] content_information = content.split(";");
-//                String agent_name = content_information[0];
-//
-//                if (agent_name.equals(msg.getSender().getLocalName())) {
-//                    String[] content_split = content.split(";");
-//                    addBelif(agent_name, content_split[0] + ";" + content_split[1]);
-//                    addBelif(agent_name, content_split[0] + ";" + content_split[2]);
-//                    addBelif(agent_name, content_split[0] + ";" + content_split[3]);
-//                    addBelif(agent_name, content_split[0] + ";" + content_split[4]);
-//                    addBelif(agent_name, content_split[0] + ";" + content_split[5]);
-//                }
-//            }else if(content.contains("Offer")){
-//                
-//                Store_Offer_Data(content);
-//                
-//            }else if(content.contains("Results")){
-//                if(content.contains("SMPsym")){
-//                    Store_and_send_SMP_results(content);
-//                }else if(content.contains("SMPasym")){
-//                    Store_and_send_SMP_results(content);
-//                }
-//                
-//                
-//            }
-//        }
+            if (performative.equals("CFP")) {
+                resolveCFP();
+            }
+            if (performative.equals("ACCEPT_PROPOSAL")) {
+                if (text == 0) {
+                    mo_gui.text_log.append(content);
+                    text++;
+                } else {
+                    Object aux = content;
+                    String[] choices4 = {"OK"};
+                }
+
+            }
+        }
+        
+        private void resolve_hello() {
+            
+            if(content.contains("isProducer")){
+                String info = content;
+                
+                StoreProducerInfo(info);
+                
+            }else if(content.contains("isBuyer")){
+                String info = content;
+                
+                StoreBuyerInfo(info);
+            }
+        }
+        
+        private void resolveCFP() {
+            if (content.contains("propose_opponent")) {
+                addBelif(sender, sender + ";waiting_for_opponent");
+            }
+        }
+
+        public void resolveInform() {
+            if (content.contains(";is_buyer") || content.contains(";is_producer") ||content.contains(";is_seller") || content.contains(";is_coalition") || content.contains(";is_consumer")) {
+                String[] content_information = content.split(";");
+                String agent_name = content_information[0];
+
+                if (agent_name.equals(sender)) {
+                    String[] content_split = content.split(";");
+                    addBelif(agent_name, content_split[0] + ";" + content_split[1]);
+                    addBelif(agent_name, content_split[0] + ";" + content_split[2]);
+                    addBelif(agent_name, content_split[0] + ";" + content_split[3]);
+                    addBelif(agent_name, content_split[0] + ";" + content_split[4]);
+                    addBelif(agent_name, content_split[0] + ";" + content_split[5]);
+                }
+            }else if(content.contains("Offer")){
+                
+                Store_Offer_Data(content);
+                
+            }else if(content.contains("Results")){
+                if(content.contains("SMPsym")){
+                    Store_and_send_SMP_results(content);
+                }else if(content.contains("SMPasym")){
+                    Store_and_send_SMP_results(content);
+                }
+                
+                
+            }
+        }
     }
     
     private void Store_and_send_SMP_results(String Results){
@@ -3741,6 +3809,35 @@ public class PersonalAssistantBDI{
 //                topPanel.setVisible( true );
         }
     }
+    
+    public void sendMessage(String sender, String receiver, String messageContent, String ontology, String protocol, String performative) {
+        SServiceProvider.getServices(agent, IMessageService.class, RequiredServiceInfo.SCOPE_PLATFORM)
+        .addResultListener(new IntermediateDefaultResultListener<IMessageService>()
+        {
+	        public void intermediateResultAvailable(IMessageService ts)
+	        {
+	            ts.sendMessage(sender, receiver, messageContent, ontology, protocol, performative)
+	                .addResultListener(new SwingResultListener<String>(new IResultListener<String>()
+	            {
+	                	
+	                public void resultAvailable(String response) 
+	                {
+	                	if(null!=response) {
+		                	System.out.println("Message Received: "+ response);
+	                	}
+	                }
+	
+	                public void exceptionOccurred(Exception exception)
+	                {
+	                    exception.printStackTrace();
+	                }
+	            }));
+	        }
+        });
+    }
+    
+    
+    
 }
 
 class ComboMenuBar extends JMenuBar {

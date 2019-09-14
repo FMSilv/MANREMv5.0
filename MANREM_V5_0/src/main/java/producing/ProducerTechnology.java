@@ -28,7 +28,7 @@ public class ProducerTechnology extends javax.swing.JFrame {
         auxData = _auxData;
         //personalInfo = _personalInfo;
         initComponents();
-        setWindow(generatorData.getLocalName().replace("_", " "));
+        setWindow(generatorData.getAgentLocalName().replace("_", " "));
         initComboBox();
         initTextFields();
         defineTable(jTable_Technology, technology_struct);

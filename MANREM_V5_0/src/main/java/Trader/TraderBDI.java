@@ -5,18 +5,37 @@
  */
 package Trader;
 
+import jadex.bdiv3.IBDIAgent;
 import jadex.bdiv3.features.IBDIAgentFeature;
 import jadex.bridge.IInternalAccess;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentFeature;
+import jadex.micro.annotation.Implementation;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
+import services.chatService.ChatService;
+import services.chatService.IChatService;
+import services.messageServices.IMessageService;
 
 /**
  *
- * @author João de Sá. Based on previous Work
+ * @author Filipe Silvério. Based on previous Work
  */
 @Agent
+@ProvidedServices
+({
+	@ProvidedService(name="msgser", type=IMessageService.class, implementation=@Implementation(IBDIAgent.class)),
+	@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class))
+})
 public abstract class TraderBDI{
+	
+    @Agent
+    protected IInternalAccess agent;
+	
+    @AgentFeature 
+    protected IBDIAgentFeature bdiFeature;
+	
     //Variables that are common for every Agent Type
     public AgentData information;
     

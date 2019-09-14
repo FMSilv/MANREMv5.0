@@ -52,7 +52,7 @@ public class ProducerGui extends JFrame {
     public ProducerGui(Producer seller) {
         Listener listener = new Listener();
         this.seller = seller;
-        this.setTitle("Seller: " + seller.getLocalName());
+        this.setTitle("Seller: " + seller.getAgentLocalName());
         this.setSize(400, 600);
         this.setLocation((int) ((screen_size.getWidth() / 5) - (this.getSize().getWidth() / 2)), (int) ((screen_size.getHeight() / 2) - (this.getSize().getHeight() / 2)));
 
@@ -62,7 +62,7 @@ public class ProducerGui extends JFrame {
         text_log.setEditable(false);
         text_log.setMinimumSize(new Dimension(200, 200));
         text_log.setEditable(false);
-        if (this.seller.getLocalName().equals("RES")) {
+        if (this.seller.getAgentLocalName().equals("RES")) {
             label_image = label_image2;
         } else {
             label_image = label_image1;
@@ -105,8 +105,8 @@ public class ProducerGui extends JFrame {
         scroll_log.setPreferredSize(new Dimension(panel_center.getPreferredSize().width, panel_center.getPreferredSize().height));
         panel_center.add(split_pane_log_image, BorderLayout.NORTH);
 
-        updateLog1("Myagent:\t" + seller.getName());
-        updateLog1("Opponent:\t" + seller.getOpponent().getName());
+        updateLog1("Myagent:\t" + seller.getAgentLocalName());
+        updateLog1("Opponent:\t" + seller.getAgentLocalName());
         this.setJMenuBar(menu_bar);
         menu_actions_publicise_prices.addActionListener(listener);
         menu_actions_contract_type.addActionListener(listener);
@@ -259,7 +259,7 @@ public class ProducerGui extends JFrame {
         container.add(myPanel, BorderLayout.SOUTH);
         container.add(label_text, BorderLayout.NORTH);
 
-        int result = JOptionPane.showConfirmDialog(this, container, seller.getLocalName(), JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, container, seller.getAgentLocalName(), JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
 
             while (!prices_cb.isSelected() && !volumes_cb.isSelected() && !extras_cb.isSelected()) {
@@ -290,8 +290,8 @@ public class ProducerGui extends JFrame {
 //       System.out.println(price_volumes_to_publicise[0]);
 //                    System.out.println(price_volumes_to_publicise[1]);
         if (price_volumes_to_publicise != null) {
-            seller.addBelif("myagent", seller.getLocalName() + ";" + "prices;" + price_volumes_to_publicise[0]);
-            seller.addBelif("myagent", seller.getLocalName() + ";" + "volumes;" + price_volumes_to_publicise[1]);
+            seller.addBelif("myagent", seller.getAgentLocalName() + ";" + "prices;" + price_volumes_to_publicise[0]);
+            seller.addBelif("myagent", seller.getAgentLocalName() + ";" + "volumes;" + price_volumes_to_publicise[1]);
         }
 
     }

@@ -4,12 +4,24 @@ import Trader.AgentData;
 import Trader.Trader;
 import Trader.TraderBDI;
 import graphics.utility;
-import jade.core.AID;
-import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
-import jade.core.behaviours.CyclicBehaviour;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
+//import jade.core.AID;
+//import jade.core.Agent;
+//import jade.core.behaviours.Behaviour;
+//import jade.core.behaviours.CyclicBehaviour;
+//import jade.lang.acl.ACLMessage;
+//import jade.lang.acl.MessageTemplate;
+
+import jadex.bdiv3.annotation.Plan;
+import jadex.bdiv3.annotation.PlanBody;
+import jadex.bdiv3.annotation.PlanPrecondition;
+import jadex.bdiv3.annotation.ServiceTrigger;
+import jadex.bdiv3.annotation.Trigger;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.search.SServiceProvider;
+import jadex.commons.future.IResultListener;
+import jadex.commons.future.IntermediateDefaultResultListener;
+import jadex.commons.gui.future.SwingResultListener;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -21,10 +33,14 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import marketoperator.MarketOperatorBDI.MarketOntology;
 import scheduling.EnterGENCO;
 import scheduling.MediumValueException;
 import scheduling.MinMaxException;
 import scheduling.ProducerScheduling;
+import services.chatService.ChatService;
+import services.chatService.IChatService;
+import services.messageServices.IMessageService;
 import xml.FileManager;
 import wholesalemarket_SMP.InputData_Agents;
 
@@ -32,21 +48,21 @@ public class Producer extends TraderBDI {
 
     InputData_Agents mainGenerator; 
     private int phase = 0;
-    private FileManager file_manager = new FileManager(getLocalName());
+    private FileManager file_manager = new FileManager(this.agent.getComponentIdentifier().getLocalName());
     public EnterGENCO setPowerPlant;
     private HashMap<String, ArrayList<String>> beliefs_about_others = new HashMap();
     private ArrayList<String> beliefs_about_myagent = new ArrayList<>();
     private ArrayList<String> my_prices = new ArrayList<>();
-    private AID system_agent = new AID("PersonalAssistant", AID.ISLOCALNAME);
+//    private AID system_agent = new AID("PersonalAssistant", AID.ISLOCALNAME);
     public double calculatedscore = 0.0, counteroffer = 0;
-    private ArrayList<AID> opponents = new ArrayList<>();
+//    private ArrayList<AID> opponents = new ArrayList<>();
     private ArrayList<String> agenda_items = new ArrayList<>();
     protected ProducerGui gui = null;
     public ArrayList<double[]> received_history = new ArrayList<double[]>();
     protected ProducerInputGui input_gui = new ProducerInputGui(this);
     public ArrayList<String> Sellers = new ArrayList<String>();
     public int exist = 0;
-    private AID opponent = new AID();
+//    private AID opponent = new AID();
     final int N_PERIODS = 24;
     private Date deadline = new Date(System.currentTimeMillis() + 86400L * 7000);
     private String contract;
@@ -67,6 +83,8 @@ public class Producer extends TraderBDI {
     public int VOLUME = 1, risk = 0, ES = 0;
     public double sharing_risk = 0.5;
     public String HOURS;
+    
+    public String agentLocalName = this.agent.getComponentIdentifier().getLocalName();
     
     private boolean isPool = false;
     private boolean isSMP = false;
@@ -90,13 +108,13 @@ public class Producer extends TraderBDI {
     @Override
     protected void setup() {
         this.information = new AgentData();
-        this.addBehaviour(new MessageManager());
+//        this.addBehaviour(new MessageManager());
         executePhase(0);
     }
 
     @Override
     public void executePhase(int phase) {
-
+    	this.information = new AgentData();
         this.phase = phase;
         switch (phase) {
 
@@ -112,9 +130,6 @@ public class Producer extends TraderBDI {
                 this.setAvailiable_Tech(_avaliable_Tech);
                 
                 // Send information to PersonalAssisntant
-                
-                
-                
                 
 //                addBehaviour(new helloProtocol());
                 
@@ -235,7 +250,7 @@ public class Producer extends TraderBDI {
     
     private void send_Offers(){
         
-        ACLMessage info_msg = new ACLMessage(ACLMessage.INFORM);
+//        ACLMessage info_msg = new ACLMessage(ACLMessage.INFORM);
 
         String agent_offer = "Offer " + this.information.getName() + " Producer";
         
@@ -253,16 +268,17 @@ public class Producer extends TraderBDI {
         
         agent_offer = agent_offer + "end";
         
-        info_msg.setContent(agent_offer);
-        info_msg.setOntology("market_ontology");
-        info_msg.setProtocol("no_protocol");
-        info_msg.addReceiver(system_agent);
-        send(info_msg);
+//        info_msg.setContent(agent_offer);
+//        info_msg.setOntology("market_ontology");
+//        info_msg.setProtocol("no_protocol");
+//        info_msg.addReceiver(system_agent);
+//        send(info_msg);
+        sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistant", agent_offer, "market_ontology", "no_protocol", "INFORM");
         
     }
     
     private void read_Standardstrat(){
-        File f = new File("files\\"+getLocalName()+"\\Standard_strat.xls");
+        File f = new File("files\\"+agentLocalName+"\\Standard_strat.xls");
 
         Workbook wb;
         
@@ -296,93 +312,136 @@ public class Producer extends TraderBDI {
         }   
     }
     
-    class MessageManager extends CyclicBehaviour {
-
-        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("no_protocol"));
-
-        @Override
-        public void action() {
-
-            ACLMessage msg = myAgent.receive(mt);
-            if (msg != null) {
-                if (msg.getOntology().equals("market_ontology")) {
-                    
-                    MarketOntology market_ontology = new MarketOntology();
-                    market_ontology.resolve(msg);
-                    
-                }
-
-//<-----------------------------------------------------------------------------        
-// Commented previous code because it was not functional right now. João de Sá
-//<-----------------------------------------------------------------------------                
-                
-//                if (msg.getContent().contains(";profile;")) {
-//                    addBelif(msg.getContent().split(";")[0], msg.getContent());
-//                    gui.updateLog2("Profile received from buyer", Color.BLUE);
-//
-//                    if (phase == 3) {
-//                        phase = 4;
-//                    }
-//                } else if (msg.getContent().equals("init_conflict_validation")) {
-//                } else if (msg.getContent().equals("init_prices_request_protocol")) {
-//                } else if (msg.getContent().equals("init_agenda_definition_protocol")) {
-//                } else if (msg.getContent().equals("init_deadline_definition_protocol")) {
-//                    addBehaviour(new deadlineDefinitionProtocol(msg));
-//                } else if (msg.getContent().equals("init_contract_definition_protocol")) {
-//                    addBehaviour(new Producer.contractDefinitionProtocol(msg));
-//                } else if (msg.getContent().equals("end_negotiation")) {
-//                    input_gui.finish(gui, "");
-////                    doDelete();
-//                    gui.setVisible(false);
-//                    executePhase(0);
-//                }
-
-            } else {
-                block();
-            }
-        }
-    }
     
+    
+	@Plan(trigger=@Trigger(service=@ServiceTrigger(type=IMessageService.class)))
+	public class iMessageServiceTrigger
+	{
+	    @PlanPrecondition
+	    public boolean checkPrecondition(Object[] params)
+	    {
+	    	return params[1].equals(agent.getComponentIdentifier().getLocalName());
+	    }
+	    
+	    @PlanBody
+	    public String body(Object[] params)
+	    {
+	    	System.out.println("Sender: "+params[0]+"/ Receiver: "+params[1]+"/ Message: "+params[2]);
+	    	
+	    	if(params[3].equals("market_ontology"))
+	    	{
+	    		 bdiFeature.adoptPlan(new MarketOntology(params));
+	    	}
+	    	return "Chegou a MarketOperatorBDI";
+	    }
+	}
+    
+    
+//    class MessageManager extends CyclicBehaviour {
+//
+//        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("no_protocol"));
+//
+//        @Override
+//        public void action() {
+//
+//            ACLMessage msg = myAgent.receive(mt);
+//            if (msg != null) {
+//                if (msg.getOntology().equals("market_ontology")) {
+//                    
+//                    MarketOntology market_ontology = new MarketOntology();
+//                    market_ontology.resolve(msg);
+//                    
+//                }
+//
+////<-----------------------------------------------------------------------------        
+//// Commented previous code because it was not functional right now. João de Sá
+////<-----------------------------------------------------------------------------                
+//                
+////                if (msg.getContent().contains(";profile;")) {
+////                    addBelif(msg.getContent().split(";")[0], msg.getContent());
+////                    gui.updateLog2("Profile received from buyer", Color.BLUE);
+////
+////                    if (phase == 3) {
+////                        phase = 4;
+////                    }
+////                } else if (msg.getContent().equals("init_conflict_validation")) {
+////                } else if (msg.getContent().equals("init_prices_request_protocol")) {
+////                } else if (msg.getContent().equals("init_agenda_definition_protocol")) {
+////                } else if (msg.getContent().equals("init_deadline_definition_protocol")) {
+////                    addBehaviour(new deadlineDefinitionProtocol(msg));
+////                } else if (msg.getContent().equals("init_contract_definition_protocol")) {
+////                    addBehaviour(new Producer.contractDefinitionProtocol(msg));
+////                } else if (msg.getContent().equals("end_negotiation")) {
+////                    input_gui.finish(gui, "");
+//////                    doDelete();
+////                    gui.setVisible(false);
+////                    executePhase(0);
+////                }
+//
+//            } else {
+//                block();
+//            }
+//        }
+//    }
+    
+    @Plan
     class MarketOntology {
         
-        private void resolve(ACLMessage msg) {
-            if (msg.getPerformative() == ACLMessage.INFORM) {
-                resolveInform(msg);
+    	protected String sender;
+    	protected String receiver;
+    	protected String content;
+    	protected String ontology;
+    	protected String protocol;
+    	protected String performative;
+    	
+    	public MarketOntology(Object[] params) {
+    		sender = params[0].toString();
+    		receiver = params[1].toString();
+    		content = params[2].toString();
+    		ontology = params[3].toString();
+    		protocol = params[4].toString();
+    		performative = params[5].toString();
+    	}
+    	
+    	@PlanBody
+        private void resolve() {
+            if (performative.equals("INFORM")) {
+                resolveInform();
             }
-            if (msg.getPerformative() == ACLMessage.CFP) {
-                resolveCFP(msg);
+            if (performative.equals("CFP")) {
+                resolveCFP();
             }
         }
         
-        private void resolveInform(ACLMessage msg){
-            if(msg.getContent().contains("Dayahead")){
+        private void resolveInform(){
+            if(content.contains("Dayahead")){
                 set_isPool(true);
-                if(msg.getContent().contains("SMP")){
+                if(content.contains("SMP")){
                     set_isSMP(true);
-                }else if(msg.getContent().contains("LMP")){
+                }else if(content.contains("LMP")){
                     set_isLMP(true);
                 }
-            }else if(msg.getContent().equals("OTC")){
+            }else if(content.equals("OTC")){
                 set_isOTC(true);
-            }else if(msg.getContent().contains("Participating")){
+            }else if(content.contains("Participating")){
                 // If agent receives message informing it's participating, Participating
                 // variable is set to true and Phase is executed
                 information.setParticipating(true);
                 // Chosen Strategy is also Stored
-                if(msg.getContent().contains("Default")){
+                if(content.contains("Default")){
                     Strategy = "Default";
-                }else if(msg.getContent().contains("Moghimi")){
+                }else if(content.contains("Moghimi")){
                     Strategy = "Moghimi";
-                }else if(msg.getContent().contains("Zhang")){
+                }else if(content.contains("Zhang")){
                     Strategy = "Zhang";
-                }else if(msg.getContent().contains("Conejo")){
+                }else if(content.contains("Conejo")){
                     Strategy = "Conejo";
                 }
                 executePhase(1);
             }
         }
         
-        private void resolveCFP(ACLMessage msg){
+        private void resolveCFP(){
 
         }
             
@@ -390,7 +449,7 @@ public class Producer extends TraderBDI {
     }
     
     public void read_info() {
-        File f = new File("files\\"+getLocalName()+"\\information.xls");
+        File f = new File("files\\"+agentLocalName+"\\information.xls");
 
         Workbook wb;
         try {
@@ -404,7 +463,7 @@ public class Producer extends TraderBDI {
             
             // First col of file has name, but local name is used instead
             c = s.getCell(0,0);
-            this.information.setName(getLocalName());
+            this.information.setName(agentLocalName);
             
             // Second col of file has address
             c = s.getCell(1,0);
@@ -434,7 +493,7 @@ public class Producer extends TraderBDI {
     
     public boolean[] read_tech(){
         boolean[] _avaliable_Tech = new boolean[4];
-        File f = new File("files\\"+getLocalName()+"\\information.xls");
+        File f = new File("files\\"+agentLocalName+"\\information.xls");
         
         for(int i = 0; i < _avaliable_Tech.length; i++){
             _avaliable_Tech[i] = false;
@@ -481,96 +540,97 @@ public class Producer extends TraderBDI {
     
     
     
-    private class helloProtocol extends Behaviour {
-        
-        private int step = 0;
-
-        @Override
-        public void action() {
-
-            switch (step) {
-                case 0:
-                    
-                    // Message to be sent will have the following format
-                    // "Name";"Address";"PhoneNumber";"Email";"Objective";tech;"ThermalTechnolgies";"WindTechnologies";"HydroTechnologies"
-                    // The fields between "" refer to information within the dataStructures of this Agent
-                    // If the agent doesn't have a particular technology, the respective field will be empty
-                    // Differente avaliable technologies of a ceratain type will be separated by "_"
-                    
-                    
-                    // First part of the message contains basic information
-                    // Each field is separated by ";"
-                    ACLMessage info_msg = new ACLMessage(ACLMessage.INFORM);
-
-                    String agent_info = "" + information.getName() + ";" + "isProducer" + ";" + information.getAddress()
-                            + ";" + information.getPhone_number() + ";" + information.getEmail() + ";" + information.getObjective()+ ";";
-                    
-                    
-
-                    // Second part of the message contains avaliable technology information
-                    // Each technology is separated by ";"
-                    // Each field of information for a particular technology is separated by "_"
-                    
-                    
-                    agent_info = agent_info + "tech;";
-                    
-                    for(int i=0; i < DataThermal.size(); i++){
-                        agent_info = agent_info + DataThermal.get(i).getID() + "_";
-                        agent_info = agent_info + DataThermal.get(i).getMaxP() + "_";
-                        agent_info = agent_info + DataThermal.get(i).getMinP() + "_";
-                        agent_info = agent_info + DataThermal.get(i).getFuel() + "_";
-                        agent_info = agent_info + DataThermal.get(i).FCost + "_";
-                    }
-                    if(DataThermal.isEmpty()){
-                        agent_info = agent_info + " ";
-                    }
-                    agent_info = agent_info + ";";
-                    for(int i=0; i < DataWind.size(); i++){
-                        agent_info = agent_info + DataWind.get(i).getID() + "_";
-                        agent_info = agent_info + DataWind.get(i).MaxP + "_";
-                        agent_info = agent_info + DataWind.get(i).MinP + "_";
-                        agent_info = agent_info + DataWind.get(i).getFCost() + "_";
-                    }
-                    if(DataWind.isEmpty()){
-                        agent_info = agent_info + " ";
-                    }
-                    agent_info = agent_info + ";";
-                    for(int i=0; i < DataHydro.size(); i++){
-                        agent_info = agent_info + DataHydro.get(i).getID() + "_";
-                        agent_info = agent_info + DataHydro.get(i).getPi() + "_";
-                        agent_info = agent_info + DataHydro.get(i).getFCost() + "_";
-                    }
-                    if(DataHydro.isEmpty()){
-                        agent_info = agent_info + " ";
-                    }
-                    info_msg.setContent(agent_info);
-                    info_msg.setOntology("market_ontology");
-                    info_msg.setProtocol("hello_protocol");
-                    info_msg.addReceiver(system_agent);
-                    send(info_msg);
-                  
-                    step = 1;
-                    block();
-                    break;
-
-            }    
-                        
-        }
-
-        @Override
-        public boolean done() {
-
-            if (step == 1) {
-                
-                return true;
-
-            } else {
-                return false;
-            }
-
-        }
-        
-    }
+//    private class helloProtocol extends Behaviour {
+//        
+//        private int step = 0;
+//
+//        @Override
+//        public void action() {
+//
+//            switch (step) {
+//                case 0:
+//                    
+//                    // Message to be sent will have the following format
+//                    // "Name";"Address";"PhoneNumber";"Email";"Objective";tech;"ThermalTechnolgies";"WindTechnologies";"HydroTechnologies"
+//                    // The fields between "" refer to information within the dataStructures of this Agent
+//                    // If the agent doesn't have a particular technology, the respective field will be empty
+//                    // Differente avaliable technologies of a ceratain type will be separated by "_"
+//                    
+//                    
+//                    // First part of the message contains basic information
+//                    // Each field is separated by ";"
+////                    ACLMessage info_msg = new ACLMessage(ACLMessage.INFORM);
+//
+//                    String agent_info = "" + information.getName() + ";" + "isProducer" + ";" + information.getAddress()
+//                            + ";" + information.getPhone_number() + ";" + information.getEmail() + ";" + information.getObjective()+ ";";
+//                    
+//                    
+//
+//                    // Second part of the message contains avaliable technology information
+//                    // Each technology is separated by ";"
+//                    // Each field of information for a particular technology is separated by "_"
+//                    
+//                    
+//                    agent_info = agent_info + "tech;";
+//                    
+//                    for(int i=0; i < DataThermal.size(); i++){
+//                        agent_info = agent_info + DataThermal.get(i).getID() + "_";
+//                        agent_info = agent_info + DataThermal.get(i).getMaxP() + "_";
+//                        agent_info = agent_info + DataThermal.get(i).getMinP() + "_";
+//                        agent_info = agent_info + DataThermal.get(i).getFuel() + "_";
+//                        agent_info = agent_info + DataThermal.get(i).FCost + "_";
+//                    }
+//                    if(DataThermal.isEmpty()){
+//                        agent_info = agent_info + " ";
+//                    }
+//                    agent_info = agent_info + ";";
+//                    for(int i=0; i < DataWind.size(); i++){
+//                        agent_info = agent_info + DataWind.get(i).getID() + "_";
+//                        agent_info = agent_info + DataWind.get(i).MaxP + "_";
+//                        agent_info = agent_info + DataWind.get(i).MinP + "_";
+//                        agent_info = agent_info + DataWind.get(i).getFCost() + "_";
+//                    }
+//                    if(DataWind.isEmpty()){
+//                        agent_info = agent_info + " ";
+//                    }
+//                    agent_info = agent_info + ";";
+//                    for(int i=0; i < DataHydro.size(); i++){
+//                        agent_info = agent_info + DataHydro.get(i).getID() + "_";
+//                        agent_info = agent_info + DataHydro.get(i).getPi() + "_";
+//                        agent_info = agent_info + DataHydro.get(i).getFCost() + "_";
+//                    }
+//                    if(DataHydro.isEmpty()){
+//                        agent_info = agent_info + " ";
+//                    }
+////                    info_msg.setContent(agent_info);
+////                    info_msg.setOntology("market_ontology");
+////                    info_msg.setProtocol("hello_protocol");
+////                    info_msg.addReceiver(system_agent);
+////                    send(info_msg);
+//                    sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistant", agent_info, "market_ontology", "hello_protocol", "INFORM");
+//                    
+//                    step = 1;
+//                    block();
+//                    break;
+//
+//            }    
+//                        
+//        }
+//
+//        @Override
+//        public boolean done() {
+//
+//            if (step == 1) {
+//                
+//                return true;
+//
+//            } else {
+//                return false;
+//            }
+//
+//        }
+//        
+//    }
     
     public void set_isPool(boolean _isPool){
         this.isPool = _isPool;
@@ -644,7 +704,7 @@ public class Producer extends TraderBDI {
         DataThermal new_Data;
         
         for(int i = 2; i < row; i++){
-            GENCO_name = getLocalName();
+            GENCO_name = agentLocalName;
             c = s.getCell(0, i);
             ID = c.getContents();
             c = s.getCell(1, i);
@@ -731,7 +791,7 @@ public class Producer extends TraderBDI {
         DataHydro new_Data;
         
         for(int i = 1; i < row; i++){
-            GENCO_name = getLocalName();
+            GENCO_name = agentLocalName;
             c = s.getCell(0, i);
             ID = c.getContents();
             c = s.getCell(1, i);
@@ -812,7 +872,7 @@ public class Producer extends TraderBDI {
         
         for(int i = 2; i < row; i++){
             
-            GENCO_name = getLocalName();
+            GENCO_name = agentLocalName;
             c = s.getCell(0, i);
             ID = c.getContents();
             c = s.getCell(1, i);
@@ -863,10 +923,10 @@ public class Producer extends TraderBDI {
     
     public void updateBelifsFile() {
         // Replaces the belief file content to replicate the currest set of beliefs by the agent
-        file_manager.printXmlBelief(getLocalName(), getLocalName(), getBelifsAboutMyAgent());
+        file_manager.printXmlBelief(agentLocalName, agentLocalName, getBelifsAboutMyAgent());
         Object[] keys = getBelifsAboutOthers().keySet().toArray();
         for (int i = 0; i < keys.length; i++) {
-            file_manager.printXmlBelief(getLocalName(), keys[i].toString(), getBelifsAboutOthers().get(keys[i]));
+            file_manager.printXmlBelief(agentLocalName, keys[i].toString(), getBelifsAboutOthers().get(keys[i]));
         }
     }
 
@@ -918,14 +978,14 @@ public class Producer extends TraderBDI {
     }
 
     public void sendPricesAndVolumes() {
-
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        msg.setOntology("market_ontology");
+//        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+//        msg.setOntology("market_ontology");
         String content = searchBelief("myagent", "prices");
-        msg.addReceiver(getOpponent());
-        msg.setContent(content);
-        msg.setProtocol("no_protocol");
-        send(msg);
+//        msg.addReceiver(getOpponent());
+//        msg.setContent(content);
+//        msg.setProtocol("no_protocol");
+//        send(msg);
+        sendMessage(agent.getComponentIdentifier().getLocalName(), agentLocalName, content, "market_ontology", "no_protocol", "INFORM");        
     }
 
     public ArrayList<String> getAgendaItems() {
@@ -936,9 +996,9 @@ public class Producer extends TraderBDI {
         this.agenda_items = agenda_items;
     }
 
-    public ArrayList<AID> getOpponents() {
-        return this.opponents;
-    }
+//    public ArrayList<AID> getOpponents() {
+//        return this.opponents;
+//    }
 
     public HashMap<String, ArrayList<String>> getBelifsAboutOthers() {
         return this.beliefs_about_others;
@@ -1011,9 +1071,9 @@ public class Producer extends TraderBDI {
 
     protected void addBelif(String name, String belief) {
 // While adding a belief, if one already exists witht he same description, the new one replaces it
-        if (name.equals("myagent") || name.equals(getLocalName())) {
-            if (searchBelief(getLocalName(), belief.split(";")[1]) != null) {
-                removePartialBelief(getLocalName(), belief.split(";")[1]);
+        if (name.equals("myagent") || name.equals(agentLocalName)) {
+            if (searchBelief(agentLocalName, belief.split(";")[1]) != null) {
+                removePartialBelief(agentLocalName, belief.split(";")[1]);
             }
             getBelifsAboutMyAgent().add(belief);
         } else if (getBelifsAboutOthers().containsKey(name)) {
@@ -1033,7 +1093,7 @@ public class Producer extends TraderBDI {
 
     private boolean beliefExists(String name, String belief) {
         //checks if the belief is owned by the agent (must be completly equal, not just the description)
-        if (name.equals("myagent") || name.equals(getLocalName())) {
+        if (name.equals("myagent") || name.equals(agentLocalName)) {
             for (int i = 0; i < getBelifsAboutMyAgent().size(); i++) {
                 if (getBelifsAboutMyAgent().get(i).equals(belief)) {
                     return true;
@@ -1051,7 +1111,7 @@ public class Producer extends TraderBDI {
 
     protected String searchPartialBelief(String name, String belief) {
         // Checks if any belifs currently owned by the agent contains the segment in part_belif, if so returns it
-        if ((name.equals("myagent") || name.equals(getLocalName())) && !getBelifsAboutMyAgent().isEmpty()) {
+        if ((name.equals("myagent") || name.equals(agentLocalName)) && !getBelifsAboutMyAgent().isEmpty()) {
             for (int i = 0; i < getBelifsAboutMyAgent().size(); i++) {
                 if (getBelifsAboutMyAgent().get(i).contains(belief)) {
                     return getBelifsAboutMyAgent().get(i);
@@ -1069,7 +1129,7 @@ public class Producer extends TraderBDI {
 
     protected String searchBelief(String name, String belief_header) {
         // Checks if the belief is owned by the agent (must be completly equal) and returns it
-        if ((name.equals("myagent") || name.equals(getLocalName())) && !getBelifsAboutMyAgent().isEmpty()) {
+        if ((name.equals("myagent") || name.equals(agentLocalName)) && !getBelifsAboutMyAgent().isEmpty()) {
             for (int i = 0; i < getBelifsAboutMyAgent().size(); i++) {
                 if (getBelifsAboutMyAgent().get(i).split(";")[1].equals(belief_header)) {
                     return getBelifsAboutMyAgent().get(i);
@@ -1087,7 +1147,7 @@ public class Producer extends TraderBDI {
 
     private void removeBelief(String name, String belief) {
         //removes the exact belief received in the string
-        if (name.equals("myagent") || name.equals(getLocalName())) {
+        if (name.equals("myagent") || name.equals(agentLocalName)) {
             for (int i = 0; i < getBelifsAboutMyAgent().size(); i++) {
                 if (getBelifsAboutMyAgent().get(i).equals(belief)) {
                     getBelifsAboutMyAgent().remove(i);
@@ -1108,7 +1168,7 @@ public class Producer extends TraderBDI {
 
     private void removePartialBelief(String name, String belief) {
         // Removes a belief that partially contain the received belief
-        if (name.equals("myagent") || name.equals(getLocalName())) {
+        if (name.equals("myagent") || name.equals(agentLocalName)) {
             for (int i = 0; i < getBelifsAboutMyAgent().size(); i++) {
                 if (getBelifsAboutMyAgent().get(i).contains(belief)) {
                     getBelifsAboutMyAgent().remove(i);
@@ -1124,13 +1184,13 @@ public class Producer extends TraderBDI {
         }
     }
 
-    public AID getOpponent() {
-        return this.opponent;
-    }
-
-    public void setOpponent(AID opponent) {
-        this.opponent = opponent;
-    }
+//    public AID getOpponent() {
+//        return this.opponent;
+//    }
+//
+//    public void setOpponent(AID opponent) {
+//        this.opponent = opponent;
+//    }
 
     public int checkIfReadyToNegotiate() {
         if (this.prices_target != null && this.prices_limit != null && this.negotiation_strategy != null /*&& this.negotiation_protocol != null && this.deadline != null*/) {
@@ -1151,7 +1211,7 @@ public class Producer extends TraderBDI {
         MarketProducerAgent market_seller = new MarketProducerAgent(this);
         market_seller.NegotiationOfBilateralContracts("", ArrayListToArray(prices_target),
                 ArrayListToArray(prices_limit), ArrayListToArray(volumes_target), negotiation_strategy, negotiation_strategy_algorithm, negotiation_preference, negotiation_riskpreference, deadline, contract,
-                ArrayListToArray(transformMyBeliefToPrice()), ArrayListToArray2(transformOpponentBeliefToProfile(getOpponent().getLocalName())));
+                ArrayListToArray(transformMyBeliefToPrice()), ArrayListToArray2(transformOpponentBeliefToProfile(agentLocalName)));
     }
 
     private double[] ArrayListToArray(ArrayList<Double> array_list) {
@@ -1204,15 +1264,17 @@ public class Producer extends TraderBDI {
     }
 
     protected void terminateAgent() {
-        ACLMessage msg_end = new ACLMessage(ACLMessage.INFORM);
-        msg_end.setContent("end_negotiation");
-        msg_end.setOntology("market_ontology");
-        msg_end.setProtocol("no_protocol");
-        msg_end.setReplyWith(String.valueOf(System.currentTimeMillis()));
-        msg_end.addReceiver(getOpponent());
+//        ACLMessage msg_end = new ACLMessage(ACLMessage.INFORM);
+//        msg_end.setContent("end_negotiation");
+//        msg_end.setOntology("market_ontology");
+//        msg_end.setProtocol("no_protocol");
+//        msg_end.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//        msg_end.addReceiver(getOpponent());
 
         // ends the negotiation
-        send(msg_end);
+//        send(msg_end);
+        sendMessage(agent.getComponentIdentifier().getLocalName(), agentLocalName, "end_negotiation", "market_ontology", "no_protocol", "INFORM");        
+        
 //        doDelete();
         gui.dispose();
         executePhase(0);
@@ -1258,195 +1320,77 @@ public class Producer extends TraderBDI {
         return null;
     }
 
-    private class helloAndGetOpponentProtocol extends Behaviour {
-
-        private MessageTemplate mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-        private int step = 0;
-
-        @Override
-        public void action() {
-
-            switch (step) {
-                case 0:
-                    ACLMessage msg_exist = new ACLMessage(ACLMessage.INFORM);
-                    String agent_info = ";name_" + personal_info.get(0) + ";address_" + personal_info.get(1) + ";telephone_" + personal_info.get(2) + ";email_" + personal_info.get(3);
-                    msg_exist.setContent(getLocalName() + ";is_seller" + agent_info);
-                    msg_exist.setOntology("market_ontology");
-                    msg_exist.setProtocol("no_protocol");
-                    msg_exist.addReceiver(system_agent);
-                    if (exist == 0) {
-                        send(msg_exist);
-                    }
-
-                    ACLMessage msg_cfp_buyer = new ACLMessage(ACLMessage.CFP);
-                    msg_cfp_buyer.setContent("propose_opponent");
-                    msg_cfp_buyer.setOntology("market_ontology");
-                    msg_cfp_buyer.setProtocol("no_protocol");
-                    addBelif("myagent", getLocalName() + ";waiting_for_opponent");
-                    msg_cfp_buyer.addReceiver(system_agent);
-                    send(msg_cfp_buyer);
-
-                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-                    step = 1;
-                    block();
-                    break;
-
-                case 1:
-
-                    ACLMessage msg = myAgent.receive(mt);
-                    if (msg != null) {
-                        if (msg != null) {
-//                            if (msg.getContent().equals("spot")){
-//                                
-////                                new ProducerScheduling(personal_info.get(0)).setVisible(true);
-////                                mainGenerator.openRiskAttitude();
-//                            
-//                            }else{
-                            if (beliefExists("myagent", getLocalName() + ";waiting_for_opponent")) {
-                                removeBelief("myagent", getLocalName() + ";waiting_for_opponent");
-
-                                String[] content_information = msg.getContent().split(";");
-                                setOpponent(new AID(content_information[0], AID.ISLOCALNAME));
-
-                                step = 2;
-                            }
-//                            }
-                        } else {
-                            block();
-                        }
-
-                    } else {
-                        block();
-                    }
-                case 2:
-                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("contract_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-                    msg = myAgent.receive(mt);
-                    if (msg != null) {
-                        if (msg != null) {
-                            if (msg.getOntology().equals("contract_ontology")) {
-
-                                setNegotiationContract(msg.getContent());
-
-                                step = 3;
-
-                            }
-                        } else {
-                            block();
-                        }
-
-                    } else {
-                        block();
-                    }
-
-                case 3:
-                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("day_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-                    msg = myAgent.receive(mt);
-                    if (msg != null) {
-                        if (msg != null) {
-                            if (msg.getOntology().equals("day_ontology")) {
-
-                                setContractDuration(msg.getContent());
-
-                                step = 4;
-
-                            }
-                        } else {
-                            block();
-                        }
-
-                    } else {
-                        block();
-                    }
-
-                case 4:
-                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("inf_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-                    msg = myAgent.receive(mt);
-                    if (msg != null) {
-                        if (msg != null) {
-                            if (msg.getOntology().equals("inf_ontology")) {
-
-                                PERIODS = Integer.parseInt(msg.getContent());
-
-                                if (PERIODS == 24) {
-                                    step = 6;
-                                } else {
-                                    step = 5;
-                                }
-                            }
-                        } else {
-                            block();
-                        }
-
-                    } else {
-                        block();
-                    }
-                case 5:
-                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("hour_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-
-                    msg = myAgent.receive(mt);
-                    if (msg != null) {
-                        if (msg != null) {
-                            if (msg.getOntology().equals("hour_ontology")) {
-                                HOURS = msg.getContent();
-                                step = 6;
-                            } else {
-                                block();
-                            }
-
-                        } else {
-                            block();
-                        }
-                    }
-                case 6:
-                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("volume_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-                    msg = myAgent.receive(mt);
-                    if (msg != null) {
-                        if (msg != null) {
-                            if (msg.getOntology().equals("volume_ontology")) {
-
-                                VOLUME = Integer.parseInt(msg.getContent());
-
-                                step = 7;
-
-                            }
-                        } else {
-                            block();
-                        }
-
-                    } else {
-                        block();
-                    }
-                case 7:
-                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("risk_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-                    msg = myAgent.receive(mt);
-                    if (msg != null) {
-                        if (msg != null) {
-                            if (msg.getOntology().equals("risk_ontology")) {
-
-                                risk = Integer.parseInt(msg.getContent());
-
-                                step = 8;
-
-                            }
-                        } else {
-                            block();
-                        }
-
-                    } else {
-                        block();
-                    }
-//                    case 8:
-//                         mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("ES_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-//                                            msg = myAgent.receive(mt);
+//    private class helloAndGetOpponentProtocol extends Behaviour {
+//
+//        private MessageTemplate mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//        private int step = 0;
+//
+//        @Override
+//        public void action() {
+//
+//            switch (step) {
+//                case 0:
+//                    ACLMessage msg_exist = new ACLMessage(ACLMessage.INFORM);
+//                    String agent_info = ";name_" + personal_info.get(0) + ";address_" + personal_info.get(1) + ";telephone_" + personal_info.get(2) + ";email_" + personal_info.get(3);
+//                    msg_exist.setContent(agentLocalName + ";is_seller" + agent_info);
+//                    msg_exist.setOntology("market_ontology");
+//                    msg_exist.setProtocol("no_protocol");
+//                    msg_exist.addReceiver(system_agent);
+//                    if (exist == 0) {
+//                        send(msg_exist);
+//                    }
+//
+//                    ACLMessage msg_cfp_buyer = new ACLMessage(ACLMessage.CFP);
+//                    msg_cfp_buyer.setContent("propose_opponent");
+//                    msg_cfp_buyer.setOntology("market_ontology");
+//                    msg_cfp_buyer.setProtocol("no_protocol");
+//                    addBelif("myagent", agentLocalName + ";waiting_for_opponent");
+//                    msg_cfp_buyer.addReceiver(system_agent);
+//                    send(msg_cfp_buyer);
+//
+//                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//                    step = 1;
+//                    block();
+//                    break;
+//
+//                case 1:
+//
+//                    ACLMessage msg = myAgent.receive(mt);
 //                    if (msg != null) {
 //                        if (msg != null) {
-//                             if (msg.getOntology().equals("ES_ontology")) {
-//                                
-//                                ES = Integer.parseInt(msg.getContent());
-//                                                         
-//                                
-//                                step = 9;
-//                               
+////                            if (msg.getContent().equals("spot")){
+////                                
+//////                                new ProducerScheduling(personal_info.get(0)).setVisible(true);
+//////                                mainGenerator.openRiskAttitude();
+////                            
+////                            }else{
+//                            if (beliefExists("myagent", agentLocalName + ";waiting_for_opponent")) {
+//                                removeBelief("myagent", agentLocalName + ";waiting_for_opponent");
+//
+//                                String[] content_information = msg.getContent().split(";");
+//                                setOpponent(new AID(content_information[0], AID.ISLOCALNAME));
+//
+//                                step = 2;
+//                            }
+////                            }
+//                        } else {
+//                            block();
+//                        }
+//
+//                    } else {
+//                        block();
+//                    }
+//                case 2:
+//                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("contract_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//                    msg = myAgent.receive(mt);
+//                    if (msg != null) {
+//                        if (msg != null) {
+//                            if (msg.getOntology().equals("contract_ontology")) {
+//
+//                                setNegotiationContract(msg.getContent());
+//
+//                                step = 3;
+//
 //                            }
 //                        } else {
 //                            block();
@@ -1454,411 +1398,530 @@ public class Producer extends TraderBDI {
 //
 //                    } else {
 //                        block();
-//                    }                       
-            }
-
-        }
-
-        @Override
-        public boolean done() {
-
-            if (step == 8) {
-                executePhase(1);
-                return true;
-
-            } else {
-                return false;
-            }
-
-        }
-    }
-
-    public class sendproposal extends Behaviour {
-
-        private MessageTemplate mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
-        private int step = 0;
-
-        @Override
-        public void action() {
-
-            ACLMessage msg_exist = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
-            String agent_info = ";name_" + personal_info.get(0) + ";address_" + personal_info.get(1) + ";telephone_" + personal_info.get(2) + ";fax_" + personal_info.get(3) + ";email_" + personal_info.get(4);
-            msg_exist.setContent(getLocalName() + ";is_seller" + agent_info);
-            msg_exist.setOntology("market_ontology");
-            msg_exist.setProtocol("no_protocol");
-            msg_exist.addReceiver(system_agent);
-            send(msg_exist);
-
-            block();
-
-        }
-
-        @Override
-        public boolean done() {
-
-            if (step == 2) {
-                executePhase(1);
-                return true;
-
-            } else {
-                return false;
-            }
-
-        }
-    }
-
-    private class deadlineDefinitionProtocol extends Behaviour {
-
-        private int step = 0;
-        ACLMessage msg = null;
-        ACLMessage reply = null;
-        MessageTemplate mt = null;
-
-        public deadlineDefinitionProtocol(ACLMessage msg) {
-            this.msg = msg;
-
-        }
-
-        @Override
-        public void action() {
-
-            switch (step) {
-                case 0:
-
-                    if (msg != null) {  // Protocol initiated by opponent
-                        reply = msg.createReply();
-                        reply.setPerformative(ACLMessage.AGREE);
-                        reply.setProtocol("deadline_definition_protocol");
-                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                        mt = MessageTemplate.and(MessageTemplate.and(
-                                MessageTemplate.MatchOntology("market_ontology"),
-                                MessageTemplate.MatchProtocol("deadline_definition_protocol")), MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-
-                        send(reply);
-                        step = 2;   //Wait for a propose
-                        block();
-                        break;
-                    } else {    //Send a request for protocol init
-                        msg = new ACLMessage(ACLMessage.REQUEST);
-                        msg.setContent("init_deadline_definition_protocol");
-                        msg.setOntology("market_ontology");
-                        msg.setProtocol("no_protocol");
-                        msg.setReplyWith(String.valueOf(System.currentTimeMillis()));
-                        msg.addReceiver(getOpponent());
-
-                        mt = MessageTemplate.and(MessageTemplate.and(
-                                MessageTemplate.MatchOntology("market_ontology"),
-                                MessageTemplate.MatchProtocol("deadline_definition_protocol")),
-                                MessageTemplate.MatchInReplyTo(msg.getReplyWith()));
-
-                        send(msg);
-
-                        step = 1;   //Wait for protocol init agree
-                        block();
-                        break;
-                    }
-
-                case 1: //Wait for protocol init agree
-                    msg = receive(mt);
-                    if (msg == null) {
-                        block();
-                        break;
-                    }
-
-                    if (msg.getPerformative() == ACLMessage.AGREE) {
-                        //send first proposal
-                        String date = getInputGui().askDeadline(gui, null);
-                        if (date == null) {
-                            //Send end protocol inform
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.INFORM);
-                            reply.setContent("end_deadline_definition_protocol");
-                            send(reply);
-                            step = 3;
-                            break;
-                        }
-                        reply = msg.createReply();
-                        reply.setPerformative(ACLMessage.PROPOSE);
-                        reply.setContent(date);
-                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                        mt = MessageTemplate.and(MessageTemplate.and(
-                                MessageTemplate.MatchOntology("market_ontology"),
-                                MessageTemplate.MatchProtocol("deadline_definition_protocol")),
-                                MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-
-                        send(reply);
-                        step = 2;   //Wait for a propose
-                        block();
-                        break;
-                    }
-
-                case 2: //Wait for proposal
-                    msg = receive(mt);
-                    if (msg == null) {
-                        block();
-                        break;
-                    }
-
-                    if (msg.getPerformative() == ACLMessage.PROPOSE) {
-
-                        String date = getInputGui().askDeadline(gui, msg.getContent());
-
-                        if (date == null) {
-                            //Send end protocol inform
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.INFORM);
-                            reply.setContent("end_deadline_definition_protocol");
-                            send(reply);
-                            step = 3;
-                            break;
-                        } else if (date.equals(msg.getContent())) {
-                            //  Accept proposal
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                            reply.setContent(date);
-                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                            mt = MessageTemplate.and(MessageTemplate.and(
-                                    MessageTemplate.MatchOntology("market_ontology"),
-                                    MessageTemplate.MatchProtocol("deadline_definition_protocol")),
-                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-                            send(reply);
-                            deadline = new Date(Long.valueOf(msg.getContent()));
-                            checkIfReadyToNegotiate();
-                            block();
-                            break;
-
-                            //  Send propose msg
-                        } else if (date != null) {
-                            // Send proposal
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.PROPOSE);
-                            reply.setContent(date);
-                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                            mt = MessageTemplate.and(MessageTemplate.and(
-                                    MessageTemplate.MatchOntology("market_ontology"),
-                                    MessageTemplate.MatchProtocol("deadline_definition_protocol")),
-                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-
-                            send(reply);
-
-                            block();
-                            break;
-                        }
-
-                    } else if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-                        deadline = new Date(Long.valueOf(msg.getContent()));
-                        checkIfReadyToNegotiate();
-                        //Send end protocol inform
-                        reply = msg.createReply();
-                        reply.setPerformative(ACLMessage.INFORM);
-                        reply.setContent("end_deadline_definition_protocol");
-                        send(reply);
-                        step = 3;
-                        break;
-
-                    } else if (msg.getPerformative() == ACLMessage.INFORM) {
-                        if (msg.getContent().contains("end_deadline_definition_protocol")) {
-                            step = 3;
-                            break;
-                        }
-                    }
-
-                    break;
-            }
-        }
-
-        @Override
-        public boolean done() {
-            if (step == 3) {
-                return true;
-            }
-            return false;
-        }
-    }
-
-    private class contractDefinitionProtocol extends Behaviour {
-
-        private int step = 0;
-        String aux;
-        ACLMessage msg = null;
-        ACLMessage reply = null;
-        MessageTemplate mt = null;
-
-        public contractDefinitionProtocol(ACLMessage msg) {
-            this.msg = msg;
-
-        }
-
-        @Override
-        public void action() {
-
-            switch (step) {
-                case 0:
-
-                    if (msg != null) {  // Protocol initiated by opponent
-                        reply = msg.createReply();
-                        reply.setPerformative(ACLMessage.AGREE);
-                        reply.setProtocol("contract_definition_protocol");
-                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                        mt = MessageTemplate.and(MessageTemplate.and(
-                                MessageTemplate.MatchOntology("market_ontology"),
-                                MessageTemplate.MatchProtocol("contract_definition_protocol")), MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-
-                        send(reply);
-                        step = 2;   //Wait for a propose
-                        block();
-                        break;
-                    } else {    //Send a request for protocol init
-                        msg = new ACLMessage(ACLMessage.REQUEST);
-                        msg.setContent("init_contract_definition_protocol");
-                        msg.setOntology("market_ontology");
-                        msg.setProtocol("no_protocol");
-                        msg.setReplyWith(String.valueOf(System.currentTimeMillis()));
-                        msg.addReceiver(getOpponent());
-
-                        mt = MessageTemplate.and(MessageTemplate.and(
-                                MessageTemplate.MatchOntology("market_ontology"),
-                                MessageTemplate.MatchProtocol("contract_definition_protocol")),
-                                MessageTemplate.MatchInReplyTo(msg.getReplyWith()));
-
-                        send(msg);
-
-                        step = 1;   //Wait for protocol init agree
-                        block();
-                        break;
-                    }
-
-                case 1: //Wait for protocol init agree
-                    msg = receive(mt);
-                    if (msg == null) {
-                        block();
-                        break;
-                    }
-
-                    if (msg.getPerformative() == ACLMessage.AGREE) {
-                        //send first proposal
-                        String contract = getInputGui().askContract(gui, null);
-                        aux = contract;
-                        if (contract == null) {
-                            //Send end protocol inform
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.INFORM);
-                            reply.setContent("end_contract_definition_protocol");
-                            send(reply);
-                            step = 3;
-                            break;
-                        }
-                        reply = msg.createReply();
-                        reply.setPerformative(ACLMessage.PROPOSE);
-                        reply.setContent(contract);
-                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                        mt = MessageTemplate.and(MessageTemplate.and(
-                                MessageTemplate.MatchOntology("market_ontology"),
-                                MessageTemplate.MatchProtocol("contract_definition_protocol")),
-                                MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-
-                        send(reply);
-                        step = 2;   //Wait for a propose
-                        block();
-                        break;
-                    }
-
-                case 2: //Wait for proposal
-                    msg = receive(mt);
-                    if (msg == null) {
-                        block();
-                        break;
-                    }
-
-                    if (msg.getPerformative() == ACLMessage.PROPOSE) {
-
-                        String contract = getInputGui().askContract(gui, msg.getContent());
-                        aux = contract;
-
-                        if (contract == null) {
-                            //Send end protocol inform
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.INFORM);
-                            reply.setContent("end_contract_definition_protocol");
-                            send(reply);
-                            step = 3;
-                            break;
-                        } else if (contract.equals(msg.getContent())) {
-                            //  Accept proposal
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                            reply.setContent(contract);
-                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                            mt = MessageTemplate.and(MessageTemplate.and(
-                                    MessageTemplate.MatchOntology("market_ontology"),
-                                    MessageTemplate.MatchProtocol("contract_definition_protocol")),
-                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-                            send(reply);
-                            contract = msg.getContent();
-                            aux = contract;
-                            checkIfReadyToNegotiate();
-                            block();
-                            break;
-
-                            //  Send propose msg
-                        } else if (contract != null) {
-                            // Send proposal
-                            reply = msg.createReply();
-                            reply.setPerformative(ACLMessage.PROPOSE);
-                            reply.setContent(contract);
-                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
-
-                            mt = MessageTemplate.and(MessageTemplate.and(
-                                    MessageTemplate.MatchOntology("market_ontology"),
-                                    MessageTemplate.MatchProtocol("contract_definition_protocol")),
-                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
-
-                            send(reply);
-
-                            block();
-                            break;
-                        }
-
-                    } else if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-                        contract = msg.getContent();
-                        checkIfReadyToNegotiate();
-                        //Send end protocol inform
-                        reply = msg.createReply();
-                        reply.setPerformative(ACLMessage.INFORM);
-                        reply.setContent("end_contract_definition_protocol");
-                        send(reply);
-                        step = 3;
-                        break;
-
-                    } else if (msg.getPerformative() == ACLMessage.INFORM) {
-                        if (msg.getContent().contains("end_contract_definition_protocol")) {
-                            contract = aux;
-                            step = 3;
-                            break;
-                        }
-                    }
-
-                    break;
-            }
-        }
-        
-        
-
-        @Override
-        public boolean done() {
-            if (step == 3) {
-                return true;
-            }
-            return false;
-        }
-    }
+//                    }
+//
+//                case 3:
+//                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("day_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//                    msg = myAgent.receive(mt);
+//                    if (msg != null) {
+//                        if (msg != null) {
+//                            if (msg.getOntology().equals("day_ontology")) {
+//
+//                                setContractDuration(msg.getContent());
+//
+//                                step = 4;
+//
+//                            }
+//                        } else {
+//                            block();
+//                        }
+//
+//                    } else {
+//                        block();
+//                    }
+//
+//                case 4:
+//                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("inf_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//                    msg = myAgent.receive(mt);
+//                    if (msg != null) {
+//                        if (msg != null) {
+//                            if (msg.getOntology().equals("inf_ontology")) {
+//
+//                                PERIODS = Integer.parseInt(msg.getContent());
+//
+//                                if (PERIODS == 24) {
+//                                    step = 6;
+//                                } else {
+//                                    step = 5;
+//                                }
+//                            }
+//                        } else {
+//                            block();
+//                        }
+//
+//                    } else {
+//                        block();
+//                    }
+//                case 5:
+//                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("hour_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//
+//                    msg = myAgent.receive(mt);
+//                    if (msg != null) {
+//                        if (msg != null) {
+//                            if (msg.getOntology().equals("hour_ontology")) {
+//                                HOURS = msg.getContent();
+//                                step = 6;
+//                            } else {
+//                                block();
+//                            }
+//
+//                        } else {
+//                            block();
+//                        }
+//                    }
+//                case 6:
+//                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("volume_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//                    msg = myAgent.receive(mt);
+//                    if (msg != null) {
+//                        if (msg != null) {
+//                            if (msg.getOntology().equals("volume_ontology")) {
+//
+//                                VOLUME = Integer.parseInt(msg.getContent());
+//
+//                                step = 7;
+//
+//                            }
+//                        } else {
+//                            block();
+//                        }
+//
+//                    } else {
+//                        block();
+//                    }
+//                case 7:
+//                    mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("risk_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//                    msg = myAgent.receive(mt);
+//                    if (msg != null) {
+//                        if (msg != null) {
+//                            if (msg.getOntology().equals("risk_ontology")) {
+//
+//                                risk = Integer.parseInt(msg.getContent());
+//
+//                                step = 8;
+//
+//                            }
+//                        } else {
+//                            block();
+//                        }
+//
+//                    } else {
+//                        block();
+//                    }
+////                    case 8:
+////                         mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("ES_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+////                                            msg = myAgent.receive(mt);
+////                    if (msg != null) {
+////                        if (msg != null) {
+////                             if (msg.getOntology().equals("ES_ontology")) {
+////                                
+////                                ES = Integer.parseInt(msg.getContent());
+////                                                         
+////                                
+////                                step = 9;
+////                               
+////                            }
+////                        } else {
+////                            block();
+////                        }
+////
+////                    } else {
+////                        block();
+////                    }                       
+//            }
+//
+//        }
+//
+//        @Override
+//        public boolean done() {
+//
+//            if (step == 8) {
+//                executePhase(1);
+//                return true;
+//
+//            } else {
+//                return false;
+//            }
+//
+//        }
+//    }
+
+//    public class sendproposal extends Behaviour {
+//		private static final long serialVersionUID = 1L;
+//		
+//		private MessageTemplate mt = MessageTemplate.and(MessageTemplate.and(MessageTemplate.MatchOntology("market_ontology"), MessageTemplate.MatchProtocol("hello_protocol")), MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+//        private int step = 0;
+//
+//        @Override
+//        public void action() {
+//
+//            ACLMessage msg_exist = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
+//            String agent_info = ";name_" + personal_info.get(0) + ";address_" + personal_info.get(1) + ";telephone_" + personal_info.get(2) + ";fax_" + personal_info.get(3) + ";email_" + personal_info.get(4);
+//            msg_exist.setContent(agentLocalName + ";is_seller" + agent_info);
+//            msg_exist.setOntology("market_ontology");
+//            msg_exist.setProtocol("no_protocol");
+//            msg_exist.addReceiver(system_agent);
+//            send(msg_exist);
+//
+//            block();
+//
+//        }
+//
+//        @Override
+//        public boolean done() {
+//
+//            if (step == 2) {
+//                executePhase(1);
+//                return true;
+//
+//            } else {
+//                return false;
+//            }
+//
+//        }
+//    }
+
+//    private class deadlineDefinitionProtocol extends Behaviour {
+//
+//        private int step = 0;
+//        ACLMessage msg = null;
+//        ACLMessage reply = null;
+//        MessageTemplate mt = null;
+//
+//        public deadlineDefinitionProtocol(ACLMessage msg) {
+//            this.msg = msg;
+//
+//        }
+//
+//        @Override
+//        public void action() {
+//
+//            switch (step) {
+//                case 0:
+//
+//                    if (msg != null) {  // Protocol initiated by opponent
+//                        reply = msg.createReply();
+//                        reply.setPerformative(ACLMessage.AGREE);
+//                        reply.setProtocol("deadline_definition_protocol");
+//                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                        mt = MessageTemplate.and(MessageTemplate.and(
+//                                MessageTemplate.MatchOntology("market_ontology"),
+//                                MessageTemplate.MatchProtocol("deadline_definition_protocol")), MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//
+//                        send(reply);
+//                        step = 2;   //Wait for a propose
+//                        block();
+//                        break;
+//                    } else {    //Send a request for protocol init
+//                        msg = new ACLMessage(ACLMessage.REQUEST);
+//                        msg.setContent("init_deadline_definition_protocol");
+//                        msg.setOntology("market_ontology");
+//                        msg.setProtocol("no_protocol");
+//                        msg.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//                        msg.addReceiver(getOpponent());
+//
+//                        mt = MessageTemplate.and(MessageTemplate.and(
+//                                MessageTemplate.MatchOntology("market_ontology"),
+//                                MessageTemplate.MatchProtocol("deadline_definition_protocol")),
+//                                MessageTemplate.MatchInReplyTo(msg.getReplyWith()));
+//
+//                        send(msg);
+//
+//                        step = 1;   //Wait for protocol init agree
+//                        block();
+//                        break;
+//                    }
+//
+//                case 1: //Wait for protocol init agree
+//                    msg = receive(mt);
+//                    if (msg == null) {
+//                        block();
+//                        break;
+//                    }
+//
+//                    if (msg.getPerformative() == ACLMessage.AGREE) {
+//                        //send first proposal
+//                        String date = getInputGui().askDeadline(gui, null);
+//                        if (date == null) {
+//                            //Send end protocol inform
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.INFORM);
+//                            reply.setContent("end_deadline_definition_protocol");
+//                            send(reply);
+//                            step = 3;
+//                            break;
+//                        }
+//                        reply = msg.createReply();
+//                        reply.setPerformative(ACLMessage.PROPOSE);
+//                        reply.setContent(date);
+//                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                        mt = MessageTemplate.and(MessageTemplate.and(
+//                                MessageTemplate.MatchOntology("market_ontology"),
+//                                MessageTemplate.MatchProtocol("deadline_definition_protocol")),
+//                                MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//
+//                        send(reply);
+//                        step = 2;   //Wait for a propose
+//                        block();
+//                        break;
+//                    }
+//
+//                case 2: //Wait for proposal
+//                    msg = receive(mt);
+//                    if (msg == null) {
+//                        block();
+//                        break;
+//                    }
+//
+//                    if (msg.getPerformative() == ACLMessage.PROPOSE) {
+//
+//                        String date = getInputGui().askDeadline(gui, msg.getContent());
+//
+//                        if (date == null) {
+//                            //Send end protocol inform
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.INFORM);
+//                            reply.setContent("end_deadline_definition_protocol");
+//                            send(reply);
+//                            step = 3;
+//                            break;
+//                        } else if (date.equals(msg.getContent())) {
+//                            //  Accept proposal
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+//                            reply.setContent(date);
+//                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                            mt = MessageTemplate.and(MessageTemplate.and(
+//                                    MessageTemplate.MatchOntology("market_ontology"),
+//                                    MessageTemplate.MatchProtocol("deadline_definition_protocol")),
+//                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//                            send(reply);
+//                            deadline = new Date(Long.valueOf(msg.getContent()));
+//                            checkIfReadyToNegotiate();
+//                            block();
+//                            break;
+//
+//                            //  Send propose msg
+//                        } else if (date != null) {
+//                            // Send proposal
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.PROPOSE);
+//                            reply.setContent(date);
+//                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                            mt = MessageTemplate.and(MessageTemplate.and(
+//                                    MessageTemplate.MatchOntology("market_ontology"),
+//                                    MessageTemplate.MatchProtocol("deadline_definition_protocol")),
+//                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//
+//                            send(reply);
+//
+//                            block();
+//                            break;
+//                        }
+//
+//                    } else if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
+//                        deadline = new Date(Long.valueOf(msg.getContent()));
+//                        checkIfReadyToNegotiate();
+//                        //Send end protocol inform
+//                        reply = msg.createReply();
+//                        reply.setPerformative(ACLMessage.INFORM);
+//                        reply.setContent("end_deadline_definition_protocol");
+//                        send(reply);
+//                        step = 3;
+//                        break;
+//
+//                    } else if (msg.getPerformative() == ACLMessage.INFORM) {
+//                        if (msg.getContent().contains("end_deadline_definition_protocol")) {
+//                            step = 3;
+//                            break;
+//                        }
+//                    }
+//
+//                    break;
+//            }
+//        }
+//
+//        @Override
+//        public boolean done() {
+//            if (step == 3) {
+//                return true;
+//            }
+//            return false;
+//        }
+//    }
+
+//    private class contractDefinitionProtocol extends Behaviour {
+//
+//        private int step = 0;
+//        String aux;
+//        ACLMessage msg = null;
+//        ACLMessage reply = null;
+//        MessageTemplate mt = null;
+//
+//        public contractDefinitionProtocol(ACLMessage msg) {
+//            this.msg = msg;
+//
+//        }
+//
+//        @Override
+//        public void action() {
+//
+//            switch (step) {
+//                case 0:
+//
+//                    if (msg != null) {  // Protocol initiated by opponent
+//                        reply = msg.createReply();
+//                        reply.setPerformative(ACLMessage.AGREE);
+//                        reply.setProtocol("contract_definition_protocol");
+//                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                        mt = MessageTemplate.and(MessageTemplate.and(
+//                                MessageTemplate.MatchOntology("market_ontology"),
+//                                MessageTemplate.MatchProtocol("contract_definition_protocol")), MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//
+//                        send(reply);
+//                        step = 2;   //Wait for a propose
+//                        block();
+//                        break;
+//                    } else {    //Send a request for protocol init
+//                        msg = new ACLMessage(ACLMessage.REQUEST);
+//                        msg.setContent("init_contract_definition_protocol");
+//                        msg.setOntology("market_ontology");
+//                        msg.setProtocol("no_protocol");
+//                        msg.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//                        msg.addReceiver(getOpponent());
+//
+//                        mt = MessageTemplate.and(MessageTemplate.and(
+//                                MessageTemplate.MatchOntology("market_ontology"),
+//                                MessageTemplate.MatchProtocol("contract_definition_protocol")),
+//                                MessageTemplate.MatchInReplyTo(msg.getReplyWith()));
+//
+//                        send(msg);
+//
+//                        step = 1;   //Wait for protocol init agree
+//                        block();
+//                        break;
+//                    }
+//
+//                case 1: //Wait for protocol init agree
+//                    msg = receive(mt);
+//                    if (msg == null) {
+//                        block();
+//                        break;
+//                    }
+//
+//                    if (msg.getPerformative() == ACLMessage.AGREE) {
+//                        //send first proposal
+//                        String contract = getInputGui().askContract(gui, null);
+//                        aux = contract;
+//                        if (contract == null) {
+//                            //Send end protocol inform
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.INFORM);
+//                            reply.setContent("end_contract_definition_protocol");
+//                            send(reply);
+//                            step = 3;
+//                            break;
+//                        }
+//                        reply = msg.createReply();
+//                        reply.setPerformative(ACLMessage.PROPOSE);
+//                        reply.setContent(contract);
+//                        reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                        mt = MessageTemplate.and(MessageTemplate.and(
+//                                MessageTemplate.MatchOntology("market_ontology"),
+//                                MessageTemplate.MatchProtocol("contract_definition_protocol")),
+//                                MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//
+//                        send(reply);
+//                        step = 2;   //Wait for a propose
+//                        block();
+//                        break;
+//                    }
+//
+//                case 2: //Wait for proposal
+//                    msg = receive(mt);
+//                    if (msg == null) {
+//                        block();
+//                        break;
+//                    }
+//
+//                    if (msg.getPerformative() == ACLMessage.PROPOSE) {
+//
+//                        String contract = getInputGui().askContract(gui, msg.getContent());
+//                        aux = contract;
+//
+//                        if (contract == null) {
+//                            //Send end protocol inform
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.INFORM);
+//                            reply.setContent("end_contract_definition_protocol");
+//                            send(reply);
+//                            step = 3;
+//                            break;
+//                        } else if (contract.equals(msg.getContent())) {
+//                            //  Accept proposal
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+//                            reply.setContent(contract);
+//                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                            mt = MessageTemplate.and(MessageTemplate.and(
+//                                    MessageTemplate.MatchOntology("market_ontology"),
+//                                    MessageTemplate.MatchProtocol("contract_definition_protocol")),
+//                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//                            send(reply);
+//                            contract = msg.getContent();
+//                            aux = contract;
+//                            checkIfReadyToNegotiate();
+//                            block();
+//                            break;
+//
+//                            //  Send propose msg
+//                        } else if (contract != null) {
+//                            // Send proposal
+//                            reply = msg.createReply();
+//                            reply.setPerformative(ACLMessage.PROPOSE);
+//                            reply.setContent(contract);
+//                            reply.setReplyWith(String.valueOf(System.currentTimeMillis()));
+//
+//                            mt = MessageTemplate.and(MessageTemplate.and(
+//                                    MessageTemplate.MatchOntology("market_ontology"),
+//                                    MessageTemplate.MatchProtocol("contract_definition_protocol")),
+//                                    MessageTemplate.MatchInReplyTo(reply.getReplyWith()));
+//
+//                            send(reply);
+//
+//                            block();
+//                            break;
+//                        }
+//
+//                    } else if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
+//                        contract = msg.getContent();
+//                        checkIfReadyToNegotiate();
+//                        //Send end protocol inform
+//                        reply = msg.createReply();
+//                        reply.setPerformative(ACLMessage.INFORM);
+//                        reply.setContent("end_contract_definition_protocol");
+//                        send(reply);
+//                        step = 3;
+//                        break;
+//
+//                    } else if (msg.getPerformative() == ACLMessage.INFORM) {
+//                        if (msg.getContent().contains("end_contract_definition_protocol")) {
+//                            contract = aux;
+//                            step = 3;
+//                            break;
+//                        }
+//                    }
+//
+//                    break;
+//            }
+//        }
+//        
+//        
+//
+//        @Override
+//        public boolean done() {
+//            if (step == 3) {
+//                return true;
+//            }
+//            return false;
+//        }
+//    }
 
     public ArrayList<Producer_TechnologyData> getList_PowerPlants() {
         return list_PowerPlants;
@@ -1867,4 +1930,39 @@ public class Producer extends TraderBDI {
     public void setList_PowerPlants(ArrayList<Producer_TechnologyData> list_PowerPlants) {
         this.list_PowerPlants = list_PowerPlants;
     }
+    
+    public void sendMessage(String sender, String receiver, String messageContent, String ontology, String protocol, String performative) {
+        SServiceProvider.getServices(agent, IMessageService.class, RequiredServiceInfo.SCOPE_PLATFORM)
+        .addResultListener(new IntermediateDefaultResultListener<IMessageService>()
+        {
+	        public void intermediateResultAvailable(IMessageService ts)
+	        {
+	            ts.sendMessage(sender, receiver, messageContent, ontology, protocol, performative)
+	                .addResultListener(new SwingResultListener<String>(new IResultListener<String>()
+	            {
+	                public void resultAvailable(String response) 
+	                {
+	                	if(null!=response) {
+		                	System.out.println("Message Received: "+ response);
+	                	}
+	                }
+	
+	                public void exceptionOccurred(Exception exception)
+	                {
+	                    exception.printStackTrace();
+	                }
+	            }));
+	        }
+        });
+    }
+
+	public String getAgentLocalName() {
+		return agentLocalName;
+	}
+
+	public void setAgentLocalName(String agentLocalName) {
+		this.agentLocalName = agentLocalName;
+	}
+    
+    
 }

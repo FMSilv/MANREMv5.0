@@ -126,7 +126,8 @@ public class MarketOperatorBDI{
 	      }
     	}
     	
-      private void resolveInform(String messageContent){
+      private void resolveInform(String messageContent)
+      {
     	  String results = null;
 	      if(messageContent.toLowerCase().indexOf("Start Simulation".toLowerCase()) != -1)
 	      {
@@ -149,7 +150,8 @@ public class MarketOperatorBDI{
 	          send_results(results);
 	      }
       }
-	  private void resolveCFP(String messageContent){
+	  private void resolveCFP(String messageContent)
+	  {
 	  
 	  }
     	

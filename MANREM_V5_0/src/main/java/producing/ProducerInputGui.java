@@ -721,7 +721,7 @@ public class ProducerInputGui extends JFrame {
 //        String[] choices = {"Back","OK", "Continue"};
         String[] choices = {"Back", "OK", "Continue"};
 
-        int result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+        int result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         while (result != -1 && checkEmptyFields(tf_price_limit)) {
 
@@ -914,7 +914,7 @@ public class ProducerInputGui extends JFrame {
         pane.add(panel, BorderLayout.PAGE_START);
 
         String[] choices1 = {"Back", "OK", "Continue"};
-        int result = JOptionPane.showOptionDialog(parent, pane, "Producer: " + producer.getLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
+        int result = JOptionPane.showOptionDialog(parent, pane, "Producer: " + producer.getAgentLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
 
         if (result == 0) {
             askLimits(parent);
@@ -1203,7 +1203,7 @@ public class ProducerInputGui extends JFrame {
         pane.add(panel, BorderLayout.PAGE_START);
 
         String[] choices1 = {"Back", "OK"};
-        int result = JOptionPane.showOptionDialog(parent, pane, "Producer: " + producer.getLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
+        int result = JOptionPane.showOptionDialog(parent, pane, "Producer: " + producer.getAgentLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
 
         if (result == 0) {
             askPreference(parent);
@@ -1574,7 +1574,7 @@ public class ProducerInputGui extends JFrame {
         int result = 1;
 
         while (result == 1) {
-            result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName()/*+ " Publicity"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName()/*+ " Publicity"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
             while (result != -1 && (checkEmptyFields(tf_price))) {
 
@@ -1997,11 +1997,11 @@ public class ProducerInputGui extends JFrame {
         int result = 1;
 
 //        while (result==1){ 
-        result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+        result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         while (result != -1 && checkEmptyFields(sort_alg)) {
             JOptionPane.showMessageDialog(parent, new JLabel("<html>Some inputs are missing</html>"), "Priorities", JOptionPane.ERROR_MESSAGE);
-            result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
         }
         if (result == 0) {
 
@@ -2300,7 +2300,7 @@ public class ProducerInputGui extends JFrame {
 //        String[] choices = {"Back","OK", "Continue"};
         String[] choices = {"Back", "OK", "Continue"};
 
-        int result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+        int result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         while (result != -1 && checkEmptyFields(tf_price_limit) && checkEmptyFields(tf_price_mec) && checkEmptyFields(tf_price_target)) {
 
@@ -2477,7 +2477,7 @@ public class ProducerInputGui extends JFrame {
         //newForm.setVisible(true);
         //producer.setPersonalInfo(personal_info);
         ArrayList<String> initial_values = new ArrayList();
-        String str = producer.getLocalName();
+        String str = producer.getAgentLocalName();
         initial_values.add(str.replace("_", " "));
         initial_values.add("Rua das Palmeiras");
         initial_values.add("912362654");
@@ -2683,7 +2683,7 @@ public class ProducerInputGui extends JFrame {
 
         String[] choices2 = {"Set", "Cancel"};
 
-        int b = JOptionPane.showOptionDialog(parent, panel_center, "Producer: " + producer.getLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
+        int b = JOptionPane.showOptionDialog(parent, panel_center, "Producer: " + producer.getAgentLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
         if (b == 0) {
             producer.setNegotiationStrategy((String) comboMenu.getSelectedItem());
         }
@@ -2810,7 +2810,7 @@ public class ProducerInputGui extends JFrame {
         int b = 1;
 
         while (b == 1) {
-            int a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName() + " is using a " + tactic + " tactic", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            int a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName() + " is using a " + tactic + " tactic", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
 
             if (a == 1) {
@@ -2878,7 +2878,7 @@ public class ProducerInputGui extends JFrame {
                 panel_center.add(comboMenu, gridBagConstraints);
 
                 String[] choices2 = {"Set", "Cancel"};
-                b = JOptionPane.showOptionDialog(parent, panel_center, "Producer: " + producer.getLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
+                b = JOptionPane.showOptionDialog(parent, panel_center, "Producer: " + producer.getAgentLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
                 if (b == 0) {
                     producer.setNegotiationStrategy((String) comboMenu.getSelectedItem());
                 }
@@ -2897,11 +2897,11 @@ public class ProducerInputGui extends JFrame {
         int result = 1;
 
         while (result == 1) {
-            result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName() + " Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName() + " Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
             while (result != -1 && checkEmptyFields(ES_profile)) {
                 JOptionPane.showMessageDialog(parent, new JLabel("<html>Some inputs are missing</html>"), "Expert System Profile", JOptionPane.ERROR_MESSAGE);
-                result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName() + " Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                result = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName() + " Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
             }
             if (result == 0) {
 
@@ -3295,7 +3295,7 @@ public class ProducerInputGui extends JFrame {
         Border border = new BorderUIResource(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         um.put("OptionPane.background", Color.BLUE.darker().darker());
         ImageIcon icon = new ImageIcon("images\\retail_energy_globe2.jpg");
-        if (producer.getLocalName().equals(producer_list[1])) {
+        if (producer.getAgentLocalName().equals(producer_list[1])) {
             um.put("OptionPane.background", Color.BLUE.darker().darker().darker().darker());
 //          um.put("OptionPane.background", Color.YELLOW.darker().darker().darker());
             icon = new ImageIcon("images\\res2.jpg");
@@ -3403,7 +3403,7 @@ public class ProducerInputGui extends JFrame {
         panel.add(panel_center, BorderLayout.CENTER);
 //        panel.add(panel_left, BorderLayout.WEST);
 
-        int a = JOptionPane.showOptionDialog(parent, panel, producer.getLocalName() + " Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+        int a = JOptionPane.showOptionDialog(parent, panel, producer.getAgentLocalName() + " Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
 
@@ -3426,7 +3426,7 @@ public class ProducerInputGui extends JFrame {
         um.put("OptionPane.background", Color.BLUE.darker().darker());
         ImageIcon icon = new ImageIcon("images\\retail_energy_globe2.jpg");
         String b = "images\\retail_energy_globe2.jpg";
-        if (producer.getLocalName().equals(producer_list[1])) {
+        if (producer.getAgentLocalName().equals(producer_list[1])) {
             um.put("OptionPane.background", Color.BLUE.darker().darker().darker().darker());
 //          um.put("OptionPane.background", Color.YELLOW.darker().darker().darker());
             icon = new ImageIcon("images\\res2.jpg");
@@ -3685,7 +3685,7 @@ public class ProducerInputGui extends JFrame {
 //            propaux=1;
 //        }
         if (box != 0 && prop == 0) {
-            label_text.setText("Received " + producer.getOpponent().getLocalName() + " Proposal " + num);
+            label_text.setText("Received " + producer.getAgentLocalName() + " Proposal " + num);
 //            label_text.setText("Send Counter-Proposal "+(num-propaux));
         } else if (box != 0 && prop != 0) {
             panel_center.setMinimumSize(new Dimension(200, 30));
@@ -3694,7 +3694,7 @@ public class ProducerInputGui extends JFrame {
             panel_text_background.setPreferredSize(new Dimension(400, 60));
             label_text.setMinimumSize(new Dimension(200, 30));
             label_text.setPreferredSize(new Dimension(400, 60));
-            label_text.setText("<html>You have Received the " + producer.getOpponent().getLocalName() + "<br>Proposal " + num + ", Better than the calculated one.<br>Acceptance is recomended.</html>");
+            label_text.setText("<html>You have Received the " + producer.getAgentLocalName() + "<br>Proposal " + num + ", Better than the calculated one.<br>Acceptance is recomended.</html>");
         }
 
         label_text.setFont(font_2);
@@ -4075,7 +4075,7 @@ public class ProducerInputGui extends JFrame {
 
         int a = 2;
         while (a == 2 || a == 3) {
-            a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
             if (a == 3) {
                 border = new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0));
                 um.put("OptionPane.border", border);
@@ -4143,7 +4143,7 @@ public class ProducerInputGui extends JFrame {
                     JOptionPane.showOptionDialog(parent, "Some value(s) exceeded the pre-negotiation Limits", " WARNING", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, choices3, null);
                     border = new BorderUIResource(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     um.put("OptionPane.border", border);
-                    a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getLocalName() + " Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+                    a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getAgentLocalName() + " Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
                 } else {
                     j = -1;
                 }
@@ -4173,7 +4173,7 @@ public class ProducerInputGui extends JFrame {
 
         um.put("OptionPane.background", Color.BLUE.darker().darker());
         ImageIcon icon = new ImageIcon("images\\Energy_Buying_Group2.jpg");
-        if (producer.getLocalName().equals(producer_list[1])) {
+        if (producer.getAgentLocalName().equals(producer_list[1])) {
             um.put("OptionPane.background", Color.ORANGE.darker().darker().darker().darker());
             icon = new ImageIcon("images\\david_aggregation2.jpg");
         }
@@ -4739,7 +4739,7 @@ public class ProducerInputGui extends JFrame {
         int a = 2;
         while (a == 2) {
 
-            a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
+            a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
 
             int j = 0;
             while (j >= 0) {
@@ -4773,7 +4773,7 @@ public class ProducerInputGui extends JFrame {
                     JOptionPane.showOptionDialog(parent, "Some value(s) exceeded the pre-negotiation Limits", " WARNING", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, choices3, null);
                     border = new BorderUIResource(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     um.put("OptionPane.border", border);
-                    a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getLocalName() + " Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
+                    a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getAgentLocalName() + " Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2, null);
                 } else {
                     j = -1;
                 }
@@ -4857,7 +4857,7 @@ public class ProducerInputGui extends JFrame {
         String[] choices4 = {"OK"};
         ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
 
-        int a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4, null);
+        int a = JOptionPane.showOptionDialog(parent, panel, "Producer: " + producer.getAgentLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4, null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
 
@@ -4937,7 +4937,7 @@ public class ProducerInputGui extends JFrame {
 
         panel_center.add(l1, gridBagConstraints);
 
-        JLabel l2 = new JLabel("Agreement with " + producer.getOpponent().getLocalName());
+        JLabel l2 = new JLabel("Agreement with " + producer.getAgentLocalName());
         l2.setFont(font_1);
         l2.setHorizontalAlignment(SwingConstants.CENTER);
         gridBagConstraints = new GridBagConstraints();
@@ -4953,7 +4953,7 @@ public class ProducerInputGui extends JFrame {
         String[] choices4 = {"OK"};
         ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
 
-        int a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getLocalName() + " Terminating Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4, null);
+        int a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getAgentLocalName() + " Terminating Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4, null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
 
@@ -5022,7 +5022,7 @@ public class ProducerInputGui extends JFrame {
 
         panel_center.add(l, gridBagConstraints);
 
-        JLabel l1 = new JLabel("Sorry, your deal with " + producer.getOpponent().getLocalName() + " have");
+        JLabel l1 = new JLabel("Sorry, your deal with " + producer.getAgentLocalName() + " have");
         l1.setFont(font_1);
         l1.setHorizontalAlignment(SwingConstants.CENTER);
         gridBagConstraints = new GridBagConstraints();
@@ -5049,7 +5049,7 @@ public class ProducerInputGui extends JFrame {
         String[] choices4 = {"OK"};
         ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
 
-        int a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getLocalName() + " Terminating Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4, null);
+        int a = JOptionPane.showOptionDialog(parent, panel, "Producer " + producer.getAgentLocalName() + " Terminating Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4, null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
 
@@ -5104,7 +5104,7 @@ public class ProducerInputGui extends JFrame {
 //
 //        panel_center.setLayout(new GridBagLayout());
         //Panel center
-        JLabel l = new JLabel(producer.getOpponent().getLocalName() + " Terminated the Negotiation");
+        JLabel l = new JLabel(producer.getAgentLocalName() + " Terminated the Negotiation");
         if (!msg.equals("")) {
             l = new JLabel(msg);
         }
@@ -5142,7 +5142,7 @@ public class ProducerInputGui extends JFrame {
         String[] choices4 = {"OK"};
 //       ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
 
-        int a = JOptionPane.showOptionDialog(parent, l, "Producer " + producer.getLocalName() + " Terminating Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, choices4, null);
+        int a = JOptionPane.showOptionDialog(parent, l, "Producer " + producer.getAgentLocalName() + " Terminating Negotiation", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, choices4, null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
 
     }
