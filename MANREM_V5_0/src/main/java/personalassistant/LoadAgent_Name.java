@@ -49,7 +49,7 @@ public class LoadAgent_Name extends javax.swing.JFrame {
 //                agentList.add(market.getProducerNames().get(i).getLocalName());
 //            }
             agentType = "Producer";
-            agentInfo = "producing.Producer";
+            agentInfo = "producing.ProducerBDI";
         }
         initComboBox(_agentNameList);
         configWindowType();

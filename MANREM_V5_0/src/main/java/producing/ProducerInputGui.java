@@ -112,7 +112,7 @@ public class ProducerInputGui extends JFrame {
     public String[] listConcession;
     public ProducerGui Parent;
     private JComboBox predefined_ES = new JComboBox(tactics);
-    private final Producer producer;
+    private final ProducerBDI producer;
     private String location = "images\\";
     private String[] sort_titles = {"Price", "Volume", "User Defined"};
     private JComboBox cb_sort_titles = new JComboBox(sort_titles);
@@ -146,7 +146,7 @@ public class ProducerInputGui extends JFrame {
 
     public EnterGENCO setPowerPlant;
 
-    public ProducerInputGui(Producer producer) {
+    public ProducerInputGui(ProducerBDI producer) {
         this.producer = producer;
         tf_price_target = new JTextField[PERIODS];
         tf_volume_target = new JTextField[PERIODS];

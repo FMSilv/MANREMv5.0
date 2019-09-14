@@ -31,7 +31,7 @@ public class CreateAgentPlan {
 	    	CreationInfo parameters = new CreationInfo(SUtil.createHashMap(new String[]{"agentName", "className"}, new Object[]{agentName, className}));
 	    	
 	    	/** Starting the component **/
-	    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFut = this.cms.createComponent(agentName, "Trader.TraderBDI.class", parameters);
+	    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFut = this.cms.createComponent(agentName, className+".class", parameters);
 	    	IComponentIdentifier cid = iTupleFut.getFirstResult().getParent();
 	    	System.out.println("Started component: " + cid + " - " + params[0]);
 	  }

@@ -36,9 +36,9 @@ public class MarketProducerAgent {
     private int maxPrice;
     private int repliesCnt = 0; // The counter of replies from buyer agents
     private double[] sent_history;
-    private Producer seller;
+    private ProducerBDI seller;
 
-    public MarketProducerAgent(Producer seller) {
+    public MarketProducerAgent(ProducerBDI seller) {
         this.seller = seller;
     }
 

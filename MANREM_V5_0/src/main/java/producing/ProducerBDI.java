@@ -10,17 +10,34 @@ import graphics.utility;
 //import jade.core.behaviours.CyclicBehaviour;
 //import jade.lang.acl.ACLMessage;
 //import jade.lang.acl.MessageTemplate;
-
+import jadex.bdiv3.IBDIAgent;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanPrecondition;
 import jadex.bdiv3.annotation.ServiceTrigger;
 import jadex.bdiv3.annotation.Trigger;
+import jadex.bdiv3.features.IBDIAgentFeature;
+import jadex.bdiv3.runtime.ChangeEvent;
+import jadex.bridge.IInternalAccess;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.search.SServiceProvider;
+import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.future.IResultListener;
 import jadex.commons.future.IntermediateDefaultResultListener;
 import jadex.commons.gui.future.SwingResultListener;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentArgument;
+import jadex.micro.annotation.AgentBody;
+import jadex.micro.annotation.AgentFeature;
+import jadex.micro.annotation.Argument;
+import jadex.micro.annotation.Arguments;
+import jadex.micro.annotation.Binding;
+import jadex.micro.annotation.Description;
+import jadex.micro.annotation.Implementation;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
+import jadex.micro.annotation.RequiredService;
+import jadex.micro.annotation.RequiredServices;
 
 import java.awt.Color;
 import java.io.File;
@@ -44,11 +61,37 @@ import services.messageServices.IMessageService;
 import xml.FileManager;
 import wholesalemarket_SMP.InputData_Agents;
 
-public class Producer extends TraderBDI {
 
+@Agent
+@Description("ProducerBDI agent. <br>")
+@Arguments
+(value={
+	@Argument(name="chatOn", description="producerBDI.chatOn", clazz=String.class, defaultvalue="\"0\"")
+})
+@RequiredServices
+({
+	@RequiredService(name="clockservice", type =IClockService.class, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM)),
+	@RequiredService(name="chatservices", type=IChatService.class, multiple=true, binding=@Binding(scope=RequiredServiceInfo.SCOPE_PLATFORM, dynamic=true))
+})
+@ProvidedServices
+({
+	@ProvidedService(name="msgser", type=IMessageService.class, implementation=@Implementation(IBDIAgent.class)),
+	@ProvidedService(type=IChatService.class, implementation=@Implementation(ChatService.class))
+})
+public class ProducerBDI{
+
+    @Agent
+    protected IInternalAccess agent;
+	
+    @AgentFeature 
+    protected IBDIAgentFeature bdiFeature;
+    
+	@AgentArgument
+	protected String chatOn;
+	
     InputData_Agents mainGenerator; 
     private int phase = 0;
-    private FileManager file_manager = new FileManager(this.agent.getComponentIdentifier().getLocalName());
+    private FileManager file_manager = new FileManager(agent.getComponentIdentifier().getLocalName());
     public EnterGENCO setPowerPlant;
     private HashMap<String, ArrayList<String>> beliefs_about_others = new HashMap();
     private ArrayList<String> beliefs_about_myagent = new ArrayList<>();
@@ -84,7 +127,7 @@ public class Producer extends TraderBDI {
     public double sharing_risk = 0.5;
     public String HOURS;
     
-    public String agentLocalName = this.agent.getComponentIdentifier().getLocalName();
+    public String agentLocalName = agent.getComponentIdentifier().getLocalName();
     
     private boolean isPool = false;
     private boolean isSMP = false;
@@ -105,16 +148,14 @@ public class Producer extends TraderBDI {
     
     public AgentData information;
 
-    @Override
+    @AgentBody
     protected void setup() {
         this.information = new AgentData();
 //        this.addBehaviour(new MessageManager());
         executePhase(0);
     }
 
-    @Override
     public void executePhase(int phase) {
-    	this.information = new AgentData();
         this.phase = phase;
         switch (phase) {
 
@@ -130,8 +171,9 @@ public class Producer extends TraderBDI {
                 this.setAvailiable_Tech(_avaliable_Tech);
                 
                 // Send information to PersonalAssisntant
-                
 //                addBehaviour(new helloProtocol());
+        		bdiFeature.adoptPlan("helloProtocol");
+
                 
                 // Code for introducing new producer to Personal Assistant has been changed.
                 // Previous Code is commented below
@@ -273,7 +315,7 @@ public class Producer extends TraderBDI {
 //        info_msg.setProtocol("no_protocol");
 //        info_msg.addReceiver(system_agent);
 //        send(info_msg);
-        sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistant", agent_offer, "market_ontology", "no_protocol", "INFORM");
+        sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistantBDIAgent", agent_offer, "market_ontology", "no_protocol", "INFORM");
         
     }
     
@@ -306,9 +348,9 @@ public class Producer extends TraderBDI {
 //            }
 
         } catch (IOException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BiffException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
         }   
     }
     
@@ -485,9 +527,9 @@ public class Producer extends TraderBDI {
             this.information.setParticipating(false);
             
         } catch (BiffException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -530,15 +572,73 @@ public class Producer extends TraderBDI {
             
             
         } catch (BiffException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return _avaliable_Tech;
     }
     
     
+	@Plan
+	public void helloProtocol() {
+	    // Message to be sent will have the following format
+	    // "Name";"Address";"PhoneNumber";"Email";"Objective";tech;"ThermalTechnolgies";"WindTechnologies";"HydroTechnologies"
+	    // The fields between "" refer to information within the dataStructures of this Agent
+	    // If the agent doesn't have a particular technology, the respective field will be empty
+	    // Differente avaliable technologies of a ceratain type will be separated by "_"
+	            
+	    // First part of the message contains basic information
+	    // Each field is separated by ";"
+
+		String agent_info = "" + information.getName() + ";" + "isProducer" + ";" + information.getAddress()
+                      + ";" + information.getPhone_number() + ";" + information.getEmail() + ";" + information.getObjective()+ ";";
+
+		// Second part of the message contains avaliable technology information
+        // Each technology is separated by ";"
+        // Each field of information for a particular technology is separated by "_"
+              
+        agent_info = agent_info + "tech;";
+              
+        for(int i=0; i < DataThermal.size(); i++)
+        {
+        	agent_info = agent_info + DataThermal.get(i).getID() + "_";
+            agent_info = agent_info + DataThermal.get(i).getMaxP() + "_";
+            agent_info = agent_info + DataThermal.get(i).getMinP() + "_";
+            agent_info = agent_info + DataThermal.get(i).getFuel() + "_";
+            agent_info = agent_info + DataThermal.get(i).FCost + "_";
+        }
+        if(DataThermal.isEmpty())
+        {
+        	agent_info = agent_info + " ";
+        }
+        agent_info = agent_info + ";";
+        for(int i=0; i < DataWind.size(); i++)
+        {
+        	agent_info = agent_info + DataWind.get(i).getID() + "_";
+        	agent_info = agent_info + DataWind.get(i).MaxP + "_";
+        	agent_info = agent_info + DataWind.get(i).MinP + "_";
+        	agent_info = agent_info + DataWind.get(i).getFCost() + "_";
+        }
+        if(DataWind.isEmpty())
+        {
+        	agent_info = agent_info + " ";
+        }
+        agent_info = agent_info + ";";
+        for(int i=0; i < DataHydro.size(); i++)
+        {
+        	agent_info = agent_info + DataHydro.get(i).getID() + "_";
+        	agent_info = agent_info + DataHydro.get(i).getPi() + "_";
+        	agent_info = agent_info + DataHydro.get(i).getFCost() + "_";
+        }
+        if(DataHydro.isEmpty())
+        {
+        	agent_info = agent_info + " ";
+        }
+        sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistantBDIAgent", agent_info, "market_ontology", "hello_protocol", "INFORM");
+	}
+  
     
 //    private class helloProtocol extends Behaviour {
 //        
@@ -607,7 +707,6 @@ public class Producer extends TraderBDI {
 ////                    info_msg.setProtocol("hello_protocol");
 ////                    info_msg.addReceiver(system_agent);
 ////                    send(info_msg);
-//                    sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistant", agent_info, "market_ontology", "hello_protocol", "INFORM");
 //                    
 //                    step = 1;
 //                    block();
@@ -750,7 +849,7 @@ public class Producer extends TraderBDI {
                 this.DataThermal.add(new_Data);
                 
             } catch (MinMaxException | MediumValueException ex) {
-                Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
             }
   
         }
@@ -848,7 +947,7 @@ public class Producer extends TraderBDI {
                 this.DataHydro.add(new_Data);
                 
             } catch (MinMaxException | MediumValueException ex) {
-                Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -899,7 +998,7 @@ public class Producer extends TraderBDI {
                 this.DataWind.add(new_Data);
                 
             } catch (MinMaxException ex) {
-                Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProducerBDI.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }

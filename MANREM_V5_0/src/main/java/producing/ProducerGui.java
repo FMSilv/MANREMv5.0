@@ -11,7 +11,7 @@ import javax.swing.*;
 
 public class ProducerGui extends JFrame {
 
-    private Producer seller;
+    private ProducerBDI seller;
     private Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
     private JTextArea text_log = new JTextArea("");
     private JScrollPane scroll_log = new JScrollPane(text_log);
@@ -49,7 +49,7 @@ public class ProducerGui extends JFrame {
     protected JMenuItem menu_negotiation_initialoffer = new JMenuItem("Initial Offer");
     protected JMenuItem menu_negotiation_counteroffer = new JMenuItem("Counter-Offer");
 
-    public ProducerGui(Producer seller) {
+    public ProducerGui(ProducerBDI seller) {
         Listener listener = new Listener();
         this.seller = seller;
         this.setTitle("Seller: " + seller.getAgentLocalName());

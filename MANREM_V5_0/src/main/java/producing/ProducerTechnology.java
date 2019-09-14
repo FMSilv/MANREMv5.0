@@ -12,7 +12,7 @@ import scheduling.EnterGENCO;
 public class ProducerTechnology extends javax.swing.JFrame {
 
     public DefaultTableModel model;
-    private Producer generatorData;
+    private ProducerBDI generatorData;
     private ProducerInputGui auxData;
     private ArrayList<String> personalInfo;
     private ArrayList<Producer_TechnologyData> technology_struct;
@@ -22,7 +22,7 @@ public class ProducerTechnology extends javax.swing.JFrame {
     private final String[] fuelType_3 = {"Select Fuel Type", "Water", "Solar", "Wind"};
     private final String[] fuelType = {"Select Fuel Type", "Coal", "Natural gas", "Water", "Solar", "Wind"};
 
-    public ProducerTechnology(Producer _generatorData, ProducerInputGui _auxData) {
+    public ProducerTechnology(ProducerBDI _generatorData, ProducerInputGui _auxData) {
         technology_struct = new ArrayList<>();
         generatorData = _generatorData;
         auxData = _auxData;

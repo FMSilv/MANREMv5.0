@@ -71,7 +71,7 @@ public class MarketOperatorBDI{
     @AgentBody
     public void init()
     {
-    	
+
     }
     
 	@Plan(trigger=@Trigger(service=@ServiceTrigger(type=IMessageService.class)))
@@ -158,7 +158,7 @@ public class MarketOperatorBDI{
 	}
     
     public void send_results(String content){
-        sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistant", content, "market_ontology", "no_protocol", "INFORM");
+        sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistantBDIAgent", content, "market_ontology", "no_protocol", "INFORM");
     }
  
     public void sendMessage(String sender, String receiver, String messageContent, String ontology, String protocol, String performative) {

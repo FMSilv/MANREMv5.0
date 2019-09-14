@@ -268,16 +268,16 @@ public class PersonalAssistantBDI{
         if(isSMPsym){
             this.Write_Input_File();
 //            msg.setContent("Start Simulation SMPsym");
-            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation SMPsym", "market_ontology", "no_protocol", "INFORM");
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperatorBDIAgent", "Start Simulation SMPsym", "market_ontology", "no_protocol", "INFORM");
         } else if(isSMPasym) {
 //            msg.setContent("Start Simulation SMPasym");
-            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation SMPasym", "market_ontology", "no_protocol", "INFORM");
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperatorBDIAgent", "Start Simulation SMPasym", "market_ontology", "no_protocol", "INFORM");
         } else if(isLMP) {
 //            msg.setContent("Start Simulation LMP");
-            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation LMP", "market_ontology", "no_protocol", "INFORM");
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperatorBDIAgent", "Start Simulation LMP", "market_ontology", "no_protocol", "INFORM");
         } else if(isOTC) {
 //            msg.setContent("Start Simulation OTC");
-            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperator", "Start Simulation OTC", "market_ontology", "no_protocol", "INFORM");
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperatorBDIAgent", "Start Simulation OTC", "market_ontology", "no_protocol", "INFORM");
         }
 //        msg.addReceiver(rec);
 //        send(msg);
