@@ -218,40 +218,40 @@ public class PersonalAssistantBDI{
     }
     
     
-//    public void addAgent(AID agent, String type, ProducerData newProducer, BuyerData newBuyer) {
-//        if (type.equals("seller")) {
-//            this.seller_names.add(agent);
-//        } else if (type.equals("producer")) {
-//            this.Producers_Information.add(newProducer);
-//            this.producer_names.add(agent);
-//            String name;
-//            name = newProducer.getName().replace(" ", "_");
-//            addBelif(newProducer.getName(), name + ";" + "isSeller");
-//            addBelif(newProducer.getName(), name + ";" + "name_" + "name");
-//            addBelif(newProducer.getName(), name + ";" + "address_" + newProducer.getAddress());
-//            addBelif(newProducer.getName(), name + ";" + "telephone_" + newProducer.getPhone_number());
-//            addBelif(newProducer.getName(), name + ";" + "email_" + newProducer.getEmail());
-//        } else if (type.equals("buyer")) {
-//            this.Buyers_Information.add(newBuyer);
-//            this.buyer_names.add(agent);
-//            String name;
-//            name = newBuyer.getName().replace(" ", "_");
-//            addBelif(newBuyer.getName(), name + ";" + "isBuyer");
-//            addBelif(newBuyer.getName(), name + ";" + "name_" + "name");
-//            addBelif(newBuyer.getName(), name + ";" + "address_" + newBuyer.getAddress());
-//            addBelif(newBuyer.getName(), name + ";" + "telephone_" + newBuyer.getPhone_number());
-//            addBelif(newBuyer.getName(), name + ";" + "email_" + newBuyer.getEmail());
-//        } else if (type.equals("large_consumer")) {
-//            this.largeConsumer_names.add(agent);
-//        } else if (type.equals("coalition")) {
-//            this.largeConsumer_names.add(agent);
-//        }else if (type.equals("consumer")) {
-//            this.mediumConsumer_names.add(agent);
-//        } else if (type.equals("MarketOperator")) {
+    public void addAgent(String agentLocalName, String type, ProducerData newProducer, BuyerData newBuyer) {
+        if (type.equals("seller")) {
+            this.seller_names.add(agentLocalName);
+        } else if (type.equals("producer")) {
+            this.Producers_Information.add(newProducer);
+            this.producer_names.add(agentLocalName);
+            String name;
+            name = newProducer.getName().replace(" ", "_");
+            addBelif(newProducer.getName(), name + ";" + "isSeller");
+            addBelif(newProducer.getName(), name + ";" + "name_" + "name");
+            addBelif(newProducer.getName(), name + ";" + "address_" + newProducer.getAddress());
+            addBelif(newProducer.getName(), name + ";" + "telephone_" + newProducer.getPhone_number());
+            addBelif(newProducer.getName(), name + ";" + "email_" + newProducer.getEmail());
+        } else if (type.equals("buyer")) {
+            this.Buyers_Information.add(newBuyer);
+            this.buyer_names.add(agentLocalName);
+            String name;
+            name = newBuyer.getName().replace(" ", "_");
+            addBelif(newBuyer.getName(), name + ";" + "isBuyer");
+            addBelif(newBuyer.getName(), name + ";" + "name_" + "name");
+            addBelif(newBuyer.getName(), name + ";" + "address_" + newBuyer.getAddress());
+            addBelif(newBuyer.getName(), name + ";" + "telephone_" + newBuyer.getPhone_number());
+            addBelif(newBuyer.getName(), name + ";" + "email_" + newBuyer.getEmail());
+        } else if (type.equals("large_consumer")) {
+            this.largeConsumer_names.add(agentLocalName);
+        } else if (type.equals("coalition")) {
+            this.largeConsumer_names.add(agentLocalName);
+        }else if (type.equals("consumer")) {
+            this.mediumConsumer_names.add(agentLocalName);
+        } else if (type.equals("MarketOperator")) {
 //            this.MarketOperator = agent;
-//        } 
-//        mo_gui.addAgent(agent.getLocalName(), type);
-//    }
+        } 
+        mo_gui.addAgent(agentLocalName, type);
+    }
 
     private HashMap<String, ArrayList<String>> getBelifsAboutOthers() {
         return this.beliefs_about_others;
@@ -1791,10 +1791,10 @@ public class PersonalAssistantBDI{
     public int checkseller(String Seller) {
         int j = 0;
         for (int i = 0; i < seller_names.size(); i++) {
-//            if (Seller.trim().replace(" ", "_").equals(seller_names.get(i).getLocalName().trim().replace(" ", "_"))) {
-//                i = seller_names.size();
-//                j = 1;
-//            }
+            if (Seller.trim().replace(" ", "_").equals(seller_names.get(i).trim().replace(" ", "_"))) {
+                i = seller_names.size();
+                j = 1;
+            }
         }
         return j;
     }

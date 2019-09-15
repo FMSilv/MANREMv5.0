@@ -226,15 +226,14 @@ public class NewAgent_Info extends javax.swing.JFrame {
             personal_info.add(jTextField_Telephone.getText());
             personal_info.add(jTextField_Email.getText());
 
-
-            
-            
             if(isProducer){
 //                PA.addAgent(new AID(this.Producer.getName(), AID.ISLOCALNAME), "producer", Producer, null);
+            	PA.addAgent(this.Producer.getName(), "producer", Producer, null);
                 ProducerTechPortfolio Portfolio = new ProducerTechPortfolio(Producer, PA);
                 Portfolio.setVisible(true);
             }else{
 //                PA.addAgent(new AID(this.Buyer.getName(), AID.ISLOCALNAME), "buyer", null, Buyer);
+                PA.addAgent(this.Buyer.getName(), "buyer", null, Buyer);
             }
             
             this.dispose();
