@@ -136,7 +136,7 @@ public class BuyerInputGui extends JFrame {
     private JTextField[] sort_alg;
     private JTextField[] ES_profile;
     private JTextField[] tf_price_send, tf_volume_send, Concession;
-    private final Buyer buyer;
+    private final BuyerBDI buyer;
     double auxperiodsx=1,auxperiodsy=1;
 //    protected Market market;
 //    int N_PERIODS=6;
@@ -177,7 +177,7 @@ public class BuyerInputGui extends JFrame {
     double limit=0.30;
     String[][] sol=new String[strategy_list.length][2];
 
-    public BuyerInputGui(Buyer buyer) {
+    public BuyerInputGui(BuyerBDI buyer) {
         this.buyer = buyer;
 //        market= market.Init();
         tf_price_target = new JTextField[PERIODS];
@@ -256,7 +256,7 @@ public class BuyerInputGui extends JFrame {
 
         if (proposal != null) {
             String[] choices = {"Accept", "Propose"};
-            int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()+" Deadline", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()+" Deadline", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
             if (result == 1) {
                 TimeChooser tc = new TimeChooser(date_proposed);
                 int result_date = tc.showEditTimeDlg(parent);
@@ -281,7 +281,7 @@ public class BuyerInputGui extends JFrame {
             }
         } else {
             String[] choices = {"Propose"};
-            int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()+" Deadline", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()+" Deadline", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
             if (result == 0) {
                 TimeChooser tc = new TimeChooser(date_proposed);
                 int result_date = tc.showEditTimeDlg(parent);
@@ -340,7 +340,7 @@ public class BuyerInputGui extends JFrame {
 //                panel.add(panel_north, BorderLayout.NORTH);
                 panel.add(panel_center, BorderLayout.CENTER);
             String[] choices = {"Accept", "Propose"};
-            int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()+" Contract", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()+" Contract", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
             if (result == 1) {
 //                TimeChooser tc = new TimeChooser(date_proposed);
 //                int result_date = tc.showEditTimeDlg(parent);
@@ -386,7 +386,7 @@ public class BuyerInputGui extends JFrame {
 //                panel.add(panel_north, BorderLayout.NORTH);
                 panel.add(panel_center, BorderLayout.CENTER);
 
-                int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()+" Contract Type", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()+" Contract Type", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
                 if (result == 0) {
                     buyer.setNegotiationContract((String) cb_contract.getSelectedItem());
@@ -690,12 +690,12 @@ public class BuyerInputGui extends JFrame {
 
         String[] choices = {"Back","OK", "Continue"};
 
-        int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Buyer Targets"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+        int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Buyer Targets"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         while (result != -1 && (/*checkEmptyFields(tf_price_target) ||*/ checkEmptyFields(tf_price_limit))) {
 
             JOptionPane.showMessageDialog(parent, new JLabel("<html>Some inputs are missing</html>"), "Targets", JOptionPane.ERROR_MESSAGE);
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Targets"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Targets"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         }
 
@@ -1029,12 +1029,12 @@ public class BuyerInputGui extends JFrame {
 
         String[] choices = {"Back","OK", "Continue"};
 
-        int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Limits"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+        int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Limits"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         while (result != -1 && (checkEmptyFields(tf_volume_limit) || checkEmptyFields(tf_volume_min))) {
 
             JOptionPane.showMessageDialog(parent, new JLabel("<html>Some inputs are missing</html>"), "Limits", JOptionPane.ERROR_MESSAGE);
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Limits"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Limits"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         }
         if (result == 0) {
@@ -1462,7 +1462,7 @@ public class BuyerInputGui extends JFrame {
         
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 String[] choices1 = {"Back","OK"};
-         int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Protocol, Preference and Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
+         int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Protocol, Preference and Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
         
          if (result == 0) {
              askPreference(parent);
@@ -1711,7 +1711,7 @@ public class BuyerInputGui extends JFrame {
         pane.add(panel, BorderLayout.PAGE_START);
 
         String[] choices1 = {"Back","OK","Continue"};
-        int result = JOptionPane.showOptionDialog(parent, pane, "Supplier: "+buyer.getLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
+        int result = JOptionPane.showOptionDialog(parent, pane, "Supplier: "+buyer.getAgentLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
         
         if (result == 0) {
                      if (buyer.VOLUME==1){
@@ -1994,7 +1994,7 @@ public class BuyerInputGui extends JFrame {
         
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 String[] choices1 = {"Back","OK"};
-         int result = JOptionPane.showOptionDialog(parent, pane, "Supplier: "+buyer.getLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
+         int result = JOptionPane.showOptionDialog(parent, pane, "Supplier: "+buyer.getAgentLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices1, null);
         
          if (result == 0) {
             
@@ -2492,7 +2492,7 @@ public void itemStateChanged(ItemEvent e) {
         //NewAgent_Info newForm = new NewAgent_Info(null, this, buyer.getLocalName());
         //newForm.setVisible(true);
         ArrayList<String> initial_values = new ArrayList();
-        String str=buyer.getLocalName();
+        String str=buyer.getAgentLocalName();
 //       int j=0;
 //        for(int i=0 ;i<buyer_list.length;i++){
 //            if(str.equals(buyer_list[i])){
@@ -3081,12 +3081,12 @@ public void itemStateChanged(ItemEvent e) {
         int result=1;
         
         while(result==1){
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Profile"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Profile"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
         
 
         while (result != -1 && checkEmptyFields(tf_volume_profile)) {
             JOptionPane.showMessageDialog(parent, new JLabel("<html>Some inputs are missing</html>"), "Profile", JOptionPane.ERROR_MESSAGE);
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Profile"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Profile"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
         }
         if (result == 0) {
             for (int i = 0; i < tf_volume_profile.length - 1; i++) {
@@ -3404,7 +3404,7 @@ public void itemStateChanged(ItemEvent e) {
 //        String[] choices = {"Back","OK", "Continue"};
         String[] choices = {"Back","OK", "Continue"};
 
-        int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+        int result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName(), JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
 
         while (result != -1 && checkEmptyFields(tf_price_limit)&& checkEmptyFields(tf_price_mec)&& checkEmptyFields(tf_price_target)) {
 
@@ -3780,12 +3780,12 @@ public void itemStateChanged(ItemEvent e) {
         int result=1;
         
          
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
         
 
         while (result != -1 && checkEmptyFields(sort_alg)) {
             JOptionPane.showMessageDialog(parent, new JLabel("<html>Some inputs are missing</html>"), "Priorities", JOptionPane.ERROR_MESSAGE);
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()/*+" Priorities"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
         }
         if (result == 0) {
            
@@ -3823,7 +3823,7 @@ public void itemStateChanged(ItemEvent e) {
           Border border = new BorderUIResource(BorderFactory.createEmptyBorder(5, 5, 5, 5));
           um.put("OptionPane.background", Color.BLUE.darker().darker());
           ImageIcon icon = new ImageIcon("images\\Energy_Buying_Group2.jpg");
-          if(buyer.getLocalName().equals(buyer_list[1])){
+          if(buyer.getAgentLocalName().equals(buyer_list[1])){
           um.put("OptionPane.background", Color.ORANGE.darker().darker().darker().darker());
           icon = new ImageIcon("images\\david_aggregation2.jpg");
           }
@@ -3918,7 +3918,7 @@ public void itemStateChanged(ItemEvent e) {
 //        panel.add(panel_north, BorderLayout.NORTH);
         panel.add(panel_center, BorderLayout.CENTER);
         
-       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
+       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getAgentLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
     
@@ -3945,7 +3945,7 @@ public void itemStateChanged(ItemEvent e) {
          
           um.put("OptionPane.background", Color.BLUE.darker().darker());
           ImageIcon icon = new ImageIcon("images\\Energy_Buying_Group2.jpg");
-          if(buyer.getLocalName().equals(buyer_list[1])){
+          if(buyer.getAgentLocalName().equals(buyer_list[1])){
           um.put("OptionPane.background", Color.ORANGE.darker().darker().darker().darker());
           icon = new ImageIcon("images\\david_aggregation2.jpg");
           }
@@ -4227,7 +4227,7 @@ public void itemStateChanged(ItemEvent e) {
 //            propaux=1;
 //        }
         if (box!=0 && prop==0){
-        label_text.setText("Received "+buyer.getOpponent().getLocalName()+" Proposal "+num);
+        label_text.setText("Received "+buyer.getAgentLocalName()+" Proposal "+num);
         label_text.setFont(font_2);
 //        label_text.setText("Send Counter-Proposal "+(num-propaux));
         } else if(box!=0 && prop!=0){
@@ -4237,7 +4237,7 @@ public void itemStateChanged(ItemEvent e) {
         panel_text_background.setPreferredSize(new Dimension(400, 60));
         label_text.setMinimumSize(new Dimension(200, 30));
         label_text.setPreferredSize(new Dimension(400, 60));
-           label_text.setText("<html>You have Received the "+buyer.getOpponent().getLocalName()+"<br>Proposal "+num+", Better than the calculated one.<br>Acceptance is recomended.</html>"); 
+           label_text.setText("<html>You have Received the "+buyer.getAgentLocalName()+"<br>Proposal "+num+", Better than the calculated one.<br>Acceptance is recomended.</html>"); 
         }
        
         label_text.setFont(font_2);
@@ -4645,7 +4645,7 @@ public void itemStateChanged(ItemEvent e) {
         int a=2;
         while (a==2 || a==3){
             
-       a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
+       a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getAgentLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
               if (a==3){
            border = new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0));
            um.put("OptionPane.border", border);
@@ -4736,7 +4736,7 @@ public void itemStateChanged(ItemEvent e) {
            JOptionPane.showOptionDialog(parent, "Some value(s) exceeded the pre-negotiation Limits", " WARNING", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, choices3, null);
             border = new BorderUIResource(BorderFactory.createEmptyBorder(5, 5, 5, 5));
            um.put("OptionPane.border", border);
-           a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+ buyer.getLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
+           a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+ buyer.getAgentLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
        }else {j=-1;}
        }
         }
@@ -4766,7 +4766,7 @@ public void itemStateChanged(ItemEvent e) {
          
           um.put("OptionPane.background", Color.BLUE.darker().darker());
           ImageIcon icon = new ImageIcon("images\\Energy_Buying_Group2.jpg");
-          if(buyer.getLocalName().equals(buyer_list[1])){
+          if(buyer.getAgentLocalName().equals(buyer_list[1])){
           um.put("OptionPane.background", Color.ORANGE.darker().darker().darker().darker());
           icon = new ImageIcon("images\\david_aggregation2.jpg");
           }
@@ -5361,7 +5361,7 @@ public void itemStateChanged(ItemEvent e) {
         int a=2;
         while (a==2){
             
-       a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
+       a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getAgentLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
             
 
 
@@ -5401,7 +5401,7 @@ public void itemStateChanged(ItemEvent e) {
            JOptionPane.showOptionDialog(parent, "Some value(s) exceeded the pre-negotiation Limits", " WARNING", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, choices3, null);
             border = new BorderUIResource(BorderFactory.createEmptyBorder(5, 5, 5, 5));
            um.put("OptionPane.border", border);
-           a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+ buyer.getLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
+           a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+ buyer.getAgentLocalName()/*+" Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
        }else {j=-1;}
        }
         }
@@ -5498,7 +5498,7 @@ public void itemStateChanged(ItemEvent e) {
        ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
        
         
-       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4,null);
+       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getAgentLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4,null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
     
@@ -5581,7 +5581,7 @@ public void itemStateChanged(ItemEvent e) {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);/*top,left,buttom,right*/
         panel_center.add(l1, gridBagConstraints);
         
-         JLabel l2 = new JLabel("Agreement with "+buyer.getOpponent().getLocalName());
+         JLabel l2 = new JLabel("Agreement with "+buyer.getAgentLocalName());
         l2.setFont(font_1);
         l2.setHorizontalAlignment(SwingConstants.CENTER);
         gridBagConstraints = new GridBagConstraints();
@@ -5597,7 +5597,7 @@ public void itemStateChanged(ItemEvent e) {
        ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
        
         
-       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4,null);
+       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getAgentLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4,null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
     
@@ -5670,7 +5670,7 @@ public void itemStateChanged(ItemEvent e) {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);/*top,left,buttom,right*/
         panel_center.add(l, gridBagConstraints);
         
-        JLabel l1 = new JLabel("Sorry, your deal with "+buyer.getOpponent().getLocalName()+" have");
+        JLabel l1 = new JLabel("Sorry, your deal with "+buyer.getAgentLocalName()+" have");
         l1.setFont(font_1);
         l1.setHorizontalAlignment(SwingConstants.CENTER);
         gridBagConstraints = new GridBagConstraints();
@@ -5696,7 +5696,7 @@ public void itemStateChanged(ItemEvent e) {
        ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
        
         
-       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4,null);
+       int a = JOptionPane.showOptionDialog(parent,panel, "Supplier: "+buyer.getAgentLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices4,null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         return a;
     
@@ -5760,7 +5760,7 @@ public void itemStateChanged(ItemEvent e) {
      
         //Panel center
         
-        JLabel l = new JLabel(buyer.getOpponent().getLocalName()+" Terminated the Negotiation");
+        JLabel l = new JLabel(buyer.getAgentLocalName()+" Terminated the Negotiation");
         if(!msg.equals("")){
             l = new JLabel(msg);
         }
@@ -5799,7 +5799,7 @@ public void itemStateChanged(ItemEvent e) {
 //       ImageIcon icon1 = new javax.swing.ImageIcon("images\\icon1.png");
        
         
-       int a = JOptionPane.showOptionDialog(parent,l, "Supplier: "+buyer.getLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, choices4,null);
+       int a = JOptionPane.showOptionDialog(parent,l, "Supplier: "+buyer.getAgentLocalName()/*+" Terminating Negotiation"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, choices4,null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
     
     }
@@ -5870,7 +5870,7 @@ public void itemStateChanged(ItemEvent e) {
         
         String[] choices2 = {"Set","Cancel"};
        
-        int b = JOptionPane.showOptionDialog(parent,panel_center, "Supplier: "+buyer.getLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
+        int b = JOptionPane.showOptionDialog(parent,panel_center, "Supplier: "+buyer.getAgentLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
         if (b==0){
             buyer.setNegotiationStrategy((String) comboMenu.getSelectedItem());
         }
@@ -6019,7 +6019,7 @@ public void itemStateChanged(ItemEvent e) {
         int b=1;
         
         while(b==1){
-       int a = JOptionPane.showOptionDialog(parent,panel,"Supplier: "+ buyer.getLocalName()+" is using a "+tactic+" tactic", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
+       int a = JOptionPane.showOptionDialog(parent,panel,"Supplier: "+ buyer.getAgentLocalName()+" is using a "+tactic+" tactic", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices,null);
 //        int a=JOptionPane.showConfirmDialog(parent,panel, s, buyer.getLocalName()+" Starting Negotiation",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         
     if (a==1){
@@ -6089,7 +6089,7 @@ public void itemStateChanged(ItemEvent e) {
         panel_center.add(comboMenu, gridBagConstraints);
         
         String[] choices2 = {"Set","Cancel"};
-        b = JOptionPane.showOptionDialog(parent,panel_center, "Supplier: "+buyer.getLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
+        b = JOptionPane.showOptionDialog(parent,panel_center, "Supplier: "+buyer.getAgentLocalName()/*+" Strategy"*/, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices2,null);
         if (b==0){
             buyer.setNegotiationStrategy((String) comboMenu.getSelectedItem());
         }          
@@ -6499,12 +6499,12 @@ public UserES() {
         int result=1;
         
         while (result==1){ 
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()+" Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()+" Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, null);
         
 
         while (result != -1 && checkEmptyFields(ES_profile)) {
             JOptionPane.showMessageDialog(parent, new JLabel("<html>Some inputs are missing</html>"), "Expert System Profile", JOptionPane.ERROR_MESSAGE);
-            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getLocalName()+" Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+            result = JOptionPane.showOptionDialog(parent, panel, "Supplier: "+buyer.getAgentLocalName()+" Expert System Profile", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
         }
         if (result == 0) {
             

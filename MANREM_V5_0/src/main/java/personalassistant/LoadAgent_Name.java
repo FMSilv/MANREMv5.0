@@ -37,7 +37,7 @@ public class LoadAgent_Name extends javax.swing.JFrame {
 //                agentList.add(market.getBuyerNames().get(i).getLocalName());
 //            }
             agentType = "Retailer";
-            agentInfo = "buying.Buyer";
+            agentInfo = "buying.BuyerBDI";
         } else if (_agentType == 3) {
 //            for (int i = 0; i < market.getMediumConsumerNames().size(); i++) {
 //                agentList.add(market.getMediumConsumerNames().get(i).getLocalName());

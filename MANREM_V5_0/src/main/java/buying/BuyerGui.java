@@ -1,6 +1,6 @@
 package buying;
 
-import jade.core.AID;
+//import jade.core.AID;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import javax.swing.border.Border;
 public class BuyerGui extends JFrame {
     
     private Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
-    private Buyer buyer;
+    private BuyerBDI buyer;
     public int counteroffer=0, counter=0;
     private JTextArea text_log = new JTextArea("");
     private JScrollPane scroll_log = new JScrollPane(text_log);
@@ -48,12 +48,12 @@ public class BuyerGui extends JFrame {
     protected Component menu_contextual_separator = Box.createHorizontalStrut((int)screen_size.getWidth());
     protected JMenuBar menu_bar = new JMenuBar();
    
-    public BuyerGui(Buyer buyer) {
+    public BuyerGui(BuyerBDI buyer) {
         this.buyer = buyer;
         
 
         Listener listener = new Listener();
-        this.setTitle("Buyer: "+buyer.getLocalName());
+        this.setTitle("Buyer: "+buyer.getAgentLocalName());
         this.setSize(new Dimension(400, 600));
         this.setLocation((int) ((screen_size.getWidth() / 5) * 4 - (this.getSize().getWidth() / 2)), (int) ((screen_size.getHeight() / 2) - (this.getSize().getHeight() / 2)));
         
@@ -62,7 +62,7 @@ public class BuyerGui extends JFrame {
         
         text_log.setMinimumSize(new Dimension(200, 200));
         text_log.setEditable(false);
-        if (this.buyer.getLocalName().equals("David Owen")){
+        if (this.buyer.getAgentLocalName().equals("David Owen")){
             label_image=label_image2;
                 } else {
         label_image=label_image1;
@@ -170,8 +170,8 @@ public class BuyerGui extends JFrame {
         menu_action_profile.addActionListener(listener);
         
         
-        updateLog1("Myagent:\t" + buyer.getName());
-        updateLog1("Opponent:\t" + buyer.getOpponent().getName());
+        updateLog1("Myagent:\t" + buyer.getAgentLocalName());
+        updateLog1("Opponent:\t" + buyer.getAgentLocalName());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 

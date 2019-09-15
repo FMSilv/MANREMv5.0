@@ -1,8 +1,8 @@
 package producing;
 
 import selling.*;
-import jade.core.AID;
-import jade.core.behaviours.Behaviour;
+//import jade.core.AID;
+//import jade.core.behaviours.Behaviour;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

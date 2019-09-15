@@ -1799,7 +1799,7 @@ public class PersonalAssistantBDI{
         return j;
     }
 
-                   public void coallition_menu(PersonalAssistantGUI parent){
+    public void coallition_menu(PersonalAssistantGUI parent){
         
         JMenuItem   Cm1             =   new JMenuItem("Coalition_One");
         JMenuItem   Cm2             =   new JMenuItem("Coalition_Two");
@@ -1976,7 +1976,7 @@ public class PersonalAssistantBDI{
 
         /* JMenuItem DO = new JMenuItem("David_Owen");
          JMenuItem SCO = new JMenuItem("SCO_Corporation");
-         JMenuItem EC = new JMenuItem("Electro_Center");
+         JMenuItem EC = new JMenuItem("Electro_Cen ter");
          */
         String[] LSEs = {"RetailCO1", "RetailCO2", "RetailCO3", "RetailCO4"};
         /*String DO = "David_Owen";
@@ -2015,11 +2015,11 @@ public class PersonalAssistantBDI{
         JComboBox menu2 = new JComboBox();
         String[] auxName;
 
-//        for (String lse1 : LSEs) {
-//            if (checkbuyer(lse1) == 0) {
-//                menu2.addItem(lse1);
-//            }
-//        }
+        for (String lse1 : LSEs) {
+            if (checkbuyer(lse1) == 0) {
+                menu2.addItem(lse1);
+            }
+        }
         auxName = new String[menu2.getItemCount()];
         for (int i = 0; i < auxName.length; i++) {
             auxName[i] = menu2.getItemAt(i).toString();
@@ -2087,17 +2087,17 @@ public class PersonalAssistantBDI{
          }*/
     }
 
-//    public int checkbuyer(String Buyer) {
-//        int j = 0;
-//        for (int i = 0; i < buyer_names.size(); i++) {
-//            
-//            if (Buyer.trim().replace(" ", "_").equals(buyer_names.get(i).getLocalName().trim().replace(" ", "_"))) {
-//                i = buyer_names.size();
-//                j = 1;
-//            }
-//        }
-//        return j;
-//    }
+    public int checkbuyer(String Buyer) {
+        int j = 0;
+        for (int i = 0; i < buyer_names.size(); i++) {
+            
+            if (Buyer.trim().replace(" ", "_").equals(buyer_names.get(i).trim().replace(" ", "_"))) {
+                i = buyer_names.size();
+                j = 1;
+            }
+        }
+        return j;
+    }
 
     // Creates a new agent via the platform controller
     // In - Agent Name * Agent Type i.e. "buying.Buyer" "selling.Seller" ... 
