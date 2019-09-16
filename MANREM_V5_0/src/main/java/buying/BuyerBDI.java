@@ -299,7 +299,7 @@ public class BuyerBDI{
 	    	{
 	    		 bdiFeature.adoptPlan(new MarketOntology(params));
 	    	}
-	    	return "Chegou a BuyerBDIAgent";
+	    	return "Chegou a " + agent.getComponentIdentifier().getLocalName() + " Agent";
 	    }
 	}
     

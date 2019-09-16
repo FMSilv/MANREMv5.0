@@ -512,7 +512,7 @@ public class PersonalAssistantBDI{
 	    	{
 	    		 bdiFeature.adoptPlan(new MarketOntology(params));
 	    	}
-	    	return "Chegou a PersonalAssistantBDIAgent";
+	    	return "Chegou a " + agent.getComponentIdentifier().getLocalName() + " Agent";
 	    }
 	}
     
@@ -989,26 +989,28 @@ public class PersonalAssistantBDI{
 //        send(msg);
 //    }
     
-//    public void inform_participants(boolean isProducer, String AgentName, String Strategy){
-//        
+    public void inform_participants(boolean isProducer, String AgentName, String Strategy){
+        
 //        AID rec;
 //        String content;
 //        
 //        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 //        msg.setOntology("market_ontology");
 //        msg.setProtocol("no_protocol");
-//        
-//        content = "Participating " + Strategy;
-//        
+        
+    	String content =  "Participating " + Strategy;
+        
 //        msg.setContent(content);
-//        
+        
 //        rec = new AID(AgentName.replace(" ", "_"), AID.ISLOCALNAME);
-//        
+        
 //        msg.addReceiver(rec);
-//        
+        
 //        send(msg);
-//        
-//    }
+    	
+        sendMessage(agent.getComponentIdentifier().getLocalName(), AgentName, content, "market_ontology", "no_protocol", "INFORM");
+        
+    }
     
     
     

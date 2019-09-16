@@ -284,7 +284,7 @@ public class MarketInfo extends javax.swing.JFrame {
                     PA.Producers_Information.get(i).setStrategy(jComboBox_BStrat.getSelectedItem().toString());
                     PA.Producers_Information.get(i).setParticipating(true);
                     // calls method to inform agent it is participating
-//                    PA.inform_participants(true, Producer.getName(), jComboBox_BStrat.getSelectedItem().toString());
+                    PA.inform_participants(true, Producer.getName(), jComboBox_BStrat.getSelectedItem().toString());
                     break;
                 }    
             }
@@ -295,7 +295,7 @@ public class MarketInfo extends javax.swing.JFrame {
                     PA.Buyers_Information.get(i).setStrategy(jComboBox_BStrat.getSelectedItem().toString());
                     PA.Buyers_Information.get(i).setParticipating(true);
                     // calls method to inform agent it is participating
-//                    PA.inform_participants(false, Buyer.getName(), jComboBox_BStrat.getSelectedItem().toString());
+                    PA.inform_participants(false, Buyer.getName(), jComboBox_BStrat.getSelectedItem().toString());
                     break;
                 }    
             }

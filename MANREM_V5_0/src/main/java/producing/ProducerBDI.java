@@ -374,7 +374,7 @@ public class ProducerBDI{
 	    	{
 	    		 bdiFeature.adoptPlan(new MarketOntology(params));
 	    	}
-	    	return "Chegou a ProducerBDIAgent";
+	    	return "Chegou a " + agent.getComponentIdentifier().getLocalName() + " Agent";
 	    }
 	}
     

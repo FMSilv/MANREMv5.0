@@ -92,7 +92,7 @@ public class MarketOperatorBDI{
 	    	{
 	    		 bdiFeature.adoptPlan(new MarketOntology(params));
 	    	}
-	    	return "Chegou a MarketOperatorBDIAgent";
+	    	return "Chegou a " + agent.getComponentIdentifier().getLocalName() + " Agent";
 	    }
 	}
     
