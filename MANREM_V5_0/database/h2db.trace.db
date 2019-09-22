@@ -1,0 +1,26 @@
+2019-09-22 23:36:14 database: wrong user or password; user: "ROOT"
+org.h2.message.DbException: Wrong user name or password [28000-199]
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.engine.Engine.openSession(Engine.java:126)
+	at org.h2.engine.Engine.openSession(Engine.java:201)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:178)
+	at org.h2.engine.Engine.createSession(Engine.java:161)
+	at org.h2.engine.Engine.createSession(Engine.java:31)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:336)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:169)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:148)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.util.JdbcUtils.getConnection(JdbcUtils.java:299)
+	at org.h2.server.web.WebServer.getConnection(WebServer.java:782)
+	at org.h2.server.web.WebApp.login(WebApp.java:1004)
+	at org.h2.server.web.WebApp.process(WebApp.java:219)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:169)
+	at org.h2.server.web.WebThread.process(WebThread.java:139)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name or password [28000-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 20 more
