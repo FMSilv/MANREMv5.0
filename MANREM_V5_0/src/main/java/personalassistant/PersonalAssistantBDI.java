@@ -615,20 +615,23 @@ public class PersonalAssistantBDI{
             }else if(content.contains("Results")){
                 if(content.contains("SMPsym")){
                     Store_and_send_SMP_results(content);
-                    
                 	CreationInfo parameters = new CreationInfo(SUtil.createHashMap(new String[]{"chatOn"}, new Object[]{"0"}));
-                	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA2 = cms.createComponent("DataStorageAssistantBDIAgent", "dataStorageAssistant.DataStorageAssistantBDI.class", parameters);
-                	IComponentIdentifier cid = iTupleFutA2.getFirstResult();
+                	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA = cms.createComponent("DataStorageAssistantBDIAgent", "dataStorageAssistant.DataStorageAssistantBDI.class", parameters);
+                	IComponentIdentifier cid = iTupleFutA.getFirstResult();
                 	System.out.println("Started component: " + cid);
                     sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", content, "market_ontology", "no_protocol", "INFORM");
                 	cms.destroyComponent(cid).get();
                 	System.out.println("Killed component: " + cid);
-                	
                 }else if(content.contains("SMPasym")){
                     Store_and_send_SMP_results(content);
+                	CreationInfo parameters = new CreationInfo(SUtil.createHashMap(new String[]{"chatOn"}, new Object[]{"0"}));
+                	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA = cms.createComponent("DataStorageAssistantBDIAgent", "dataStorageAssistant.DataStorageAssistantBDI.class", parameters);
+                	IComponentIdentifier cid = iTupleFutA.getFirstResult();
+                	System.out.println("Started component: " + cid);
+                    sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", content, "market_ontology", "no_protocol", "INFORM");
+                	cms.destroyComponent(cid).get();
+                	System.out.println("Killed component: " + cid);
                 }
-                
-                
             }
         }
     }
