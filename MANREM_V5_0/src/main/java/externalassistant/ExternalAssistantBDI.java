@@ -51,7 +51,7 @@ import webfileenergyprices.ReadWebFile;
 })
 public class ExternalAssistantBDI{
 
-	@AgentFeature 
+	@AgentFeature
 	protected IBDIAgentFeature bdiFeature;
 	
 	@AgentArgument
@@ -89,8 +89,8 @@ public class ExternalAssistantBDI{
 
         BufferedReader br_pt = r.openFile(string);
         BufferedReader br_es = r.openFile(string);
-        this.ptmarginalenergyprices = r.readFile( br_pt, "pt");
-        this.esmarginalenergyprices = r.readFile( br_es, "es");
+        ExternalAssistantBDI.ptmarginalenergyprices = r.readFile( br_pt, "pt");
+        ExternalAssistantBDI.esmarginalenergyprices = r.readFile( br_es, "es");
         r.closeFile( br_pt );
         r.closeFile( br_es );
     }

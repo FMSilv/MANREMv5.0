@@ -66,7 +66,7 @@ import wholesalemarket_SMP.InputData_Agents;
 @Description("ProducerBDI agent. <br>")
 @Arguments
 (value={
-	@Argument(name="chatOn", description="producerBDI.chatOn", clazz=String.class, defaultvalue="\"0\"")
+	@Argument(name="chatOn", description="producerBDI.chatOn", clazz=String.class, defaultvalue="\"1\"")
 })
 @RequiredServices
 ({

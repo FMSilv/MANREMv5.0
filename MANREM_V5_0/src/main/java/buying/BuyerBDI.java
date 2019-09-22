@@ -58,7 +58,7 @@ import xml.FileManager;
 @Description("BuyerBDI agent. <br>")
 @Arguments
 (value={
-	@Argument(name="chatOn", description="buyerBDI.chatOn", clazz=String.class, defaultvalue="\"0\"")
+	@Argument(name="chatOn", description="buyerBDI.chatOn", clazz=String.class, defaultvalue="\"1\"")
 })
 @RequiredServices
 ({

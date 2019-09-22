@@ -64,14 +64,18 @@ import jadex.bdiv3.annotation.Plans;
 import jadex.bdiv3.annotation.ServiceTrigger;
 import jadex.bdiv3.annotation.Trigger;
 import jadex.bdiv3.features.IBDIAgentFeature;
+import jadex.bridge.IComponentIdentifier;
 import jadex.bridge.IExternalAccess;
 import jadex.bridge.IInternalAccess;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.search.SServiceProvider;
 import jadex.bridge.service.types.clock.IClockService;
+import jadex.bridge.service.types.cms.CreationInfo;
 import jadex.bridge.service.types.cms.IComponentManagementService;
+import jadex.commons.SUtil;
 import jadex.commons.future.IFuture;
 import jadex.commons.future.IResultListener;
+import jadex.commons.future.ITuple2Future;
 import jadex.commons.future.IntermediateDefaultResultListener;
 import jadex.commons.gui.future.SwingResultListener;
 import jadex.micro.annotation.Agent;
@@ -611,6 +615,15 @@ public class PersonalAssistantBDI{
             }else if(content.contains("Results")){
                 if(content.contains("SMPsym")){
                     Store_and_send_SMP_results(content);
+                    
+                	CreationInfo parameters = new CreationInfo(SUtil.createHashMap(new String[]{"chatOn"}, new Object[]{"0"}));
+                	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA2 = cms.createComponent("DataStorageAssistantBDIAgent", "dataStorageAssistant.DataStorageAssistantBDI.class", parameters);
+                	IComponentIdentifier cid = iTupleFutA2.getFirstResult();
+                	System.out.println("Started component: " + cid);
+                    sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", content, "market_ontology", "no_protocol", "INFORM");
+                	cms.destroyComponent(cid).get();
+                	System.out.println("Killed component: " + cid);
+                	
                 }else if(content.contains("SMPasym")){
                     Store_and_send_SMP_results(content);
                 }

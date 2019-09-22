@@ -386,17 +386,17 @@ public class PersonalAssistantGUI extends JFrame {
          */
         menu_agents_new.setIcon(new ImageIcon("images\\agents\\new2.jpg"));
 
-        file_menu.setIcon(new ImageIcon("\\personalassistant\\images\\user-52m.png"));
-        market_menu.setIcon(new ImageIcon("\\personalassistant\\images\\graph-sd.png"));
-        action_menu.setIcon(new ImageIcon("\\personalassistant\\images\\collaboration.png"));
-        simulation_menu.setIcon(new ImageIcon("\\personalassistant\\images\\pie-chart.png"));
-        exit_menu.setIcon(new ImageIcon("\\personalassistant\\images\\exit4.png"));
+//        file_menu.setIcon(new ImageIcon("\\personalassistant\\images\\user-52m.png"));
+//        market_menu.setIcon(new ImageIcon("\\personalassistant\\images\\graph-sd.png"));
+//        action_menu.setIcon(new ImageIcon("\\personalassistant\\images\\collaboration.png"));
+//        simulation_menu.setIcon(new ImageIcon("\\personalassistant\\images\\pie-chart.png"));
+//        exit_menu.setIcon(new ImageIcon("\\personalassistant\\images\\exit4.png"));
         
-//        file_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/user-52m.png")));
-//        market_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/graph-sd.png")));
-//        action_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/collaboration.png")));
-//        simulation_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/pie-chart.png")));
-//        exit_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/exit4.png")));     
+        file_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/user-52m.png")));
+        market_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/graph-sd.png")));
+        action_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/collaboration.png")));
+        simulation_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/pie-chart.png")));
+        exit_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/exit4.png")));     
                 
         /*spot.setEnabled(false);
          bilateral.setSelected(true);
@@ -1501,8 +1501,8 @@ public class PersonalAssistantGUI extends JFrame {
         jSplitPane_weblog.setResizeWeight(0.7);
         jLabel_clock = new javax.swing.JLabel();
         jLabel_clock.setFont(new java.awt.Font("Century Gothic", 0, 14));
-//        jLabel_clock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/clock.png")));
-        jLabel_clock.setIcon(new ImageIcon("\\personalassistant\\images\\clock.jpg"));
+        jLabel_clock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/personalassistant/images/clock.png")));
+//        jLabel_clock.setIcon(new ImageIcon("\\main\\java\\personalassistant\\images\\clock.jpg"));
         jLabel_date = new javax.swing.JLabel();
         jLabel_date.setFont(new java.awt.Font("Century Gothic", 0, 14));
     }
