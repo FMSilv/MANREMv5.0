@@ -17,6 +17,12 @@ import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -54,6 +60,10 @@ import OTC.OTC_Controller;
 import OTC.Participants;
 import OTC.Results;
 import externalassistant.ExternalAssistantBDI;
+import jadex.bridge.IComponentIdentifier;
+import jadex.bridge.service.types.cms.CreationInfo;
+import jadex.commons.SUtil;
+import jadex.commons.future.ITuple2Future;
 import scheduling.EnterGENCO;
 import selling.RiskAttitudeForm;
 import wholesalemarket_LMP.ProducerInputData_Dynamic;
@@ -168,7 +178,6 @@ public class PersonalAssistantGUI extends JFrame {
     private JMenu pool_trading = new JMenu("Pool Trading");
     
     
-    
     // <--------------------------------------------------------------------------------------------------------------------------------
     // TEMPORARY STUFF!!!!!!!
     
@@ -177,6 +186,7 @@ public class PersonalAssistantGUI extends JFrame {
     
     
     private JMenuItem case_study = new JMenuItem("Case Study");
+    private JMenuItem last_simulation = new JMenuItem("Last Simulation");
     private JMenuItem case_study_nowind = new JMenuItem("Case Study no Wind");
     
     
@@ -625,11 +635,11 @@ public class PersonalAssistantGUI extends JFrame {
         simulation_menu.add(case_study);
         simulation_menu.add(case_study_nowind);
         
-        
+        simulation_menu.add(last_simulation);
         
         case_study.addActionListener(listener);
         case_study_nowind.addActionListener(listener);
-        
+        last_simulation.addActionListener(listener);
         // <--------------------------------------------------------------------
         /*simulation_menu.add(menu_action_pairing);
          simulation_menu.add(menu_action_pause);
@@ -1211,7 +1221,51 @@ public class PersonalAssistantGUI extends JFrame {
                 
                 marketPool_SMP.casetudy(false, market);
                 
-            } else if (e.getSource().equals(choose_Buyer)){
+            }
+            else if(e.getSource().equals(last_simulation))
+            {
+            	
+   		     Connection conn = null; 
+		      Statement stmt = null;
+		      String resultSetString = null;
+		      try {
+		         Class.forName("org.h2.Driver");
+		         conn = DriverManager.getConnection("jdbc:h2:file:D:\\Work\\eclipse\\workspace-fsilverio\\git\\MANREMv5.0.git\\MANREM_V5_0\\database\\h2db","root","root");
+		         stmt = conn.createStatement(
+                       ResultSet.TYPE_SCROLL_INSENSITIVE,
+                       ResultSet.CONCUR_UPDATABLE);
+		         String sql = "SELECT sim.RESULTS from SIMULATIONS_DATA sim order by DATE asc";
+		         ResultSet rs = stmt.executeQuery(sql);
+		         while(rs.next()) {
+		        	 resultSetString = rs.getString("RESULTS");
+		          }
+		         rs.close();
+		      } catch(SQLException se) {
+		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+
+		         se.printStackTrace();
+		      } catch(Exception ex) { 
+		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+		         ex.printStackTrace(); 
+		      } finally { 
+		         try { 
+		            if(stmt!=null) stmt.close();  
+		         } catch(SQLException se2) { 
+		         }
+		         try { 
+		            if(conn!=null) conn.close(); 
+		         } catch(SQLException se) { 
+		            se.printStackTrace(); 
+		         }
+		      }
+		      
+		      
+	    	  JOptionPane.showMessageDialog(null, resultSetString, "INFO", JOptionPane.INFORMATION_MESSAGE);
+
+//        		market.Store_and_send_SMP_results(resultSetString);
+        		
+        	}
+            else if (e.getSource().equals(choose_Buyer)){
                 try {
                     int sellerNumb = seller_names.getSize();
                     int buyerNumb = buyer_names.getSize()+largeConsumer_names.getSize()+mediumConsumer_names.getSize();

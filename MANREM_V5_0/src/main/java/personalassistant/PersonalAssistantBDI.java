@@ -221,7 +221,7 @@ public class PersonalAssistantBDI{
 //        buy_gui = new Init(this);
     }
     
-    
+
     public void addAgent(String agentLocalName, String type, ProducerData newProducer, BuyerData newBuyer) {
         if (type.equals("seller")) {
             this.seller_names.add(agentLocalName);
@@ -636,7 +636,7 @@ public class PersonalAssistantBDI{
         }
     }
     
-    private void Store_and_send_SMP_results(String Results){
+    public void Store_and_send_SMP_results(String Results){
         String[] Data; // contains whole message
         String Price; // contains period price
         String[] Info; // contains message part that refers to a single Agent

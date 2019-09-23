@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import jadex.bdiv3.IBDIAgent;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanBody;
@@ -133,7 +135,7 @@ public class DataStorageAssistantBDI {
     	{
     		Connection conn = null; 
     		Statement stmt = null;
-    		try 
+    		try
     		{
     			Class.forName("org.h2.Driver");
     			conn = DriverManager.getConnection("jdbc:h2:file:D:\\Work\\eclipse\\workspace-fsilverio\\git\\MANREMv5.0.git\\MANREM_V5_0\\database\\h2db","root","root");
@@ -142,13 +144,15 @@ public class DataStorageAssistantBDI {
     			stmt.executeUpdate(sql);
     			stmt.close();
     			conn.close();
-			} 
+			}
 			catch(SQLException se) 
 			{
-				se.printStackTrace(); 
+				JOptionPane.showMessageDialog(null, "Não foi possível registar os dados da simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+				se.printStackTrace();
 			} 
 			catch(Exception e) 
 			{
+				JOptionPane.showMessageDialog(null, "Não foi possível registar os dados da simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
 				e.printStackTrace(); 
 			} 
 			finally 
