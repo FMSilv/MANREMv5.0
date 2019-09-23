@@ -24,3 +24,6 @@ Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
 	... 20 more
+2019-09-23 20:02:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "RESULTS VARCHAR(255) NOT NULL": "'Results SMPsym;36.0;Producers;GenCo1 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0... (397)"; SQL statement:
+INSERT INTO SIMULATIONS_DATA (RESULTS, DATA) VALUES ('Results SMPsym;36.0;Producers;GenCo1 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 end;Buyers;RetailCO1 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 1000.0 end' , '23/09/2019 20:02:44') [22001-198]

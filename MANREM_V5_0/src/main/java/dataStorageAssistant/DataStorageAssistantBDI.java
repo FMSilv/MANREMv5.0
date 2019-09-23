@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import jadex.bdiv3.IBDIAgent;
@@ -16,8 +16,6 @@ import jadex.bdiv3.annotation.Trigger;
 import jadex.bdiv3.features.IBDIAgentFeature;
 import jadex.bridge.IInternalAccess;
 import jadex.bridge.service.RequiredServiceInfo;
-import jadex.bridge.service.annotation.ServiceComponent;
-import jadex.bridge.service.component.IRequiredServicesFeature;
 import jadex.bridge.service.search.SServiceProvider;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.future.IResultListener;
@@ -133,41 +131,47 @@ public class DataStorageAssistantBDI {
     	@PlanBody
     	public void execute()
     	{
-    		System.out.println("Messagem recebida: " + content);
-
-    		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-    		 Date date = new Date();  
-    		 String strDate = formatter.format(date);  
-    		
-		      Connection conn = null; 
-		      Statement stmt = null; 
-		      try { 
-		         Class.forName("org.h2.Driver");
-		         conn = DriverManager.getConnection("jdbc:h2:file:D:\\Work\\eclipse\\workspace-fsilverio\\git\\MANREMv5.0.git\\MANREM_V5_0\\database\\h2db","root","root");
-		         stmt = conn.createStatement();
-		         String sql =  "INSERT INTO SIMULATIONS_DATA (RESULTS, DATA)" +
-		 				" VALUES ('"+ content +"' , '"+ strDate +"')";  
-		         stmt.executeUpdate(sql);
-		         stmt.close();
-		         conn.close();
-		      } catch(SQLException se) {
-		         se.printStackTrace(); 
-		      } catch(Exception e) {
-		         e.printStackTrace(); 
-		      } finally {
-		         try{ 
-		            if(stmt!=null) stmt.close(); 
-		         } catch(SQLException se2) { 
-		         } 
-		         try { 
-		            if(conn!=null) conn.close(); 
-		         } catch(SQLException se){ 
-		            se.printStackTrace(); 
-		         } 
-		      }
-    		
-    		
+    		Connection conn = null; 
+    		Statement stmt = null;
+    		try 
+    		{
+    			Class.forName("org.h2.Driver");
+    			conn = DriverManager.getConnection("jdbc:h2:file:D:\\Work\\eclipse\\workspace-fsilverio\\git\\MANREMv5.0.git\\MANREM_V5_0\\database\\h2db","root","root");
+    			stmt = conn.createStatement();
+    			String sql =  "INSERT INTO SIMULATIONS_DATA (RESULTS, DATE) VALUES ('"+ content +"' , '"+ new Timestamp(new Date().getTime()) +"')";  
+    			stmt.executeUpdate(sql);
+    			stmt.close();
+    			conn.close();
+			} 
+			catch(SQLException se) 
+			{
+				se.printStackTrace(); 
+			} 
+			catch(Exception e) 
+			{
+				e.printStackTrace(); 
+			} 
+			finally 
+			{
+				try
+				{ 
+					if(stmt!=null) stmt.close(); 
+				} 
+				catch(SQLException se2) 
+				{
+					se2.printStackTrace(); 
+				}
+				try
+				{ 
+					if(conn!=null) conn.close(); 
+				} 
+				catch(SQLException se)
+				{ 
+					se.printStackTrace(); 
+				} 
+			}
     	}
+    	
     	
     	
 	}

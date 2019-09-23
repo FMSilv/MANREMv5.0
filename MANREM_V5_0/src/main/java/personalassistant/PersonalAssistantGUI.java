@@ -1,28 +1,22 @@
 package personalassistant;
 
 
-import DayAheadInterface.DayaheadinterfaceBDI;
-import wholesalemarket_LMP.Wholesale_InputData;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.HierarchyBoundsListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import scheduling.EnterGENCO;
-import selling.RiskAttitudeForm;
-//import wholesalemarket_LMP.Pricing_Mechanism_Form;
-import wholesalemarket_SMP.SMP_Market_Controller;
-import wholesalemarket_LMP.ProducerInputData_Dynamic;
-//import wholesalemarket_LMP.Producer_InputParameters;
-import wholesalemarket_LMP.simul.WholesaleMarket;
-//Adding imports for OTC João de Sá <-------------------------------------------
-
-import OTC.Participants;
-import OTC.Results;
-//import java.util.Arrays;
-import OTC.OTC_Controller;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -30,8 +24,45 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import DayAheadInterface.DayaheadinterfaceBDI;
+//import java.util.Arrays;
+import OTC.OTC_Controller;
+import OTC.Participants;
+import OTC.Results;
 import externalassistant.ExternalAssistantBDI;
-import webfileenergyprices.ReadWebFile;
+import scheduling.EnterGENCO;
+import selling.RiskAttitudeForm;
+import wholesalemarket_LMP.ProducerInputData_Dynamic;
+import wholesalemarket_LMP.Wholesale_InputData;
+//import wholesalemarket_LMP.Producer_InputParameters;
+import wholesalemarket_LMP.simul.WholesaleMarket;
+//Adding imports for OTC João de Sá <-------------------------------------------
+//import wholesalemarket_LMP.Pricing_Mechanism_Form;
+import wholesalemarket_SMP.SMP_Market_Controller;
 
 
 //<----------------------------------------------------------------------------
@@ -593,6 +624,9 @@ public class PersonalAssistantGUI extends JFrame {
         
         simulation_menu.add(case_study);
         simulation_menu.add(case_study_nowind);
+        
+        
+        
         case_study.addActionListener(listener);
         case_study_nowind.addActionListener(listener);
         
