@@ -74,12 +74,14 @@ public class Main {
 //    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA4 = cms.createComponent("DayaheadinterfaceBDIAgent", "DayAheadInterface.DayaheadinterfaceBDI.class", parameters);
 //    	IComponentIdentifier cidA4 = iTupleFutA4.getFirstResult();
 //    	System.out.println("Started component: " + cidA4);
-    	
-    	
+    	// DataStorageAssistantBDI
+    	CreationInfo parametersDataStorageAgent = new CreationInfo(SUtil.createHashMap(new String[]{"chatOn"}, new Object[]{"0"}));
+    	ITuple2Future<IComponentIdentifier,java.util.Map<java.lang.String,java.lang.Object>> iTupleFutA5 = cms.createComponent("DataStorageAssistantBDIAgent", "dataStorageAssistant.DataStorageAssistantBDI.class", parametersDataStorageAgent);
+    	IComponentIdentifier cid5 = iTupleFutA5.getFirstResult();
+    	System.out.println("Started component: " + cid5);
     	
     	/** Call this to destroy components **/
-//    	Map<String,Object> results = cms.destroyComponent(cid).get();
-    	
+//    	Map<String,Object> results = cms.destroyComponent(cid).get();	
     }
 	
 }

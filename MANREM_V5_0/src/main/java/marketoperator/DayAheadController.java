@@ -38,6 +38,9 @@ public class DayAheadController {
     ArrayList<Float> price = new ArrayList<Float>();
     ArrayList<Float> power = new ArrayList<Float>();
     
+    
+    
+    
     public String SMPsymsimulation(){
         String results = null;
         

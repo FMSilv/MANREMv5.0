@@ -103,3 +103,6 @@ order by DATE asc [42122-199]
 	at org.h2.server.web.WebThread.process(WebThread.java:173)
 	at org.h2.server.web.WebThread.run(WebThread.java:93)
 	at java.lang.Thread.run(Unknown Source)
+2019-09-24 20:28:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SILUMATIONS_DATA" not found; SQL statement:
+select * from SILUMATIONS_DATA [42102-199]

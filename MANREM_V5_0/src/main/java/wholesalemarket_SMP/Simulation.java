@@ -1,8 +1,6 @@
 package wholesalemarket_SMP;
 
-import jade.core.AID;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import marketpool.offersresults.AgentOffers;
 import marketpool.MarketPool;
 import marketpool.offersresults.PeriodResult;

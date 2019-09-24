@@ -1224,46 +1224,7 @@ public class PersonalAssistantGUI extends JFrame {
             }
             else if(e.getSource().equals(last_simulation))
             {
-            	
-   		     Connection conn = null; 
-		      Statement stmt = null;
-		      String resultSetString = null;
-		      try {
-		         Class.forName("org.h2.Driver");
-		         conn = DriverManager.getConnection("jdbc:h2:file:D:\\Work\\eclipse\\workspace-fsilverio\\git\\MANREMv5.0.git\\MANREM_V5_0\\database\\h2db","root","root");
-		         stmt = conn.createStatement(
-                       ResultSet.TYPE_SCROLL_INSENSITIVE,
-                       ResultSet.CONCUR_UPDATABLE);
-		         String sql = "SELECT sim.RESULTS from SIMULATIONS_DATA sim order by DATE asc";
-		         ResultSet rs = stmt.executeQuery(sql);
-		         while(rs.next()) {
-		        	 resultSetString = rs.getString("RESULTS");
-		          }
-		         rs.close();
-		      } catch(SQLException se) {
-		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
-
-		         se.printStackTrace();
-		      } catch(Exception ex) { 
-		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
-		         ex.printStackTrace(); 
-		      } finally { 
-		         try { 
-		            if(stmt!=null) stmt.close();  
-		         } catch(SQLException se2) { 
-		         }
-		         try { 
-		            if(conn!=null) conn.close(); 
-		         } catch(SQLException se) { 
-		            se.printStackTrace(); 
-		         }
-		      }
-		      
-		      
-	    	  JOptionPane.showMessageDialog(null, resultSetString, "INFO", JOptionPane.INFORMATION_MESSAGE);
-
-//        		market.Store_and_send_SMP_results(resultSetString);
-        		
+            	market.sendMessage(market.agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", "getLastSimulation", "market_ontology", "no_protocol", "INFORM");
         	}
             else if (e.getSource().equals(choose_Buyer)){
                 try {
