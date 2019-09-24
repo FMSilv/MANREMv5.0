@@ -615,10 +615,8 @@ public class PersonalAssistantBDI{
             }else if(content.contains("Results")){
                 if(content.contains("SMPsym")){
                     Store_and_send_SMP_results(content);
-                    sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", content, "market_ontology", "no_protocol", "INFORM");
                 }else if(content.contains("SMPasym")){
                     Store_and_send_SMP_results(content);
-                    sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", content, "market_ontology", "no_protocol", "INFORM");
                 }
             }
         }

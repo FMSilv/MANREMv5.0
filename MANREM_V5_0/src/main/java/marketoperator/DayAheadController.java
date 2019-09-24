@@ -248,5 +248,22 @@ public class DayAheadController {
             Logger.getLogger(DayAheadController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+	public ArrayList<AgentData> getBuyers() {
+		return buyers;
+	}
+
+	public void setBuyers(ArrayList<AgentData> buyers) {
+		this.buyers = buyers;
+	}
+
+	public ArrayList<AgentData> getSellers() {
+		return sellers;
+	}
+
+	public void setSellers(ArrayList<AgentData> sellers) {
+		this.sellers = sellers;
+	}
+    
     
 }

@@ -106,3 +106,134 @@ order by DATE asc [42122-199]
 2019-09-24 20:28:16 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SILUMATIONS_DATA" not found; SQL statement:
 select * from SILUMATIONS_DATA [42102-199]
+2019-09-24 22:19:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Duplicate column name "D1"; SQL statement:
+CREATE TABLE SIMULATIONS_DATA(
+    I_ID int NOT NULL AUTO_INCREMENT,
+    SIM_ID int NOT NULL,
+    PRODUCER varchar(55) NOT NULL,
+    BUYER varchar(55) NOT NULL,
+    TYPE char(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+D1 VARCHAR(20) NOT NULL,
+    foreign key (SIM_ID) references SIMULATIONS_HISTORY (I_ID)
+) [42121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.setColumns(Table.java:447)
+	at org.h2.table.TableBase.<init>(TableBase.java:75)
+	at org.h2.table.RegularTable.<init>(RegularTable.java:126)
+	at org.h2.mvstore.db.MVTable.<init>(MVTable.java:113)
+	at org.h2.mvstore.db.MVTableEngine$Store.createTable(MVTableEngine.java:236)
+	at org.h2.mvstore.db.MVTableEngine.createTable(MVTableEngine.java:119)
+	at org.h2.mvstore.db.MVTableEngine.createTable(MVTableEngine.java:42)
+	at org.h2.schema.Schema.createTable(Schema.java:706)
+	at org.h2.command.ddl.CreateTable.update(CreateTable.java:107)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:133)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+2019-09-24 22:19:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ALTER TABLE ""table_name""
+ADD [[*]CONSTRAINT_NAME] [CONSTRAINT_TYPE] [CONSTRAINT_CONDITION]"; expected "identifier"; SQL statement:
+ALTER TABLE "table_name"
+ADD [CONSTRAINT_NAME] [CONSTRAINT_TYPE] [CONSTRAINT_CONDITION] [42001-199]
+2019-09-24 22:22:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ALTER TABLE SIMULATIONS_DATA
+ADD CONSTRAINT CONSTRAINTYPE ([*]'Power', 'Price') "; expected "., COMMENT, PRIMARY, INDEX, KEY, CHECK, UNIQUE, FOREIGN"; SQL statement:
+ALTER TABLE simulations_data
+ADD CONSTRAINT constrainTYPE ('Power', 'Price') [42001-199]
+2019-09-24 22:51:47 database: wrong user or password; user: "ROOT"
+org.h2.message.DbException: Wrong user name or password [28000-199]
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.engine.Engine.openSession(Engine.java:126)
+	at org.h2.engine.Engine.openSession(Engine.java:201)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:178)
+	at org.h2.engine.Engine.createSession(Engine.java:161)
+	at org.h2.engine.Engine.createSession(Engine.java:31)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:336)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:169)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:148)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.util.JdbcUtils.getConnection(JdbcUtils.java:299)
+	at org.h2.server.web.WebServer.getConnection(WebServer.java:782)
+	at org.h2.server.web.WebApp.login(WebApp.java:1004)
+	at org.h2.server.web.WebApp.process(WebApp.java:219)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:169)
+	at org.h2.server.web.WebThread.process(WebThread.java:139)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name or password [28000-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 20 more
+2019-09-24 22:54:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT I_ID FROM SIMULATIONS_HISTORY ORDER BY DATE DESC ROW[*] NUM = 1 "; SQL statement:
+select I_ID from simulations_history order by date desc row num = 1 [42000-199]
+2019-09-24 22:57:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "I_ID" not found; SQL statement:
+select TOP I_ID from simulations_history order by date desc [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.Parser.parseSelectSimpleSelectPart(Parser.java:2696)
+	at org.h2.command.Parser.parseSelectSimple(Parser.java:2778)
+	at org.h2.command.Parser.parseSelectSub(Parser.java:2636)
+	at org.h2.command.Parser.parseSelectUnion(Parser.java:2469)
+	at org.h2.command.Parser.parseSelect(Parser.java:2440)
+	at org.h2.command.Parser.parsePrepared(Parser.java:814)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+2019-09-24 22:58:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT TOP(1) FROM SIMULATIONS_HISTORY ORDER[*] BY DATE DESC "; expected "., (, USE, AS, RIGHT, LEFT, FULL, INNER, JOIN, CROSS, NATURAL, ,, SELECT"; SQL statement:
+select TOP(1) from simulations_history order by date desc [42001-199]
+2019-09-24 23:51:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SIMLULATIONS_HISTORY" not found; SQL statement:
+SELECT I_ID FROM (SELECT I_ID FROM SIMLULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1 [42102-198]

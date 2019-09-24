@@ -134,10 +134,12 @@ public class MarketOperatorBDI{
 	          if(messageContent.toLowerCase().indexOf("SMPsym".toLowerCase()) != -1)
 	          {
 	              results = DAController.SMPsymsimulation();
+	              sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", "SMPsym - Store simulation data", "market_ontology", "no_protocol", "INFORM");
 	          }
 	          else if(messageContent.toLowerCase().indexOf("SMPasym".toLowerCase()) != -1)
 	          {
-	              results = DAController.SMPasymsimulation();    
+	              results = DAController.SMPasymsimulation();
+	              sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", "SMPasym - Store simulation data", "market_ontology", "no_protocol", "INFORM");
 	          }
 	          else if(messageContent.toLowerCase().indexOf("LMP".toLowerCase()) != -1)
 	          {
