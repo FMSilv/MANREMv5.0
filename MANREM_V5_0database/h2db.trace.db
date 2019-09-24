@@ -1,0 +1,3 @@
+2019-09-24 20:22:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SIMULATIONS_DATA" not found; SQL statement:
+SELECT sim.RESULTS from SIMULATIONS_DATA sim order by DATE asc [42102-198]
