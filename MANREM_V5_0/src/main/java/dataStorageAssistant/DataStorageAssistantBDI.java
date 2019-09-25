@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -37,6 +38,7 @@ import jadex.micro.annotation.RequiredServices;
 import marketoperator.DayAheadController;
 import services.messageServices.IMessageService;
 import wholesalemarket_SMP.AgentData;
+import wholesalemarket_SMP.Simulation;
 
 /**
 *
@@ -137,20 +139,23 @@ public class DataStorageAssistantBDI {
     	public void execute()
     	{
     		if(content.equals("getLastSimulation")) {
-    			String resultSetString = getLastSimulation();
-    			JOptionPane.showMessageDialog(null, resultSetString, "INFO", JOptionPane.INFORMATION_MESSAGE);
+    			getLastSimulation();
     		}
     		else if(content.equals("SMPsym - Store simulation data"))
     		{
-    			insertSimulationsData("SMPsym");
-    			String lastId = getLastID();
-    			storeValuesManagement(lastId);
+    			if(insertSimulationsData("SMPsym"))
+    			{
+        			String lastId = getLastID("SELECT I_ID FROM (SELECT I_ID FROM SIMULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1");
+        			storeValuesManagement(lastId);
+    			}
     		}
     		else if(content.equals("SMPasym - Store simulation data"))
     		{
-    			insertSimulationsData("SMPasym");
-    			String lastId = getLastID();
-    			storeValuesManagement(lastId);
+    			if(insertSimulationsData("SMPasym"))
+    			{
+        			String lastId = getLastID("SELECT I_ID FROM (SELECT I_ID FROM SIMULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1");
+        			storeValuesManagement(lastId);
+    			}
     		}
     	}
     	
@@ -222,26 +227,59 @@ public class DataStorageAssistantBDI {
     	
     	
     	
-    	protected String getLastSimulation() {
+    	protected void getLastSimulation() {
     		
-  		     Connection conn = null; 
+			String lastSimId = getLastID("SELECT SIM_ID FROM (SELECT DISTINCT SIM_ID FROM SIMULATIONS_DATA ORDER BY SIM_ID DESC) WHERE ROWNUM = 1");
+
+    		
+			String[][] allInfoLastSimulation = getLastSimulation_AllInfo("SELECT NAME, TYPE, VALUE, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = "+lastSimId);
+    		
+    	    ArrayList<AgentData> buyers;
+    	    ArrayList<AgentData> sellers;
+    	    String[] sellerNames;
+    	    String[] buyerNames;
+    		
+//    	    AgentData agentData = new AgentData(Name, id, price, power);
+    	    
+    	    
+//            Simulation sim = new Simulation(buyers, sellers, false);
+//            sim.run(0, 23, sellerNames, buyerNames);
+    	}
+    	
+    	
+ 	   protected String[][] getLastSimulation_AllInfo(String query){
+		     Connection conn = null; 
 		      Statement stmt = null;
-		      String resultSetString = null;
-		      try {
-		         Class.forName("org.h2.Driver");
-		         conn = DriverManager.getConnection("jdbc:h2:file:"+System.getProperty("user.dir").replace("\\", "\\\\") + "\\\\database\\\\h2db"+"","root","root");
+		      String[][] resultSetArray = null;
+		      try {  
+			     Class.forName("org.h2.Driver");
+			     conn = DriverManager.getConnection("jdbc:h2:file:"+System.getProperty("user.dir").replace("\\", "\\\\") + "\\\\database\\\\h2db"+"","root","root");
 		         stmt = conn.createStatement(
-                      ResultSet.TYPE_SCROLL_INSENSITIVE,
-                      ResultSet.CONCUR_UPDATABLE);
-		         String sql = "SELECT sim.RESULTS from SIMULATIONS_DATA sim order by DATE asc";
+                       ResultSet.TYPE_SCROLL_INSENSITIVE,
+                       ResultSet.CONCUR_UPDATABLE); 
+		         String sql = query; 
 		         ResultSet rs = stmt.executeQuery(sql);
+		         rs.last();
+		         int rowsNumber = rs.getRow();
+			     String[][] array = new String[rowsNumber][27];
+			     rs.beforeFirst();
+			     int i=0;
 		         while(rs.next()) {
-		        	 resultSetString = rs.getString("RESULTS");
+			        array[i][0] = rs.getString("NAME");array[i][1] = rs.getString("TYPE");array[i][2] = rs.getString("VALUE");
+			        array[i][3] = rs.getString("D1");array[i][4] = rs.getString("D2");array[i][5] = rs.getString("D3");
+			        array[i][6] = rs.getString("D4");array[i][7] = rs.getString("D5");array[i][8] = rs.getString("D6");
+			        array[i][9] = rs.getString("D7");array[i][10] = rs.getString("D8");array[i][11] = rs.getString("D9");
+			        array[i][12] = rs.getString("D10");array[i][13] = rs.getString("D11");array[i][14] = rs.getString("D12");
+			        array[i][15] = rs.getString("D13");array[i][16] = rs.getString("D14");array[i][17] = rs.getString("D15");
+			        array[i][18] = rs.getString("D16");array[i][19] = rs.getString("D17");array[i][20] = rs.getString("D18");
+			        array[i][21] = rs.getString("D19");array[i][22] = rs.getString("D20");array[i][23] = rs.getString("D21");
+			        array[i][24] = rs.getString("D22");array[i][25] = rs.getString("D23");array[i][26] = rs.getString("D24");
+			        i++;
 		          }
+		         resultSetArray = array;
 		         rs.close();
 		      } catch(SQLException se) {
 		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
-
 		         se.printStackTrace();
 		      } catch(Exception ex) { 
 		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
@@ -257,12 +295,22 @@ public class DataStorageAssistantBDI {
 		            se.printStackTrace(); 
 		         }
 		      }
-		      return resultSetString;
-    	}
+		      return resultSetArray;
+	   }
     	
     	
     	
-    	protected void insertSimulationsData(String simulationType) {
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	protected boolean insertSimulationsData(String simulationType) {
+    		
+    		boolean success = true;
     		
     		Connection conn = null; 
     		Statement stmt = null;
@@ -278,11 +326,13 @@ public class DataStorageAssistantBDI {
 			}
 			catch(SQLException se) 
 			{
+				success = false;
 				JOptionPane.showMessageDialog(null, "Não foi possível registar os dados da simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
 				se.printStackTrace();
 			} 
 			catch(Exception e) 
 			{
+				success = false;
 				JOptionPane.showMessageDialog(null, "Não foi possível registar os dados da simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
 				e.printStackTrace(); 
 			} 
@@ -305,11 +355,11 @@ public class DataStorageAssistantBDI {
 					se.printStackTrace(); 
 				} 
 			}
-    		
+    		return success;
     	}
     	
     	
-    	protected String getLastID() {
+    	protected String getLastID(String query) {
     		
  		     Connection conn = null; 
 		      Statement stmt = null;
@@ -320,18 +370,18 @@ public class DataStorageAssistantBDI {
 		         stmt = conn.createStatement(
                      ResultSet.TYPE_SCROLL_INSENSITIVE,
                      ResultSet.CONCUR_UPDATABLE);
-		         String sql = "SELECT I_ID FROM (SELECT I_ID FROM SIMLULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1";
+		         String sql = query;
 		         ResultSet rs = stmt.executeQuery(sql);
 		         while(rs.next()) {
-		        	 resultSetString = rs.getString("RESULTS");
+		        	 resultSetString = rs.getString("I_ID");
 		          }
 		         rs.close();
 		      } catch(SQLException se) {
-		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter o ID da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
 
 		         se.printStackTrace();
 		      } catch(Exception ex) { 
-		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter os dados da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+		    	  JOptionPane.showMessageDialog(null, "Não foi possível obter o ID da ultima simulação.", "INFO", JOptionPane.INFORMATION_MESSAGE);
 		         ex.printStackTrace(); 
 		      } finally { 
 		         try { 
