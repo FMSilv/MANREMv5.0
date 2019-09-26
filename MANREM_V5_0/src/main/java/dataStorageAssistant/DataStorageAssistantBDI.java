@@ -231,15 +231,31 @@ public class DataStorageAssistantBDI {
     		
 			String lastSimId = getLastID("SELECT SIM_ID FROM (SELECT DISTINCT SIM_ID FROM SIMULATIONS_DATA ORDER BY SIM_ID DESC) WHERE ROWNUM = 1");
 
+    	    ArrayList<AgentData> sellers;
+    	    ArrayList<AgentData> buyers;
+			
+    	    String[] sellerNames = getNames("SELECT DISTINCT NAME FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND TYPE = 'Producer'");
+    	    String[] buyerNames = getNames("SELECT DISTINCT NAME FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND TYPE = 'Buyer'");
     		
 			String[][] allInfoLastSimulation = getLastSimulation_AllInfo("SELECT NAME, TYPE, VALUE, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = "+lastSimId);
     		
-    	    ArrayList<AgentData> buyers;
-    	    ArrayList<AgentData> sellers;
-    	    String[] sellerNames;
-    	    String[] buyerNames;
-    		
-//    	    AgentData agentData = new AgentData(Name, id, price, power);
+			int id = 0;
+			for(String sellerName : sellerNames) {
+				ArrayList<Float> sellerPowerInfo = geSimulationsDataSingleRowInfo("SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND NAME = '"+ sellerName +"' AND VALUE = 'Power';");
+				ArrayList<Float> sellerPriceInfo = geSimulationsDataSingleRowInfo("SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND NAME = '"+ sellerName +"' AND VALUE = 'Price';");
+
+				for(id = 0; id<sellerPowerInfo.size(); id++) {
+					AgentData agentData = new AgentData(sellerName, id, sellerPriceInfo, sellerPowerInfo);
+				}
+				
+
+			}
+			
+			
+
+    	    
+    	    
+
     	    
     	    
 //            Simulation sim = new Simulation(buyers, sellers, false);
@@ -299,7 +315,108 @@ public class DataStorageAssistantBDI {
 	   }
     	
     	
-    	
+	   protected ArrayList<Float> geSimulationsDataSingleRowInfo(String query){
+		     Connection conn = null; 
+		      Statement stmt = null;
+		      ArrayList<Float> resultSetArray = null;
+		      try {  
+			     Class.forName("org.h2.Driver");
+			     conn = DriverManager.getConnection("jdbc:h2:file:"+System.getProperty("user.dir").replace("\\", "\\\\") + "\\\\database\\\\h2db"+"","root","root");
+		         stmt = conn.createStatement(
+                     ResultSet.TYPE_SCROLL_INSENSITIVE,
+                     ResultSet.CONCUR_UPDATABLE); 
+		         String sql = query; 
+		         ResultSet rs = stmt.executeQuery(sql);
+		         rs.last();
+		         ArrayList<Float> arrayList = new ArrayList<Float>();
+			     rs.beforeFirst();
+		         while(rs.next()) {
+		        	 arrayList.add(Float.valueOf(rs.getString("D1").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D2").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D3").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D4").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D5").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D6").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D7").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D8").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D9").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D10").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D11").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D12").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D13").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D14").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D15").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D16").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D17").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D18").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D19").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D20").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D21").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D22").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D23").trim()).floatValue());
+		        	 arrayList.add(Float.valueOf(rs.getString("D24").trim()).floatValue());
+		          }
+		         resultSetArray = arrayList;
+		         rs.close();
+		      } catch(SQLException se) {
+		         se.printStackTrace();
+		      } catch(Exception ex) {
+		         ex.printStackTrace(); 
+		      } finally { 
+		         try { 
+		            if(stmt!=null) stmt.close();  
+		         } catch(SQLException se2) { 
+		         }
+		         try { 
+		            if(conn!=null) conn.close(); 
+		         } catch(SQLException se) { 
+		            se.printStackTrace(); 
+		         }
+		      }
+		      return resultSetArray;
+	   }
+ 	   
+ 	   
+ 	   protected String[] getNames(String query){
+		     Connection conn = null; 
+		      Statement stmt = null;
+		      String[] resultSetArray = null;
+		      try {  
+			     Class.forName("org.h2.Driver");
+			     conn = DriverManager.getConnection("jdbc:h2:file:"+System.getProperty("user.dir").replace("\\", "\\\\") + "\\\\database\\\\h2db"+"","root","root");
+		         stmt = conn.createStatement(
+                     ResultSet.TYPE_SCROLL_INSENSITIVE,
+                     ResultSet.CONCUR_UPDATABLE); 
+		         String sql = query; 
+		         ResultSet rs = stmt.executeQuery(sql);
+		         rs.last();
+		         int rowsNumber = rs.getRow();
+			     String[] array = new String[rowsNumber];
+			     rs.beforeFirst();
+			     int i=0;
+		         while(rs.next()) {
+		        	 array[i] = rs.getString("NAME");
+			        i++;
+		          }
+		         resultSetArray = array;
+		         rs.close();
+		      } catch(SQLException se) {
+		         se.printStackTrace();
+		      } catch(Exception ex) {
+		         ex.printStackTrace(); 
+		      } finally { 
+		         try { 
+		            if(stmt!=null) stmt.close();  
+		         } catch(SQLException se2) { 
+		         }
+		         try { 
+		            if(conn!=null) conn.close(); 
+		         } catch(SQLException se) { 
+		            se.printStackTrace(); 
+		         }
+		      }
+		      return resultSetArray;
+	   }
     	
     	
     	
