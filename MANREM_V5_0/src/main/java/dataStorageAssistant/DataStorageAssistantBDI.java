@@ -231,35 +231,39 @@ public class DataStorageAssistantBDI {
     		
 			String lastSimId = getLastID("SELECT SIM_ID FROM (SELECT DISTINCT SIM_ID FROM SIMULATIONS_DATA ORDER BY SIM_ID DESC) WHERE ROWNUM = 1");
 
-    	    ArrayList<AgentData> sellers;
-    	    ArrayList<AgentData> buyers;
+    	    ArrayList<AgentData> sellers = new ArrayList<AgentData>();
+    	    ArrayList<AgentData> buyers = new ArrayList<AgentData>();
 			
     	    String[] sellerNames = getNames("SELECT DISTINCT NAME FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND TYPE = 'Producer'");
     	    String[] buyerNames = getNames("SELECT DISTINCT NAME FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND TYPE = 'Buyer'");
     		
-			String[][] allInfoLastSimulation = getLastSimulation_AllInfo("SELECT NAME, TYPE, VALUE, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = "+lastSimId);
+//			String[][] allInfoLastSimulation = getLastSimulation_AllInfo("SELECT NAME, TYPE, VALUE, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = "+lastSimId);
     		
 			int id = 0;
 			for(String sellerName : sellerNames) {
 				ArrayList<Float> sellerPowerInfo = geSimulationsDataSingleRowInfo("SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND NAME = '"+ sellerName +"' AND VALUE = 'Power';");
 				ArrayList<Float> sellerPriceInfo = geSimulationsDataSingleRowInfo("SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND NAME = '"+ sellerName +"' AND VALUE = 'Price';");
 
-				for(id = 0; id<sellerPowerInfo.size(); id++) {
-					AgentData agentData = new AgentData(sellerName, id, sellerPriceInfo, sellerPowerInfo);
-				}
-				
-
+				AgentData agentData = new AgentData(sellerName, id, sellerPriceInfo, sellerPowerInfo);
+				sellers.add(agentData);
+				id++;
 			}
 			
-			
+			id = 0;
+			for(String buyerName : buyerNames) {
+				ArrayList<Float> buyerPowerInfo = geSimulationsDataSingleRowInfo("SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND NAME = '"+ buyerName +"' AND VALUE = 'Power';");
+				ArrayList<Float> buyerPriceInfo = geSimulationsDataSingleRowInfo("SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24 FROM SIMULATIONS_DATA WHERE SIM_ID = " + lastSimId + " AND NAME = '"+ buyerName +"' AND VALUE = 'Price';");
+
+				AgentData agentData = new AgentData(buyerName, id, buyerPriceInfo, buyerPowerInfo);
+				buyers.add(agentData);
+				id++;
+			}
 
     	    
-    	    
+//	        sendMessage(agent.getComponentIdentifier().getLocalName(), AgentName, "Get Las Simulation", "market_ontology", "no_protocol", "INFORM");
 
-    	    
-    	    
-//            Simulation sim = new Simulation(buyers, sellers, false);
-//            sim.run(0, 23, sellerNames, buyerNames);
+            Simulation sim = new Simulation(buyers, sellers, false);
+            sim.run(0, 23, sellerNames, buyerNames);
     	}
     	
     	
@@ -490,7 +494,7 @@ public class DataStorageAssistantBDI {
 		         String sql = query;
 		         ResultSet rs = stmt.executeQuery(sql);
 		         while(rs.next()) {
-		        	 resultSetString = rs.getString("I_ID");
+		        	 resultSetString = rs.getString("SIM_ID");
 		          }
 		         rs.close();
 		      } catch(SQLException se) {
