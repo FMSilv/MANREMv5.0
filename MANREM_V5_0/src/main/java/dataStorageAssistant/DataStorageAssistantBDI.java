@@ -259,8 +259,8 @@ public class DataStorageAssistantBDI {
 				id++;
 			}
 
-    	    
-//	        sendMessage(agent.getComponentIdentifier().getLocalName(), AgentName, "Get Las Simulation", "market_ontology", "no_protocol", "INFORM");
+			
+	        sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistantBDIAgent", "Last simulation displayed", "market_ontology", "no_protocol", "GetLastSimulation");
 
             Simulation sim = new Simulation(buyers, sellers, false);
             sim.run(0, 23, sellerNames, buyerNames);

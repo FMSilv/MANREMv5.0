@@ -573,6 +573,9 @@ public class PersonalAssistantBDI{
                 }
 
             }
+            if(performative.equals("GetLastSimulation")){
+            	mo_gui.text_log.append(content);
+            }
         }
         
         private void resolve_hello() {
