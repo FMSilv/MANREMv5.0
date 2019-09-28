@@ -5,12 +5,8 @@
  */
 package wholesalemarket_SMP;
 
-import jade.core.AID;
-import jade.core.Agent;
-import jade.lang.acl.ACLMessage;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,9 +15,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import static javax.xml.bind.DatatypeConverter.parseFloat;
+
+import jade.core.Agent;
 import marketpool.tools.AgentsFromExcel;
-import scheduling.ProducerScheduling;
 
 /**
  *

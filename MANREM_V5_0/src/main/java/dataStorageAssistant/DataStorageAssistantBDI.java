@@ -145,7 +145,7 @@ public class DataStorageAssistantBDI {
     		{
     			if(insertSimulationsData("SMPsym"))
     			{
-        			String lastId = getLastID("SELECT I_ID FROM (SELECT I_ID FROM SIMULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1");
+        			String lastId = getLastID("SELECT I_ID FROM (SELECT I_ID FROM SIMULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1", "I_ID");
         			storeValuesManagement(lastId);
     			}
     		}
@@ -153,7 +153,7 @@ public class DataStorageAssistantBDI {
     		{
     			if(insertSimulationsData("SMPasym"))
     			{
-        			String lastId = getLastID("SELECT I_ID FROM (SELECT I_ID FROM SIMULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1");
+        			String lastId = getLastID("SELECT I_ID FROM (SELECT I_ID FROM SIMULATIONS_HISTORY ORDER BY DATE DESC) WHERE ROWNUM = 1", "I_ID");
         			storeValuesManagement(lastId);
     			}
     		}
@@ -229,7 +229,7 @@ public class DataStorageAssistantBDI {
     	
     	protected void getLastSimulation() {
     		
-			String lastSimId = getLastID("SELECT SIM_ID FROM (SELECT DISTINCT SIM_ID FROM SIMULATIONS_DATA ORDER BY SIM_ID DESC) WHERE ROWNUM = 1");
+			String lastSimId = getLastID("SELECT SIM_ID FROM (SELECT DISTINCT SIM_ID FROM SIMULATIONS_DATA ORDER BY SIM_ID DESC) WHERE ROWNUM = 1", "SIM_ID");
 
     	    ArrayList<AgentData> sellers = new ArrayList<AgentData>();
     	    ArrayList<AgentData> buyers = new ArrayList<AgentData>();
@@ -480,7 +480,7 @@ public class DataStorageAssistantBDI {
     	}
     	
     	
-    	protected String getLastID(String query) {
+    	protected String getLastID(String query, String queryHeaderResult) {
     		
  		     Connection conn = null; 
 		      Statement stmt = null;
@@ -494,7 +494,7 @@ public class DataStorageAssistantBDI {
 		         String sql = query;
 		         ResultSet rs = stmt.executeQuery(sql);
 		         while(rs.next()) {
-		        	 resultSetString = rs.getString("SIM_ID");
+		        	 resultSetString = rs.getString(queryHeaderResult);
 		          }
 		         rs.close();
 		      } catch(SQLException se) {

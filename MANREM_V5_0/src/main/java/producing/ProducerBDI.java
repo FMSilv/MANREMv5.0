@@ -1,15 +1,15 @@
 package producing;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import Trader.AgentData;
-import Trader.Trader;
-import Trader.TraderBDI;
 import graphics.utility;
-//import jade.core.AID;
-//import jade.core.Agent;
-//import jade.core.behaviours.Behaviour;
-//import jade.core.behaviours.CyclicBehaviour;
-//import jade.lang.acl.ACLMessage;
-//import jade.lang.acl.MessageTemplate;
 import jadex.bdiv3.IBDIAgent;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanBody;
@@ -17,7 +17,6 @@ import jadex.bdiv3.annotation.PlanPrecondition;
 import jadex.bdiv3.annotation.ServiceTrigger;
 import jadex.bdiv3.annotation.Trigger;
 import jadex.bdiv3.features.IBDIAgentFeature;
-import jadex.bdiv3.runtime.ChangeEvent;
 import jadex.bridge.IInternalAccess;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.search.SServiceProvider;
@@ -38,28 +37,18 @@ import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
 import jadex.micro.annotation.RequiredService;
 import jadex.micro.annotation.RequiredServices;
-
-import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import marketoperator.MarketOperatorBDI.MarketOntology;
 import scheduling.EnterGENCO;
 import scheduling.MediumValueException;
 import scheduling.MinMaxException;
-import scheduling.ProducerScheduling;
 import services.chatService.ChatService;
 import services.chatService.IChatService;
 import services.messageServices.IMessageService;
-import xml.FileManager;
 import wholesalemarket_SMP.InputData_Agents;
+import xml.FileManager;
 
 
 @Agent

@@ -1,9 +1,7 @@
 package wholesalemarket_LMP;
 
-import jade.core.Agent;
-import personalassistant.PersonalAssistantBDI;
-import wholesalemarket_LMP.simul.ProducerData;
 import java.util.ArrayList;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +10,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import personalassistant.PersonalAssistantBDI;
+import wholesalemarket_LMP.simul.ProducerData;
 import wholesalemarket_LMP.simul.WholesaleMarket;
 import wholesalemarket_SMP.RiskAttitude;
 

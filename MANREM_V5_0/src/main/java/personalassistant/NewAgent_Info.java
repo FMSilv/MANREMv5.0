@@ -1,13 +1,8 @@
 package personalassistant;
 
-import Coalition.CoalitionGui;
-//import buying.Buyer;
-//import buying.BuyerInputGui;
-import jade.core.AID;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
-import selling.Seller;
-import selling.SellerInputGui;
 
 public class NewAgent_Info extends javax.swing.JFrame {
     

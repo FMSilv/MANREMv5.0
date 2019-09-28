@@ -1,12 +1,13 @@
 package wholesalemarket_LMP;
 
-import jade.core.Agent;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
+
 import personalassistant.PersonalAssistantBDI;
-import wholesalemarket_LMP.simul.SupplierData;
 import wholesalemarket_LMP.simul.GridData;
 import wholesalemarket_LMP.simul.ProducerData;
-import java.util.ArrayList;
-import javax.swing.DefaultListModel;
+import wholesalemarket_LMP.simul.SupplierData;
 
 public class Wholesale_InputData {
 

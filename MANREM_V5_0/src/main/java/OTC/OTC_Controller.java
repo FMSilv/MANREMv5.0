@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-import jade.core.Agent;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;

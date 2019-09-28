@@ -31,9 +31,9 @@ public class MarketOperatorGUI extends JFrame {
     private JPanel panel_center = new JPanel();
     private JLabel label_image = new JLabel(new ImageIcon("images\\system_image_2.png"));
     private JSplitPane split_pane_log_image = new JSplitPane(JSplitPane.VERTICAL_SPLIT, null, scroll_log);
-    public MarketOperator mOperator;
+    public MarketOperatorBDI mOperator;
     
-    public MarketOperatorGUI(MarketOperator mOperator) {
+    public MarketOperatorGUI(MarketOperatorBDI mOperator) {
         this.mOperator = mOperator;
         this.setTitle("Market Operator");
 //        this.setPreferredSize(new Dimension(900, 600));

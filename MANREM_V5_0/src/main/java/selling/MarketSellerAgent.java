@@ -4,26 +4,24 @@
  */
 package selling;
 
-/**
- * Java and Jade libraries S
- */
-import FIPA.DateTime;
-import jade.core.*;
-import jade.core.behaviours.*;
-
-import jade.lang.acl.*;
-
-import jade.domain.*;
-import jade.domain.FIPAAgentManagement.*;
-
-import java.util.*;
-import java.util.Vector;
-import java.util.Date;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
-import java.util.logging.*;
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Logger;
+
+import jade.core.AID;
+import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.TickerBehaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import risk.Risk;
 
 public class MarketSellerAgent {

@@ -4,28 +4,11 @@
  */
 package producing;
 
-/**
- * Java and Jade libraries S
- */
-import selling.*;
-import FIPA.DateTime;
-import jade.core.*;
-import jade.core.behaviours.*;
-
-import jade.lang.acl.*;
-
-import jade.domain.*;
-import jade.domain.FIPAAgentManagement.*;
-
-import java.util.*;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-
-import java.io.*;
-import java.text.DecimalFormat;
-import java.util.logging.*;
-import javax.swing.JOptionPane;
-import risk.Risk;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class MarketProducerAgent {
     // The list of known buyer agents

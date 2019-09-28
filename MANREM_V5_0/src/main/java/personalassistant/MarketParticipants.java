@@ -5,15 +5,12 @@
  */
 package personalassistant;
 
-//import jade.core.Agent;
-//import java.util.ArrayList;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
+
 import javax.swing.JLabel;
 //import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-//import jxl.read.biff.BiffException;
+
 
 
 
