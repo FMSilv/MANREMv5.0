@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ import Trader.AgentData;
 import graphics.utility;
 import graphics.volume;
 import jadex.bdiv3.IBDIAgent;
+import jadex.bdiv3.annotation.Belief;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanPrecondition;
@@ -45,7 +47,9 @@ import jxl.read.biff.BiffException;
 import services.chatService.ChatService;
 import services.chatService.IChatService;
 import services.messageServices.IMessageService;
+import xml.AddXmlNode;
 import xml.FileManager;
+import xml.ReadXMLFile;
 
 
 @Agent
@@ -74,6 +78,9 @@ public class BuyerBDI{
     
 	@AgentArgument
 	protected String chatOn;
+	
+	@Belief(updaterate=4000)
+	protected Map<String, String> hashmap = getBuyerBelief(agent.getComponentIdentifier().getLocalName());
 	
     private int phase = 0;
     private FileManager file_manager = new FileManager(agent.getComponentIdentifier().getLocalName());
@@ -135,8 +142,29 @@ public class BuyerBDI{
     
     
     @AgentBody
-    protected void setup() {
+    protected void setup() throws Exception {
         this.information = new AgentData();
+        
+        switch(agentLocalName) {
+        case "RetailCO1":
+            new AddXmlNode().addNode(agentLocalName, "João", "Silva", "Rua Maria Lubelo nº1 4ºD", "+351989657437", "buyer");
+          break;
+        case "RetailCO2":
+            new AddXmlNode().addNode(agentLocalName, "Alberto", "Marques", "Rua Martim dos Reis nº15 1ºB", "+351987958462", "buyer");
+          break;
+        case "RetailCO3":
+            new AddXmlNode().addNode(agentLocalName, "Jacinto", "Mendes", "Rua Fernando Pessoa nº4 3ºE", "+351989574563", "buyer");
+            break;
+        case "RetailCO4":
+            new AddXmlNode().addNode(agentLocalName, "Vicente", "Menezes", "Rua Alberto Conseicao nº12 7ºB", "+351978954266", "buyer");
+            break;
+        case "RetailCO5":
+            new AddXmlNode().addNode(agentLocalName, "Manuel", "Correia", "Rua Joao Pacheco nº3 12ºD", "+351948596214", "buyer");
+              break;
+        default:
+            new AddXmlNode().addNode(agentLocalName, null, null, null, null, null);
+      }
+        
 //        this.addBehaviour(new MessageManager());
         executePhase(0);
     }
@@ -1610,6 +1638,22 @@ public class BuyerBDI{
 	            }));
 	        }
         });
+    }
+    
+    private HashMap<String, String> getBuyerBelief(String agentName){
+    	HashMap<String, String> hashMap = new HashMap<String, String>();
+    	System.out.println("Updating " + agentName + " Beliefs!");
+    	hashMap = new ReadXMLFile().getMarketInfo(agentName);
+    	
+    	System.out.println("Buyer "+agentName+" id : " + hashMap.get("id"));
+    	System.out.println("Buyer "+agentName+" firstName : " + hashMap.get("firstName"));
+    	System.out.println("Buyer "+agentName+" lastName : " + hashMap.get("lastName"));
+    	System.out.println("Buyer "+agentName+" phone : " + hashMap.get("phone"));
+    	System.out.println("Buyer "+agentName+" address : " + hashMap.get("address"));
+    	System.out.println("Buyer "+agentName+" type : " + hashMap.get("type"));
+		System.out.println("----------------------------");
+		
+    	return hashMap;
     }
     
     

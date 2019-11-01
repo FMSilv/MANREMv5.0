@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Trader.AgentData;
 import graphics.utility;
 import jadex.bdiv3.IBDIAgent;
+import jadex.bdiv3.annotation.Belief;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanPrecondition;
@@ -48,7 +50,9 @@ import services.chatService.ChatService;
 import services.chatService.IChatService;
 import services.messageServices.IMessageService;
 import wholesalemarket_SMP.InputData_Agents;
+import xml.AddXmlNode;
 import xml.FileManager;
+import xml.ReadXMLFile;
 
 
 @Agent
@@ -78,7 +82,10 @@ public class ProducerBDI{
 	@AgentArgument
 	protected String chatOn;
 	
-    InputData_Agents mainGenerator; 
+	@Belief(updaterate=4000)
+	protected Map<String, String> hashmap = getProducerBelief(agent.getComponentIdentifier().getLocalName());
+	
+    InputData_Agents mainGenerator;
     private int phase = 0;
     private FileManager file_manager = new FileManager(agent.getComponentIdentifier().getLocalName());
     public EnterGENCO setPowerPlant;
@@ -138,8 +145,29 @@ public class ProducerBDI{
     public AgentData information;
 
     @AgentBody
-    protected void setup() {
+    protected void setup() throws Exception {
         this.information = new AgentData();
+                
+        switch(agentLocalName) {
+        case "GenCo1":
+            new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Maria Lubelo nº1 4ºD", "+351989657437", "producer");
+          break;
+        case "GenCo2":
+            new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Martim dos Reis nº15 1ºB", "+351987958462", "producer");
+          break;
+        case "GenCo3":
+            new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Fernando Pessoa nº4 3ºE", "+351989574563", "producer");
+            break;
+        case "GenCo4":
+            new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Alberto Conseicao nº12 7ºB", "+351978954266", "producer");
+            break;
+        case "GenCo5":
+            new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Joao Pacheco nº3 12ºD", "+351948596214", "producer");
+              break;
+        default:
+            new AddXmlNode().addNode(agentLocalName, null, null, null, null, null);
+      }
+        
 //        this.addBehaviour(new MessageManager());
         executePhase(0);
     }
@@ -2044,7 +2072,25 @@ public class ProducerBDI{
         });
     }
 
-	public String getAgentLocalName() {
+    
+    private HashMap<String, String> getProducerBelief(String agentName){
+    	HashMap<String, String> hashMap = new HashMap<String, String>();
+    	System.out.println("Updating " + agentName + " Beliefs!");
+    	hashMap = new ReadXMLFile().getMarketInfo(agentName);
+    	
+    	System.out.println("Producer "+agentName+" id : " + hashMap.get("id"));
+    	System.out.println("Producer "+agentName+" firstName : " + hashMap.get("firstName"));
+    	System.out.println("Producer "+agentName+" lastName : " + hashMap.get("lastName"));
+    	System.out.println("Producer "+agentName+" phone : " + hashMap.get("phone"));
+    	System.out.println("Producer "+agentName+" address : " + hashMap.get("address"));
+    	System.out.println("Producer "+agentName+" type : " + hashMap.get("type"));
+		System.out.println("----------------------------");
+		
+    	return hashMap;
+    }
+    
+    
+	public String getAgentLocalName(){
 		return agentLocalName;
 	}
 
@@ -2052,5 +2098,13 @@ public class ProducerBDI{
 		this.agentLocalName = agentLocalName;
 	}
     
+	
+	
+//	@Plan(trigger=@Trigger(goals=ProducerGoals.class))
+//	protected void checkGoals(Map<String, String> paramHashmap)
+//	{
+//	    System.out.println("Entrou no GOAL!!!!");
+//	}
+	
     
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<marketInfo>
+	<GenCo1 id="1001">
+		<firstname>fnEDP</firstname>
+		<lastname>lnEDP</lastname>
+		<address>Rua Maria Lubelo nº1 4ºD</address>
+		<phone>+351989657437</phone>
+		<type>producer</type>
+	</GenCo1>
+	<GenCo2 id="1002">
+		<firstname>fnEDP</firstname>
+		<lastname>lnEDP</lastname>
+		<address>Rua Martim dos Reis nº15 1ºB</address>
+		<phone>+351987958462</phone>
+		<type>producer</type>
+	</GenCo2>
+	<GenCo3 id="1003">
+		<firstname>fnEDP</firstname>
+		<lastname>lnEDP</lastname>
+		<address>Rua Fernando Pessoa nº4 3ºE</address>
+		<phone>+351989574563</phone>
+		<type>producer</type>
+	</GenCo3>
+	<GenCo4 id="1004">
+		<firstname>fnEDP</firstname>
+		<lastname>lnEDP</lastname>
+		<address>Rua Alberto Conseicao nº12 7ºB</address>
+		<phone>+351978954266</phone>
+		<type>producer</type>
+	</GenCo4>
+	<GenCo5 id="1005">
+		<firstname>fnEDP</firstname>
+		<lastname>lnEDP</lastname>
+		<address>Rua Joao Pacheco nº3 12ºD</address>
+		<phone>+351948596214</phone>
+		<type>producer</type>
+	</GenCo5>
+	
+	<buyer id="2001">
+		<firstname>low</firstname>
+		<lastname>yin fong</lastname>
+		<nickname>fong fong</nickname>
+		<salary>200000</salary>
+	</buyer>
+	<info id="2002">
+		<firstname>low</firstname>
+		<lastname>yin fong</lastname>
+		<nickname>fong fong</nickname>
+		<salary>200000</salary>
+		<nickname>fong fong</nickname>
+		<salary>200000</salary>
+		<nickname>fong fong</nickname>
+		<salary>200000</salary>
+		<nickname>fong fong</nickname>
+		<salary>200000</salary>
+	</info>
+</marketInfo>

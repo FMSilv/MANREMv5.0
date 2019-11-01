@@ -329,7 +329,7 @@ public class DataStorageAssistantBDI {
 		         stmt = conn.createStatement(
                      ResultSet.TYPE_SCROLL_INSENSITIVE,
                      ResultSet.CONCUR_UPDATABLE); 
-		         String sql = query; 
+		         String sql = query;
 		         ResultSet rs = stmt.executeQuery(sql);
 		         rs.last();
 		         ArrayList<Float> arrayList = new ArrayList<Float>();
