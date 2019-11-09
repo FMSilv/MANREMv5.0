@@ -44,6 +44,10 @@ public class ReadXMLFile {
 						hashMap.put("phone", eElement.getElementsByTagName("phone").item(0).getTextContent());
 						hashMap.put("address", eElement.getElementsByTagName("address").item(0).getTextContent());
 						hashMap.put("type", eElement.getElementsByTagName("type").item(0).getTextContent());
+						if(null!=eElement.getElementsByTagName("desiredPrice"))
+						{
+							hashMap.put("desiredPrice", eElement.getElementsByTagName("desiredPrice").item(0).getTextContent());
+						}
 					}
 				}
 			    } catch (Exception e) {

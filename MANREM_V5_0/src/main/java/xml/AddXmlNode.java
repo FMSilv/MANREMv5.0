@@ -35,7 +35,7 @@ public class AddXmlNode {
         }
         
             Element newNode = document.createElement(agentName);
-            newNode.setAttribute("id", String.valueOf((Math.random() * ((999999999 - 000000000) + 1)) + 000000000));
+            newNode.setAttribute("id", String.valueOf((int)(Math.random() * ((1999 - 1000) + 1)) + 1000));
             
             Element E_firstname = document.createElement("firstname");
             E_firstname.appendChild(document.createTextNode(firstName));
@@ -66,6 +66,32 @@ public class AddXmlNode {
         StreamResult result = new StreamResult(System.getProperty("user.dir")+"\\src\\main\\java\\xml\\beliefs\\beliefs.xml");
         transformer.transform(source, result);
     }
+    
+    
+    public void addDesiredPrice(String agentName, String desiredPrice) throws Exception {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(System.getProperty("user.dir")+"\\src\\main\\java\\xml\\beliefs\\beliefs.xml");
+        
+        NodeList flowList = document.getElementsByTagName("marketInfo");
+        for (int i = 0; i < flowList.getLength(); i++) {
+            NodeList childList = flowList.item(i).getChildNodes();
+            for (int j = 0; j < childList.getLength(); j++) {
+                Node childNode = childList.item(j);
+                if (agentName.equals(childNode.getNodeName())) {
+                    Element E_desiredPrice = document.createElement("desiredPrice");
+                    E_desiredPrice.appendChild(document.createTextNode(desiredPrice));
+                	childNode.appendChild(E_desiredPrice);
+                }
+            }
+        }
+        
+        DOMSource source = new DOMSource(document);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        StreamResult result = new StreamResult(System.getProperty("user.dir")+"\\src\\main\\java\\xml\\beliefs\\beliefs.xml");
+        transformer.transform(source, result);
+    }    
 
 
     

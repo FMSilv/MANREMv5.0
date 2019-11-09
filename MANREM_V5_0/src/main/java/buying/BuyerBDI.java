@@ -72,7 +72,7 @@ public class BuyerBDI{
 
     @Agent
     protected IInternalAccess agent;
-	
+    
     @AgentFeature 
     protected IBDIAgentFeature bdiFeature;
     
@@ -164,7 +164,13 @@ public class BuyerBDI{
         default:
             new AddXmlNode().addNode(agentLocalName, null, null, null, null, null);
       }
+      
         
+  	  BuyerGoal goal = (BuyerGoal) bdiFeature.dispatchTopLevelGoal(new BuyerGoal(new Double((Math.random() * ((65 - 21) + 1)) + 21).longValue())).get();
+  	  System.out.println("["+ agentLocalName +"] - Preço desejado no mercado: "+ goal.getDesiredPrice());
+        
+  	new AddXmlNode().addDesiredPrice(agentLocalName, String.valueOf(goal.getDesiredPrice()));
+  	  
 //        this.addBehaviour(new MessageManager());
         executePhase(0);
     }
@@ -1615,6 +1621,17 @@ public class BuyerBDI{
 //    }
 
     
+    @Plan(trigger=@Trigger(goals=BuyerGoal.class))
+    public void executeGoal(BuyerGoal goal) {
+    	long desiredPrice = goal.getDesiredPrice();
+    	if(desiredPrice == 5)
+    	{
+    		goal.setDesiredPrice(desiredPrice);
+    	}
+    	
+    }
+    
+    
     public void sendMessage(String sender, String receiver, String messageContent, String ontology, String protocol, String performative) {
         SServiceProvider.getServices(agent, IMessageService.class, RequiredServiceInfo.SCOPE_PLATFORM)
         .addResultListener(new IntermediateDefaultResultListener<IMessageService>()
@@ -1651,6 +1668,7 @@ public class BuyerBDI{
     	System.out.println("Buyer "+agentName+" phone : " + hashMap.get("phone"));
     	System.out.println("Buyer "+agentName+" address : " + hashMap.get("address"));
     	System.out.println("Buyer "+agentName+" type : " + hashMap.get("type"));
+    	System.out.println("Buyer "+agentName+" desiredPrice : " + hashMap.get("desiredPrice"));
 		System.out.println("----------------------------");
 		
     	return hashMap;
