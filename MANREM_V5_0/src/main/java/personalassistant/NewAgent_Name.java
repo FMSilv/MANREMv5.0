@@ -36,7 +36,7 @@ public class NewAgent_Name extends javax.swing.JFrame {
 //                agentList.add(market.getBuyerNames().get(i).getLocalName());
 //            }
             agentType = "Retailer";
-            agentInfo = "buying.Buyer";
+            agentInfo = "buying.BuyerBDI";
         } else if (_agentType == 3) {
 //            for (int i = 0; i < market.getBuyerNames().size(); i++) {
 //                agentList.add(market.getBuyerNames().get(i).getLocalName());
@@ -44,6 +44,13 @@ public class NewAgent_Name extends javax.swing.JFrame {
             agentType = "Consumer";
             agentInfo = "buying.Buyer";
         }
+        else if (_agentType == 4) {
+//          for (int i = 0; i < market.getProducerNames().size(); i++) {
+//              agentList.add(market.getProducerNames().get(i).getLocalName());
+//          }
+          agentType = "Producer";
+          agentInfo = "producing.ProducerBDI";
+      }
         configWindowType();
         setInfoTable();
     }
@@ -298,7 +305,7 @@ public class NewAgent_Name extends javax.swing.JFrame {
         } else {
             String warning = searchAgent(agentTable, jTextField_Name.getText().trim().replace(" ", "_"));
             if (warning.isEmpty()) {
-//                market.createAgent((String) jTextField_Name.getText().trim().replace(" ", "_"), agentInfo);
+                market.createAgent((String) jTextField_Name.getText().trim().replace(" ", "_"), agentInfo);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, warning,

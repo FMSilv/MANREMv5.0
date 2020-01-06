@@ -1086,7 +1086,7 @@ public class PersonalAssistantGUI extends JFrame {
             } else if (e.getSource().equals(seller_risk)) {
                 market.seller_risk(null);
             } else if (e.getSource().equals(menu_new_producer)) {
-                market.newAgentForm(1);
+                market.newAgentForm(4);
             } else if (e.getSource().equals(menu_new_retailer)) {
                 market.newAgentForm(2);
             } else if (e.getSource().equals(menu_load_producer)) {
