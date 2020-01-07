@@ -56,7 +56,8 @@ import xml.ReadXMLFile;
 @Description("BuyerBDI agent. <br>")
 @Arguments
 (value={
-	@Argument(name="chatOn", description="buyerBDI.chatOn", clazz=String.class, defaultvalue="\"1\"")
+	@Argument(name="chatOn", description="buyerBDI.chatOn", clazz=String.class, defaultvalue="\"1\""),
+	@Argument(name="isLoaded", description="buyerBDI.isLoaded", clazz=String.class, defaultvalue="\"false\"")
 })
 @RequiredServices
 ({
@@ -78,9 +79,11 @@ public class BuyerBDI{
     
 	@AgentArgument
 	protected String chatOn;
+	@AgentArgument
+	protected String isLoaded;
 	
-	@Belief(updaterate=4000)
-	protected Map<String, String> hashmap = getBuyerBelief(agent.getComponentIdentifier().getLocalName());
+//	@Belief(updaterate=4000)
+//	protected Map<String, String> hashmap = getBuyerBelief(agent.getComponentIdentifier().getLocalName());
 	
     private int phase = 0;
     private FileManager file_manager = new FileManager(agent.getComponentIdentifier().getLocalName());
@@ -147,7 +150,7 @@ public class BuyerBDI{
         
         switch(agentLocalName) {
         case "RetailCO1":
-            new AddXmlNode().addNode(agentLocalName, "João", "Silva", "Rua Maria Lubelo nº1 4ºD", "+351989657437", "buyer");
+//            new AddXmlNode().addNode(agentLocalName, "João", "Silva", "Rua Maria Lubelo nº1 4ºD", "+351989657437", "buyer");
           break;
         case "RetailCO2":
             new AddXmlNode().addNode(agentLocalName, "Alberto", "Marques", "Rua Martim dos Reis nº15 1ºB", "+351987958462", "buyer");
@@ -162,17 +165,24 @@ public class BuyerBDI{
             new AddXmlNode().addNode(agentLocalName, "Manuel", "Correia", "Rua Joao Pacheco nº3 12ºD", "+351948596214", "buyer");
               break;
         default:
-            new AddXmlNode().addNode(agentLocalName, null, null, null, null, null);
+//            new AddXmlNode().addNode(agentLocalName, null, null, null, null, null);
       }
       
         
-  	  BuyerGoal goal = (BuyerGoal) bdiFeature.dispatchTopLevelGoal(new BuyerGoal(new Double((Math.random() * ((65 - 21) + 1)) + 21).longValue())).get();
-  	  System.out.println("["+ agentLocalName +"] - Preço desejado no mercado: "+ goal.getDesiredPrice());
-        
-  	new AddXmlNode().addDesiredPrice(agentLocalName, String.valueOf(goal.getDesiredPrice()));
+//  	  BuyerGoal goal = (BuyerGoal) bdiFeature.dispatchTopLevelGoal(new BuyerGoal(new Double((Math.random() * ((65 - 21) + 1)) + 21).longValue())).get();
+//  	  System.out.println("["+ agentLocalName +"] - Preço desejado no mercado: "+ goal.getDesiredPrice());  
+//  	new AddXmlNode().addDesiredPrice(agentLocalName, String.valueOf(goal.getDesiredPrice()));
+  	  
   	  
 //        this.addBehaviour(new MessageManager());
-        executePhase(0);
+        if(isLoaded.equals("true"))
+        {
+        	executePhase(0);
+        }
+        else
+        {
+        	executePhase(2);
+        }
     }
     
     
@@ -226,14 +236,24 @@ public class BuyerBDI{
                     // Default strategy means reading input data from excel file on the folder of this Agent
                     // The file is named Standard_Strat.xls
                     
-                    read_Standardstrat();
-                    
+                    if(isLoaded.equals("true"))
+                    {
+                    	read_Standardstrat();
+                    }
                 }
                 //Missing code for other strategies
                 
                 // Sendo offer data to PersonalAssitant
                 send_Offers();
-            
+                break;
+                
+            case 2:
+            	this.information.setName(agentLocalName);
+                sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistantBDIAgent", "askAgentInformation;isBuyer", "market_ontology", "hello_protocol", "INFORM");
+                break;
+                
+            default:
+                break;
         }
         
         
@@ -543,14 +563,28 @@ public class BuyerBDI{
         
         agent_offer = agent_offer + " Price ";
         
-        for(int i = 0; i < this.information.getPrice().size(); i++){
-            agent_offer = agent_offer + this.information.getPrice().get(i) + " ";
+        if(this.information.getPrice().size()==0)
+        {
+        	agent_offer = agent_offer + "null ";
+        }
+        else 
+        {
+            for(int i = 0; i < this.information.getPrice().size(); i++){
+                agent_offer = agent_offer + this.information.getPrice().get(i) + " ";
+            }
         }
         
         agent_offer = agent_offer + "Power ";
         
-        for(int i = 0; i < this.information.getPower().size(); i++){
-            agent_offer = agent_offer + this.information.getPower().get(i) + " ";
+        if(this.information.getPrice().size()==0)
+        {
+        	agent_offer = agent_offer + "null ";
+        }
+        else 
+        {
+            for(int i = 0; i < this.information.getPower().size(); i++){
+                agent_offer = agent_offer + this.information.getPower().get(i) + " ";
+            }
         }
         
         agent_offer = agent_offer + "end";

@@ -19,6 +19,7 @@ public class ProducerData {
     private String Objective;
     private boolean Participating;
     private String Strategy;
+    private Boolean isLoaded;
     
     public ArrayList<DataHydro> DataHydro = new ArrayList();
     public ArrayList<DataThermal> DataThermal = new ArrayList();
@@ -108,8 +109,8 @@ public class ProducerData {
     public void setPrice(Float Price) {
         this.price.add(Price);
     }
-    
-    public void addDataThermal(String ID, Double PMax, Double Pmin, String Fuel, Double FCost){
+
+	public void addDataThermal(String ID, Double PMax, Double Pmin, String Fuel, Double FCost){
         
         DataThermal newDataThermal = new DataThermal(ID, PMax, Pmin, Fuel, FCost);
         
@@ -136,7 +137,15 @@ public class ProducerData {
         
     }
     
-    public void setObjective(String _Objective){
+    public Boolean getIsLoaded() {
+		return isLoaded;
+	}
+
+	public void setIsLoaded(Boolean isLoaded) {
+		this.isLoaded = isLoaded;
+	}
+
+	public void setObjective(String _Objective){
         this.Objective = _Objective;
     }
 

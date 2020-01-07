@@ -86,30 +86,54 @@ public class Offers_Data extends javax.swing.JFrame {
         if(isProducer){
             TableSize = PA.Producers_Information.get(AgentIndex).getPower().size();
             
-            TableData = new String [TableSize][3];
-            for(int i = 0; i < TableSize; i++){
-                
-                TableData[i][0] = "" + (i+1);
-                TableData[i][1] = "" + PA.Producers_Information.get(AgentIndex).getPrice().get(i);
-                TableData[i][2] = "" + PA.Producers_Information.get(AgentIndex).getPower().get(i);
-                
-                System.out.println("" + TableData[i][0]);
-                System.out.println("" + TableData[i][1]);
-                System.out.println("" + TableData[i][2]);
-                
-            }    
+            if(TableSize == 0)
+            {
+            	TableData = new String [24][3];
+            	for(int i=0; i<=23; i++)
+            	{
+            		TableData[i][0] = "" + (i+1);
+            	}
+            }
+            else
+            {
+                TableData = new String [TableSize][3];
+                for(int i = 0; i < TableSize; i++){
+                    
+                    TableData[i][0] = "" + (i+1);
+                    TableData[i][1] = "" + PA.Producers_Information.get(AgentIndex).getPrice().get(i);
+                    TableData[i][2] = "" + PA.Producers_Information.get(AgentIndex).getPower().get(i);
+                    
+                    System.out.println("" + TableData[i][0]);
+                    System.out.println("" + TableData[i][1]);
+                    System.out.println("" + TableData[i][2]);
+                    
+                }    
+            }
+            
+
         }else{
             TableSize = PA.Buyers_Information.get(AgentIndex).getPower().size();
             
-            TableData = new String [TableSize][3];
-            
-            for(int i = 0; i < TableSize; i++){
+            if(TableSize == 0)
+            {
+            	TableData = new String [24][3];
+            	for(int i=0; i<=23; i++)
+            	{
+            		TableData[i][0] = "" + (i+1);
+            	}
+            }
+            else
+            {
+                TableData = new String [TableSize][3];
+                for(int i = 0; i < TableSize; i++){
+                    
+                    TableData[i][0] = "" + (i+1);
+                    TableData[i][1] = "" + PA.Buyers_Information.get(AgentIndex).getPrice().get(i);
+                    TableData[i][2] = "" + PA.Buyers_Information.get(AgentIndex).getPower().get(i);
                 
-                TableData[i][0] = "" + (i+1);
-                TableData[i][1] = "" + PA.Buyers_Information.get(AgentIndex).getPrice().get(i);
-                TableData[i][2] = "" + PA.Buyers_Information.get(AgentIndex).getPower().get(i);
+                }  
+            }
             
-            }  
         }
         
         

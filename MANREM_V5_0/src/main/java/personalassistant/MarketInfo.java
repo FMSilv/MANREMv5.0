@@ -297,7 +297,7 @@ public class MarketInfo extends javax.swing.JFrame {
                     // calls method to inform agent it is participating
                     PA.inform_participants(false, Buyer.getName(), jComboBox_BStrat.getSelectedItem().toString());
                     break;
-                }    
+                }
             }
         }
         

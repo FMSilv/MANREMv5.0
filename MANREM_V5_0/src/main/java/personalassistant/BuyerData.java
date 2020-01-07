@@ -21,7 +21,7 @@ public class BuyerData {
     private String Objective;
     private boolean Participating;
     private String Strategy;
-
+    private Boolean isLoaded;
     
     
     private ArrayList<Boolean> isNegotiated_Sym;
@@ -192,4 +192,13 @@ public class BuyerData {
     public void setPeriod_TotalPrice_aSym(Double period_TotalPrice) {
         this.period_TotalPrice_aSym.add(period_TotalPrice);
     }
+
+	public Boolean getIsLoaded() {
+		return isLoaded;
+	}
+
+	public void setIsLoaded(Boolean isLoaded) {
+		this.isLoaded = isLoaded;
+	}
+    
 }

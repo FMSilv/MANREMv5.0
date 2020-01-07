@@ -19,25 +19,53 @@ public class NewAgent_Info extends javax.swing.JFrame {
     public NewAgent_Info(boolean isProducer, ProducerData Producer, BuyerData Buyer, PersonalAssistantBDI PA) {
         
         this.isProducer = isProducer;
+        this.PA = PA;
         
         if(isProducer){
-            this.name = Producer.getName();
-            this.address = Producer.getAddress();
-            this.phone = Producer.getPhone_number();
-            this.email = Producer.getEmail();
-            this.objective = Producer.getObjective();
-            this.isProducer = isProducer;
-            this.Producer = Producer;
-        }else {
-            this.name = Buyer.getName();
-            this.address = Buyer.getAddress();
-            this.phone = Buyer.getPhone_number();
-            this.email = Buyer.getEmail();
-            this.objective = Buyer.getObjective();
-            this.Buyer = Buyer;
+        	if(null != Producer.getIsLoaded() && !Producer.getIsLoaded())
+        	{
+        		Producer.setName(PA.getLastAgentWhoSendMessage());
+                this.name = Producer.getName();
+                this.address = "";
+                this.phone = "";
+                this.email = "";
+                this.objective = "sell";
+                this.isProducer = isProducer;
+                this.Producer = Producer;
+        	}
+        	else
+        	{
+                this.name = Producer.getName();
+                this.address = Producer.getAddress();
+                this.phone = Producer.getPhone_number();
+                this.email = Producer.getEmail();
+                this.objective = Producer.getObjective();
+                this.isProducer = isProducer;
+                this.Producer = Producer;
+        	}
         }
-        
-        this.PA = PA;
+        else 
+        {
+        	if(null != Buyer.getIsLoaded() && !Buyer.getIsLoaded())
+        	{
+        		Buyer.setName(PA.getLastAgentWhoSendMessage());
+                this.name = Buyer.getName();
+                this.address = "";
+                this.phone = "";
+                this.email = "";
+                this.objective = "buy";
+                this.Buyer = Buyer;
+        	}
+        	else
+        	{
+                this.name = Buyer.getName();
+                this.address = Buyer.getAddress();
+                this.phone = Buyer.getPhone_number();
+                this.email = Buyer.getEmail();
+                this.objective = Buyer.getObjective();
+                this.Buyer = Buyer;
+        	}
+        }
         
         initComponents();
         if(isProducer)
@@ -65,7 +93,7 @@ public class NewAgent_Info extends javax.swing.JFrame {
         jTextField_Name.setEditable(false);
     }
 
-    @SuppressWarnings("unchecked")
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -222,12 +250,31 @@ public class NewAgent_Info extends javax.swing.JFrame {
             personal_info.add(jTextField_Email.getText());
 
             if(isProducer){
-//                PA.addAgent(new AID(this.Producer.getName(), AID.ISLOCALNAME), "producer", Producer, null);
+            	if(null != Producer.getIsLoaded() && !Producer.getIsLoaded())
+            	{
+            		Producer.setAddress(jTextField_Address.getText());
+            		Producer.setEmail(jTextField_Email.getText());
+            		Producer.setPhone_number(jTextField_Telephone.getText());
+            		Producer.setObjective(jTextField_Objective.getText());
+            		
+            		PA.getProducersData().put(Producer.getName(), Producer);
+            	}
+//              PA.addAgent(new AID(this.Producer.getName(), AID.ISLOCALNAME), "producer", Producer, null);
             	PA.addAgent(this.Producer.getName(), "producer", Producer, null);
                 ProducerTechPortfolio Portfolio = new ProducerTechPortfolio(Producer, PA);
                 Portfolio.setVisible(true);
+
             }else{
-//                PA.addAgent(new AID(this.Buyer.getName(), AID.ISLOCALNAME), "buyer", null, Buyer);
+            	if(null != Buyer.getIsLoaded() && !Buyer.getIsLoaded())
+            	{
+            		Buyer.setAddress(jTextField_Address.getText());
+            		Buyer.setEmail(jTextField_Email.getText());
+            		Buyer.setPhone_number(jTextField_Telephone.getText());
+            		Buyer.setObjective(jTextField_Objective.getText());
+            		
+            		PA.getBuyersData().put(Buyer.getName(), Buyer);
+            	}
+//              PA.addAgent(new AID(this.Buyer.getName(), AID.ISLOCALNAME), "buyer", null, Buyer);
                 PA.addAgent(this.Buyer.getName(), "buyer", null, Buyer);
             }
             

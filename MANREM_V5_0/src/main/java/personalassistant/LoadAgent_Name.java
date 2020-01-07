@@ -301,7 +301,7 @@ public class LoadAgent_Name extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Invalid Agent Name!",
                 "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            market.createAgent((String) agentName.trim().replace(" ", "_"), agentInfo);
+            market.createAgent((String) agentName.trim().replace(" ", "_"), agentInfo, "true");
             isLoaded = true;
             this.dispose();
         }

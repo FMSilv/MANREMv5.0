@@ -59,7 +59,8 @@ import xml.ReadXMLFile;
 @Description("ProducerBDI agent. <br>")
 @Arguments
 (value={
-	@Argument(name="chatOn", description="producerBDI.chatOn", clazz=String.class, defaultvalue="\"1\"")
+	@Argument(name="chatOn", description="producerBDI.chatOn", clazz=String.class, defaultvalue="\"1\""),
+	@Argument(name="isLoaded", description="producerBDI.isLoaded", clazz=String.class, defaultvalue="\"false\"")
 })
 @RequiredServices
 ({
@@ -81,9 +82,11 @@ public class ProducerBDI{
     
 	@AgentArgument
 	protected String chatOn;
+	@AgentArgument
+	protected String isLoaded;
 	
-	@Belief(updaterate=4000)
-	protected Map<String, String> hashmap = getProducerBelief(agent.getComponentIdentifier().getLocalName());
+//	@Belief(updaterate=4000)
+//	protected Map<String, String> hashmap = getProducerBelief(agent.getComponentIdentifier().getLocalName());
 	
     InputData_Agents mainGenerator;
     private int phase = 0;
@@ -150,7 +153,7 @@ public class ProducerBDI{
                 
         switch(agentLocalName) {
         case "GenCo1":
-            new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Maria Lubelo nº1 4ºD", "+351989657437", "producer");
+//            new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Maria Lubelo nº1 4ºD", "+351989657437", "producer");
           break;
         case "GenCo2":
             new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Martim dos Reis nº15 1ºB", "+351987958462", "producer");
@@ -165,11 +168,18 @@ public class ProducerBDI{
             new AddXmlNode().addNode(agentLocalName, "fnEDP", "lnEDP", "Rua Joao Pacheco nº3 12ºD", "+351948596214", "producer");
               break;
         default:
-            new AddXmlNode().addNode(agentLocalName, null, null, null, null, null);
+//            new AddXmlNode().addNode(agentLocalName, null, null, null, null, null);
       }
         
 //        this.addBehaviour(new MessageManager());
-        executePhase(0);
+        if(isLoaded.equals("true"))
+        {
+        	executePhase(0);
+        }
+        else
+        {
+        	executePhase(2);
+        }
     }
 
     public void executePhase(int phase) {
@@ -239,14 +249,24 @@ public class ProducerBDI{
                 if(Strategy.contains("Default")){
                     // Standard strategy means reading input data from excel file on the folder of this Agent
                     // The file is named Standard_Strat.xls
-                    
-                    read_Standardstrat();
+                    if(isLoaded.equals("true"))
+                    {
+                    	read_Standardstrat();
+                    }
                 }
                 //Missing code for other strategies
                 
                 // Sendo offer data to PersonalAssitant
                 send_Offers();
                 
+                break;
+                
+            case 2:
+            	this.information.setName(agentLocalName);
+                sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistantBDIAgent", "askAgentInformation;isProducer", "market_ontology", "hello_protocol", "INFORM");
+                break;
+            default:
+                break;
 //<-----------------------------------------------------------------------------        
 // Commented previous Switch because it was not functional right now. João de Sá
 //<-----------------------------------------------------------------------------                
@@ -315,14 +335,28 @@ public class ProducerBDI{
         
         agent_offer = agent_offer + " Price ";
         
-        for(int i = 0; i < this.information.getPrice().size(); i++){
-            agent_offer = agent_offer + this.information.getPrice().get(i) + " ";
+        if(this.information.getPrice().size()==0)
+        {
+        	agent_offer = agent_offer + "null ";
+        }
+        else 
+        {
+            for(int i = 0; i < this.information.getPrice().size(); i++){
+                agent_offer = agent_offer + this.information.getPrice().get(i) + " ";
+            }
         }
         
         agent_offer = agent_offer + "Power ";
         
-        for(int i = 0; i < this.information.getPower().size(); i++){
-            agent_offer = agent_offer + this.information.getPower().get(i) + " ";
+        if(this.information.getPrice().size()==0)
+        {
+        	agent_offer = agent_offer + "null ";
+        }
+        else 
+        {
+	        for(int i = 0; i < this.information.getPower().size(); i++){
+	            agent_offer = agent_offer + this.information.getPower().get(i) + " ";
+	        }
         }
         
         agent_offer = agent_offer + "end";

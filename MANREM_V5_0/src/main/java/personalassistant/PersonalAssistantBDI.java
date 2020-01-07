@@ -147,11 +147,15 @@ public class PersonalAssistantBDI{
     private String[] protocol_list = {"Alternating Offers"};
     public String agent_type = "";
     
+    private String lastAgentWhoSendMessage;
+    
     public ArrayList<String> seller_names = new ArrayList<>();
     public ArrayList<String> buyer_names = new ArrayList<>();
     public ArrayList<String> producer_names = new ArrayList<>();
     public ArrayList<String> largeConsumer_names = new ArrayList<>();
     public ArrayList<String> mediumConsumer_names = new ArrayList<>();
+    public HashMap<String, ProducerData> producersData = new HashMap<String, ProducerData>();
+    public HashMap<String, BuyerData> buyersData = new HashMap<String, BuyerData>();
 //    private AID MarketOperator = new AID("MarketOperator", AID.ISLOCALNAME);
     public PersonalAssistantGUI mo_gui;
     private String[] new_pair;
@@ -511,7 +515,7 @@ public class PersonalAssistantBDI{
 	    public String body(Object[] params)
 	    {
 	    	System.out.println("Sender: "+params[0]+"/ Receiver: "+params[1]+"/ Message: "+params[2]);
-	    	
+
 	    	if(params[3].equals("market_ontology"))
 	    	{
 	    		 bdiFeature.adoptPlan(new MarketOntology(params));
@@ -539,6 +543,7 @@ public class PersonalAssistantBDI{
     		ontology = params[3].toString();
     		protocol = params[4].toString();
     		performative = params[5].toString();
+    		lastAgentWhoSendMessage = sender;
     	}
 		
     	
@@ -579,8 +584,7 @@ public class PersonalAssistantBDI{
         }
         
         private void resolve_hello() {
-            
-            if(content.contains("isProducer")){
+        	if(content.contains("isProducer")){
                 String info = content;
                 
                 StoreProducerInfo(info);
@@ -599,7 +603,7 @@ public class PersonalAssistantBDI{
         }
 
         public void resolveInform() {
-            if (content.contains(";is_buyer") || content.contains(";is_producer") ||content.contains(";is_seller") || content.contains(";is_coalition") || content.contains(";is_consumer")) {
+        	if (content.contains(";is_buyer") || content.contains(";is_producer") ||content.contains(";is_seller") || content.contains(";is_coalition") || content.contains(";is_consumer")) {
                 String[] content_information = content.split(";");
                 String agent_name = content_information[0];
 
@@ -613,8 +617,15 @@ public class PersonalAssistantBDI{
                 }
             }else if(content.contains("Offer")){
                 
-                Store_Offer_Data(content);
-                
+            	if(!content.contains("null"))
+            	{
+                    Store_Offer_Data(content);
+            	}
+            	else
+            	{
+            		callOffers(content);
+            	}
+            	
             }else if(content.contains("Results")){
                 if(content.contains("SMPsym")){
                     Store_and_send_SMP_results(content);
@@ -792,7 +803,44 @@ public class PersonalAssistantBDI{
         
     }
     
-    private void Store_Offer_Data(String content){
+    private void callOffers(String content) {
+    	
+        String[] data;
+        data = content.split(" ");
+    	
+    	int i = 0;
+    	
+    	if(data[2].contains("Producer")){
+        	for(ProducerData producerData : this.Producers_Information )
+        	{
+        		if(producerData.getName().equals(data[1]))
+        		{
+        	    	this.mo_gui.show_offer_window(i, true);
+        		}
+        		else
+        		{
+        			i++;
+        		}
+        	}
+    	}
+    	else if(data[2].contains("Buyer"))
+    	{
+        	for(BuyerData buyerData : this.Buyers_Information )
+        	{
+        		if(buyerData.getName().equals(data[1]))
+        		{
+        	    	this.mo_gui.show_offer_window(i, false);
+        		}
+        		else
+        		{
+        			i++;
+        		}
+        	}
+    	}
+    }
+    
+	private void Store_Offer_Data(String content){
+
         String[] data;
         int k = -1;
         int j = 0;
@@ -846,108 +894,124 @@ public class PersonalAssistantBDI{
         }
         
     }
-
+    
     private void StoreProducerInfo(String info){
-        
-        // Info string has the following format
-        // "Name";"Address";"PhoneNumber";"Email";"Objective";tech;"ThermalTechnolgies";"WindTechnologies";"HydroTechnologies"
-        // The fields between "" refer to information about the current Agent
-        // If the agent doesn't have a particular technology, the respective field will be empty
-        // Differente avaliable technologies of a ceratain type will be separated by "_"
-        
-        
         ProducerData newProducer = new ProducerData();
-        String Name;
-        String Address;
-        String Phone_Number;
-        String EMail;
-        String Objective;
 
-        // data[0] to data[5] will be basic producer agent info
-        String[] data;
-        data = info.split(";");
-        
-        Name = data[0];
-        Address = data[2];
-        Phone_Number = data[3];
-        EMail = data[4];
-        Objective = data[5];
-        
-        newProducer.setName(Name);
-        newProducer.setAddress(Address);
-        newProducer.setPhone_number(Phone_Number);
-        newProducer.setEmail(EMail);
-        newProducer.setObjective(Objective);
-        newProducer.setParticipating(false);
-        newProducer.setStrategy("None");
-        
-        // data[6] will be "tech"
-        
-        // data[7] is for thermal technologies
-        String[] TechData;
-        TechData = data[7].split("_");
-        int i = 0;
-        if(!TechData[0].equals(" ")){
-            while(i<TechData.length){
-                newProducer.addDataThermal(TechData[i], Double.parseDouble(TechData[i+1]), 
-                        Double.parseDouble(TechData[i+2]), TechData[i+3], Double.parseDouble(TechData[i+4]));
-                i=i+5;
-            }
-        }
-        // data[8] is for wind technologies
-        TechData = data[8].split("_");
-        i = 0;
-        if(!TechData[0].equals(" ")){
-            while(i<TechData.length){
-                newProducer.addDataWind(TechData[i], Double.parseDouble(TechData[i+1]), 
-                        Double.parseDouble(TechData[i+2]), Double.parseDouble(TechData[i+3]));
-                i=i+4;
-            }
-        }
+    	if(!info.contains("askAgentInformation"))
+    	{
+            // Info string has the following format
+            // "Name";"Address";"PhoneNumber";"Email";"Objective";tech;"ThermalTechnolgies";"WindTechnologies";"HydroTechnologies"
+            // The fields between "" refer to information about the current Agent
+            // If the agent doesn't have a particular technology, the respective field will be empty
+            // Differente avaliable technologies of a ceratain type will be separated by "_"
+            
+            
+            String Name;
+            String Address;
+            String Phone_Number;
+            String EMail;
+            String Objective;
 
-        // data[9] is for Hydro technologies
-        TechData = data[9].split("_");
-        i = 0;
-        if(!TechData[0].equals(" ")){
-            while(i<TechData.length){
-                newProducer.addDataHydro(TechData[i], Double.parseDouble(TechData[i+1]), 
-                        Double.parseDouble(TechData[i+2]));
-                i=i+3;
+            // data[0] to data[5] will be basic producer agent info
+            String[] data;
+            data = info.split(";");
+            
+            Name = data[0];
+            Address = data[2];
+            Phone_Number = data[3];
+            EMail = data[4];
+            Objective = data[5];
+            
+            newProducer.setName(Name);
+            newProducer.setAddress(Address);
+            newProducer.setPhone_number(Phone_Number);
+            newProducer.setEmail(EMail);
+            newProducer.setObjective(Objective);
+            newProducer.setParticipating(false);
+            newProducer.setStrategy("None");
+            
+            // data[6] will be "tech"
+            
+            // data[7] is for thermal technologies
+            String[] TechData;
+            TechData = data[7].split("_");
+            int i = 0;
+            if(!TechData[0].equals(" ")){
+                while(i<TechData.length){
+                    newProducer.addDataThermal(TechData[i], Double.parseDouble(TechData[i+1]), 
+                            Double.parseDouble(TechData[i+2]), TechData[i+3], Double.parseDouble(TechData[i+4]));
+                    i=i+5;
+                }
             }
-        }
+            // data[8] is for wind technologies
+            TechData = data[8].split("_");
+            i = 0;
+            if(!TechData[0].equals(" ")){
+                while(i<TechData.length){
+                    newProducer.addDataWind(TechData[i], Double.parseDouble(TechData[i+1]), 
+                            Double.parseDouble(TechData[i+2]), Double.parseDouble(TechData[i+3]));
+                    i=i+4;
+                }
+            }
 
+            // data[9] is for Hydro technologies
+            TechData = data[9].split("_");
+            i = 0;
+            if(!TechData[0].equals(" ")){
+                while(i<TechData.length){
+                    newProducer.addDataHydro(TechData[i], Double.parseDouble(TechData[i+1]), 
+                            Double.parseDouble(TechData[i+2]));
+                    i=i+3;
+                }
+            }
+            
+        	newProducer.setIsLoaded(true);
+    	}
+    	else
+    	{
+        	newProducer.setIsLoaded(false);
+    	}
+    	
         NewAgent_Info AgentInfo = new NewAgent_Info(true, newProducer, null, this);
         AgentInfo.setVisible(true);
-        
-                
     }
     
     private void StoreBuyerInfo(String info){
+    	BuyerData newBuyer = new BuyerData();
+    	
+    	if(!info.contains("askAgentInformation"))
+    	{
+            String Name;
+            String Address;
+            String Phone_Number;
+            String EMail;
+            String Objective;
+            
+             // data[0] to data[5] will be basic producer agent info
+            String[] data;
+            data = info.split(";");
+            
+            Name = data[0];
+            Address = data[2];
+            Phone_Number = data[3];
+            EMail = data[4];
+            Objective = data[5];
+            
+            newBuyer.setName(Name);
+            newBuyer.setAddress(Address);
+            newBuyer.setPhone_number(Phone_Number);
+            newBuyer.setEmail(EMail);
+            newBuyer.setObjective(Objective);
+            newBuyer.setParticipating(false);
         
-        BuyerData newBuyer = new BuyerData();
-        String Name;
-        String Address;
-        String Phone_Number;
-        String EMail;
-        String Objective;
-        
-         // data[0] to data[5] will be basic producer agent info
-        String[] data;
-        data = info.split(";");
-        
-        Name = data[0];
-        Address = data[2];
-        Phone_Number = data[3];
-        EMail = data[4];
-        Objective = data[5];
-        
-        newBuyer.setName(Name);
-        newBuyer.setAddress(Address);
-        newBuyer.setPhone_number(Phone_Number);
-        newBuyer.setEmail(EMail);
-        newBuyer.setObjective(Objective);
-        newBuyer.setParticipating(false);
-        
+        	newBuyer.setIsLoaded(true);
+    	}
+    	else
+    	{
+        	newBuyer.setIsLoaded(false);
+    	}
+
         NewAgent_Info AgentInfo = new NewAgent_Info(false, null, newBuyer, this);
         AgentInfo.setVisible(true);
     }
@@ -1858,7 +1922,7 @@ public class PersonalAssistantBDI{
             return;
         }else if (result == 1) {
                 //createAgent(toString,"Coalition.CoalitionFront");
-                createAgent("Coalition","Coalition.CoalitionFront");
+                createAgent("Coalition","Coalition.CoalitionFront", "false");
         }
     
     }
@@ -2124,11 +2188,11 @@ public class PersonalAssistantBDI{
     
     
     // Creates a new agent via Jadex platform controller
-    public void createAgent(String AgentName, String ClassName) {
+    public void createAgent(String AgentName, String ClassName, String isLoaded) {
 
     	try 
     	{
-        	bdiFeature.adoptPlan(new CreateAgentPlan(cms, new String[]{AgentName, ClassName}));
+        	bdiFeature.adoptPlan(new CreateAgentPlan(cms, new String[]{AgentName, ClassName}, isLoaded));
         	System.out.println("Agent sucessfully created!");
     	}
     	catch (Exception e) 
@@ -3842,8 +3906,35 @@ public class PersonalAssistantBDI{
 	        }
         });
     }
-    
-    
+
+	public HashMap<String, ProducerData> getProducersData() {
+		return producersData;
+	}
+
+
+	public void setProducersData(HashMap<String, ProducerData> producersData) {
+		this.producersData = producersData;
+	}
+
+
+	public HashMap<String, BuyerData> getBuyersData() {
+		return buyersData;
+	}
+
+
+	public void setBuyersData(HashMap<String, BuyerData> buyersData) {
+		this.buyersData = buyersData;
+	}
+
+
+	public String getLastAgentWhoSendMessage() {
+		return lastAgentWhoSendMessage;
+	}
+
+
+	public void setLastAgentWhoSendMessage(String lastAgentWhoSendMessage) {
+		this.lastAgentWhoSendMessage = lastAgentWhoSendMessage;
+	}
     
 }
 

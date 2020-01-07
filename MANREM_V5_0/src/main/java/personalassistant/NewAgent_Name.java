@@ -305,7 +305,7 @@ public class NewAgent_Name extends javax.swing.JFrame {
         } else {
             String warning = searchAgent(agentTable, jTextField_Name.getText().trim().replace(" ", "_"));
             if (warning.isEmpty()) {
-                market.createAgent((String) jTextField_Name.getText().trim().replace(" ", "_"), agentInfo);
+                market.createAgent((String) jTextField_Name.getText().trim().replace(" ", "_"), agentInfo, "false");
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, warning,
