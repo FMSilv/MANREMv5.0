@@ -87,6 +87,57 @@ public class DayAheadController {
         
     }
     
+    
+    public String SMPsymsimulation(String[] buyerNames, String[] sellerNames, ArrayList<AgentData> buyers, ArrayList<AgentData> sellers){
+        String results = null;
+        
+        System.out.println("Starting SMP sym simulation");
+        
+        this.sellerNames = sellerNames;
+        this.buyerNames = buyerNames;
+        this.buyers = buyers;
+        this.sellers = sellers;
+        
+        // Run Simulation
+        
+        Simulation sim = new Simulation(buyers, sellers, true);
+        sim.run(this.START_HOUR, this.END_HOUR, this.sellerNames, this.buyerNames);
+        
+        // Write results message content
+        
+        results = "Results SMPsym;";
+        
+        results = results + "" + buyers.get(0).getMarket_Price_Sym().get(0) + ";";
+        
+        results = results + "Producers";
+        
+        for(int i = 0; i < sellers.size(); i++){
+            results = results + ";" + sellers.get(i).getName() + " ";
+            
+            for(int j = 0; j < sellers.get(i).getTraded_power_Sym().size(); j++){
+                results = results + sellers.get(i).getTraded_power_Sym().get(j) + " ";
+            }
+            
+            results = results + "end";
+        }
+        
+        results = results + ";Buyers";
+        
+        for(int i = 0; i < buyers.size(); i++){
+            results = results + ";" + buyers.get(i).getName() + " ";
+            
+            for(int j = 0; j < buyers.get(i).getTraded_power_Sym().size(); j++){
+                results = results + buyers.get(i).getTraded_power_Sym().get(j) + " ";
+            }
+            
+            results = results + "end";
+        }
+        
+        return results;
+        
+    }
+    
+    
     public String SMPasymsimulation(){
         String results = null;
         

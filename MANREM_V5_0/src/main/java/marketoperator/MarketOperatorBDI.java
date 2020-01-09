@@ -4,6 +4,8 @@
  */
 package marketoperator;
 
+import java.util.ArrayList;
+
 import jadex.bdiv3.IBDIAgent;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanBody;
@@ -15,6 +17,7 @@ import jadex.bridge.IInternalAccess;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.search.SServiceProvider;
 import jadex.bridge.service.types.clock.IClockService;
+import jadex.commons.future.IFuture;
 import jadex.commons.future.IResultListener;
 import jadex.commons.future.IntermediateDefaultResultListener;
 import jadex.commons.gui.future.SwingResultListener;
@@ -34,6 +37,7 @@ import jadex.micro.annotation.RequiredServices;
 import services.chatService.ChatService;
 import services.chatService.IChatService;
 import services.messageServices.IMessageService;
+import wholesalemarket_SMP.AgentData;
 
 /**
  *
@@ -86,11 +90,18 @@ public class MarketOperatorBDI{
 	    @PlanBody
 	    public String body(Object[] params)
 	    {
-	    	System.out.println("Sender: "+params[0]+"/ Receiver: "+params[1]+"/ Message: "+params[2]);
-	    	
-	    	if(params[3].equals("market_ontology"))
+	    	if(params[2].toString().equals("startSimulation"))
 	    	{
-	    		 bdiFeature.adoptPlan(new MarketOntology(params));
+	    		 bdiFeature.adoptPlan(new StartSimulation(params));
+	    	}
+	    	else
+	    	{
+		    	System.out.println("Sender: "+params[0]+"/ Receiver: "+params[1]+"/ Message: "+params[2]);
+		    	
+		    	if(params[3].equals("market_ontology"))
+		    	{
+		    		 bdiFeature.adoptPlan(new MarketOntology(params));
+		    	}
 	    	}
 	    	return "Chegou a " + agent.getComponentIdentifier().getLocalName() + " Agent";
 	    }
@@ -159,6 +170,41 @@ public class MarketOperatorBDI{
     	
 	}
     
+    
+    @Plan
+	public class StartSimulation {
+
+    	protected String sender;
+    	protected String receiver;
+    	protected String simulationFlag;
+    	protected String[] buyerNames;
+    	protected String[] sellerNames;
+    	protected ArrayList<AgentData> buyers;
+    	protected ArrayList<AgentData> sellers;
+    	
+    	@SuppressWarnings("unchecked")
+		public StartSimulation(Object[] params) {
+    		sender = params[0].toString();
+    		receiver = params[1].toString();
+    		simulationFlag = params[2].toString();
+    		buyerNames = (String[]) params[3];
+    		sellerNames = (String[]) params[4];
+    		buyers = (ArrayList<AgentData>) params[5];
+    		sellers = (ArrayList<AgentData>) params[6];
+    	}
+    	
+    	@PlanBody
+    	public void resolve()
+    	{
+    		String results = null;
+            results = DAController.SMPsymsimulation(buyerNames, sellerNames, buyers, sellers);
+            sendMessage(agent.getComponentIdentifier().getLocalName(), "DataStorageAssistantBDIAgent", "SMPsym - Store simulation data", "market_ontology", "no_protocol", "INFORM");
+            send_results(results);
+    	}
+    	
+    }
+    
+    
     public void send_results(String content){
         sendMessage(agent.getComponentIdentifier().getLocalName(), "PersonalAssistantBDIAgent", content, "market_ontology", "no_protocol", "INFORM");
     }
@@ -188,6 +234,5 @@ public class MarketOperatorBDI{
         });
     }
     
-
     
 }

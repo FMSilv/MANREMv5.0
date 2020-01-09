@@ -26,7 +26,7 @@ public class Offers_Data extends javax.swing.JFrame {
     boolean isProducer;
     int AgentIndex;
     private final String[] TableTitle = new String[] {"Period", "Price [$/MW]", "Power [MW]"};
-    boolean isLoadedFlag;
+    boolean isLoadedFlag = false;
     
     
     private String[][] TableData;
@@ -93,7 +93,7 @@ public class Offers_Data extends javax.swing.JFrame {
             
             if(TableSize == 0)
             {
-            	isLoadedFlag = true;
+            	isLoadedFlag = false;
             	TableData = new String [24][3];
             	for(int i=0; i<=23; i++)
             	{
@@ -102,7 +102,7 @@ public class Offers_Data extends javax.swing.JFrame {
             }
             else
             {
-            	isLoadedFlag = false;
+            	isLoadedFlag = true;
                 TableData = new String [TableSize][3];
                 for(int i = 0; i < TableSize; i++){
                     
@@ -123,7 +123,7 @@ public class Offers_Data extends javax.swing.JFrame {
             
             if(TableSize == 0)
             {
-            	isLoadedFlag = true;
+            	isLoadedFlag = false;
             	TableData = new String [24][3];
             	for(int i=0; i<=23; i++)
             	{
@@ -132,7 +132,7 @@ public class Offers_Data extends javax.swing.JFrame {
             }
             else
             {
-            	isLoadedFlag = false;
+            	isLoadedFlag = true;
                 TableData = new String [TableSize][3];
                 for(int i = 0; i < TableSize; i++){
                     
@@ -317,6 +317,7 @@ public class Offers_Data extends javax.swing.JFrame {
         	
             if(isProducer)
             {
+                ArrayList<Integer> idArray = new ArrayList<Integer>();
                 ArrayList<Float> priceArray = new ArrayList<Float>();
                 ArrayList<Float> powerArray = new ArrayList<Float>();
             	
@@ -324,14 +325,17 @@ public class Offers_Data extends javax.swing.JFrame {
             	
             	for(int i=0; i<=23; i++)
             	{
+            		idArray.add(Integer.valueOf((String) tableModel.getValueAt(i, 0)));
             		priceArray.add(Float.valueOf((String) tableModel.getValueAt(i, 1)));
             		powerArray.add(Float.valueOf((String) tableModel.getValueAt(i, 2)));
             	}
+            	producerData.setId(idArray);
             	producerData.setPrice(priceArray);
             	producerData.setPower(powerArray);
             }
             else
             {
+                ArrayList<Integer> idArray = new ArrayList<Integer>();
                 ArrayList<Float> priceArray = new ArrayList<Float>();
                 ArrayList<Float> powerArray = new ArrayList<Float>();
                 
@@ -339,9 +343,11 @@ public class Offers_Data extends javax.swing.JFrame {
             	
             	for(int i=0; i<=23; i++)
             	{
+            		idArray.add(Integer.valueOf((String) tableModel.getValueAt(i, 0)));
             		priceArray.add(Float.valueOf((String) tableModel.getValueAt(i, 1)));
             		powerArray.add(Float.valueOf((String) tableModel.getValueAt(i, 2)));
             	}
+            	buyerData.setId(idArray);
             	buyerData.setPrice(priceArray);
             	buyerData.setPower(powerArray);
             }

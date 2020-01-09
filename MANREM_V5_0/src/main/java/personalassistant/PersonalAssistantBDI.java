@@ -102,6 +102,7 @@ import services.chatService.ChatService;
 import services.chatService.IChatService;
 import services.messageServices.IMessageService;
 import tools.TimeChooser;
+import wholesalemarket_SMP.AgentData;
 
 
 /**
@@ -277,6 +278,42 @@ public class PersonalAssistantBDI{
             this.Write_Input_File();
 //            msg.setContent("Start Simulation SMPsym");
             sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperatorBDIAgent", "Start Simulation SMPsym", "market_ontology", "no_protocol", "INFORM");
+            
+//            String[] buyerNames = this.buyer_names.toArray(new String[0]);
+//            String[] producerNames = this.producer_names.toArray(new String[0]);
+//            ArrayList<AgentData> buyers = new ArrayList<AgentData>();
+//            ArrayList<AgentData> sellers = new ArrayList<AgentData>();
+//            
+//            int sellerId = 0;
+//            for(ProducerData producerData: Producers_Information)
+//            {
+//            	for(String producer : producerNames) {
+//            		if(producer.equals(producerData.getName()))
+//            		{
+//            		    ArrayList<Float> price = producerData.getPrice();
+//            		    ArrayList<Float> power = producerData.getPower();
+//            		    sellers.add(new AgentData(producer, sellerId, price, power));
+//            		}
+//            	}
+//            	sellerId++;
+//            }
+//            
+//            int buyerId = 0;
+//            for(BuyerData buyerData: Buyers_Information)
+//            {
+//            	for(String buyer : buyerNames) {
+//            		if(buyer.equals(buyerData.getName()))
+//            		{
+//            		    ArrayList<Float> price = buyerData.getPrice();
+//            		    ArrayList<Float> power = buyerData.getPower();
+//            		    buyers.add(new AgentData(buyer, buyerId, price, power));
+//            		}
+//            	}
+//            	buyerId++;
+//            }
+//            
+//            sendSimulationInfo(agent.getComponentIdentifier().getLocalName(), "MarketOperatorBDIAgent", "startSimulation", buyerNames, producerNames, buyers, sellers);
+            
         } else if(isSMPasym) {
 //            msg.setContent("Start Simulation SMPasym");
             sendMessage(agent.getComponentIdentifier().getLocalName(), "MarketOperatorBDIAgent", "Start Simulation SMPasym", "market_ontology", "no_protocol", "INFORM");
@@ -3891,6 +3928,31 @@ public class PersonalAssistantBDI{
 	                .addResultListener(new SwingResultListener<String>(new IResultListener<String>()
 	            {
 	                	
+	                public void resultAvailable(String response) 
+	                {
+	                	if(null!=response) {
+		                	System.out.println("Message Received: "+ response);
+	                	}
+	                }
+	
+	                public void exceptionOccurred(Exception exception)
+	                {
+	                    exception.printStackTrace();
+	                }
+	            }));
+	        }
+        });
+    }
+    
+    public void sendSimulationInfo(String sender, String receiver, String simulationFlag, String[] buyerNames, String[] sellerNames, ArrayList<AgentData> buyers, ArrayList<AgentData> sellers) {
+        SServiceProvider.getServices(agent, IMessageService.class, RequiredServiceInfo.SCOPE_PLATFORM)
+        .addResultListener(new IntermediateDefaultResultListener<IMessageService>()
+        {
+	        public void intermediateResultAvailable(IMessageService ts)
+	        {
+	            ts.sendSimulationInfo(sender, receiver, simulationFlag, buyerNames, sellerNames, buyers, sellers)
+	                .addResultListener(new SwingResultListener<String>(new IResultListener<String>()
+	            {
 	                public void resultAvailable(String response) 
 	                {
 	                	if(null!=response) {

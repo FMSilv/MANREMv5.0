@@ -34,6 +34,7 @@ public class BuyerData {
     private ArrayList<Double> market_Price_aSym;
     private ArrayList<Double> period_TotalPrice_aSym;
     
+    ArrayList<Integer> id = new ArrayList<Integer>();
     ArrayList<Float> price = new ArrayList<Float>();
     ArrayList<Float> power = new ArrayList<Float>();
 
@@ -208,5 +209,15 @@ public class BuyerData {
 	public void setPower(ArrayList<Float> power) {
 		this.power = power;
 	}
+
+	public ArrayList<Integer> getId() {
+		return id;
+	}
+
+	public void setId(ArrayList<Integer> id) {
+		this.id = id;
+	}
     
+	
+	
 }
