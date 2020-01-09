@@ -200,5 +200,13 @@ public class BuyerData {
 	public void setIsLoaded(Boolean isLoaded) {
 		this.isLoaded = isLoaded;
 	}
+
+	public void setPrice(ArrayList<Float> price) {
+		this.price = price;
+	}
+
+	public void setPower(ArrayList<Float> power) {
+		this.power = power;
+	}
     
 }

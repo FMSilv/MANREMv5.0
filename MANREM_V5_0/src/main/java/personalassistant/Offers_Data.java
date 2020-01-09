@@ -5,6 +5,10 @@
  */
 package personalassistant;
 
+import java.util.ArrayList;
+
+import javax.swing.table.TableModel;
+
 import DayAheadInterface.DayaheadinterfaceBDI;
 import DayAheadInterface.Offers_Data_editTable;
 import DayAheadInterface.SharedUpdateTableData;
@@ -22,7 +26,8 @@ public class Offers_Data extends javax.swing.JFrame {
     boolean isProducer;
     int AgentIndex;
     private final String[] TableTitle = new String[] {"Period", "Price [$/MW]", "Power [MW]"};
-
+    boolean isLoadedFlag;
+    
     
     private String[][] TableData;
     
@@ -88,6 +93,7 @@ public class Offers_Data extends javax.swing.JFrame {
             
             if(TableSize == 0)
             {
+            	isLoadedFlag = true;
             	TableData = new String [24][3];
             	for(int i=0; i<=23; i++)
             	{
@@ -96,6 +102,7 @@ public class Offers_Data extends javax.swing.JFrame {
             }
             else
             {
+            	isLoadedFlag = false;
                 TableData = new String [TableSize][3];
                 for(int i = 0; i < TableSize; i++){
                     
@@ -116,6 +123,7 @@ public class Offers_Data extends javax.swing.JFrame {
             
             if(TableSize == 0)
             {
+            	isLoadedFlag = true;
             	TableData = new String [24][3];
             	for(int i=0; i<=23; i++)
             	{
@@ -124,6 +132,7 @@ public class Offers_Data extends javax.swing.JFrame {
             }
             else
             {
+            	isLoadedFlag = false;
                 TableData = new String [TableSize][3];
                 for(int i = 0; i < TableSize; i++){
                     
@@ -301,7 +310,43 @@ public class Offers_Data extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
+    	if(!isLoadedFlag)
+    	{
+        	TableModel tableModel = jTable1.getModel();
+        	
+            if(isProducer)
+            {
+                ArrayList<Float> priceArray = new ArrayList<Float>();
+                ArrayList<Float> powerArray = new ArrayList<Float>();
+            	
+            	ProducerData producerData = PA.getProducers_Information().get(AgentIndex);
+            	
+            	for(int i=0; i<=23; i++)
+            	{
+            		priceArray.add(Float.valueOf((String) tableModel.getValueAt(i, 1)));
+            		powerArray.add(Float.valueOf((String) tableModel.getValueAt(i, 2)));
+            	}
+            	producerData.setPrice(priceArray);
+            	producerData.setPower(powerArray);
+            }
+            else
+            {
+                ArrayList<Float> priceArray = new ArrayList<Float>();
+                ArrayList<Float> powerArray = new ArrayList<Float>();
+                
+            	BuyerData buyerData = PA.getBuyers_Information().get(AgentIndex);
+            	
+            	for(int i=0; i<=23; i++)
+            	{
+            		priceArray.add(Float.valueOf((String) tableModel.getValueAt(i, 1)));
+            		powerArray.add(Float.valueOf((String) tableModel.getValueAt(i, 2)));
+            	}
+            	buyerData.setPrice(priceArray);
+            	buyerData.setPower(powerArray);
+            }
+    	}
+    	
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -377,5 +422,12 @@ public class Offers_Data extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldStrat;
     // End of variables declaration//GEN-END:variables
 
-    
+	public boolean isLoadedFlag() {
+		return isLoadedFlag;
+	}
+
+	public void setLoadedFlag(boolean isLoadedFlag) {
+		this.isLoadedFlag = isLoadedFlag;
+	}
+
 }

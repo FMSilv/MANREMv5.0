@@ -3935,7 +3935,27 @@ public class PersonalAssistantBDI{
 	public void setLastAgentWhoSendMessage(String lastAgentWhoSendMessage) {
 		this.lastAgentWhoSendMessage = lastAgentWhoSendMessage;
 	}
-    
+
+
+	public ArrayList<BuyerData> getBuyers_Information() {
+		return Buyers_Information;
+	}
+
+
+	public void setBuyers_Information(ArrayList<BuyerData> buyers_Information) {
+		Buyers_Information = buyers_Information;
+	}
+
+
+	public ArrayList<ProducerData> getProducers_Information() {
+		return Producers_Information;
+	}
+
+
+	public void setProducers_Information(ArrayList<ProducerData> producers_Information) {
+		Producers_Information = producers_Information;
+	}
+	
 }
 
 class ComboMenuBar extends JMenuBar {

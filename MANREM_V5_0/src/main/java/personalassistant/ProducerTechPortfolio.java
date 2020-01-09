@@ -5,9 +5,12 @@
  */
 package personalassistant;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -237,10 +240,90 @@ public class ProducerTechPortfolio extends javax.swing.JFrame {
 
     private void jButton_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_OkActionPerformed
         // TODO add your handling code here:
-        
+        if(!Producer.getIsLoaded())
+        {
+            ArrayList<DataThermal> arrayDataThermal = new ArrayList<DataThermal>();
+            ArrayList<DataHydro> arrayDataHydro = new ArrayList<DataHydro>();
+            ArrayList<DataWind> arrayDataWind = new ArrayList<DataWind>();
+        	
+        	TableModel tableModel = jTable1.getModel();
+        	for(int i = 0; i<16;i++)
+        	{
+            	String str = (String) tableModel.getValueAt(i, 0);
+            	if(null!=str && !str.equals(""))
+            	{
+            		String technology = (String) tableModel.getValueAt(i, 1);
+            		if(null!=technology && !technology.equals("") && technology.equals("Thermal"))
+            		{
+            			if(null!=(String) tableModel.getValueAt(i, 0) &&
+            					null!=(String) tableModel.getValueAt(i, 3) &&
+            					null!=(String) tableModel.getValueAt(i, 4) &&
+            					null!=(String) tableModel.getValueAt(i, 2) &&
+            					null!=(String) tableModel.getValueAt(i, 5))
+            			{
+                			arrayDataThermal.add(
+                    			new DataThermal(
+                    				(String) tableModel.getValueAt(i, 0), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 3)), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 4)), 
+                    				(String) tableModel.getValueAt(i, 2), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 5))
+                    			)
+                    		);	
+            			}
+            		}
+            		else if(null!=technology && !technology.equals("") && technology.equals("Hydro"))
+            		{
+            			if(null!=(String) tableModel.getValueAt(i, 0) &&
+            					null!=(String) tableModel.getValueAt(i, 3) &&
+            					null!=(String) tableModel.getValueAt(i, 5))
+            			{
+                			arrayDataHydro.add(
+                    			new DataHydro(
+                    				(String) tableModel.getValueAt(i, 0), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 3)), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 5))
+                    			)
+                    		);	
+            			}
+            		}
+            		else if(null!=technology && !technology.equals("") && technology.equals("Wind"))
+            		{
+            			if(null!=(String) tableModel.getValueAt(i, 0) &&
+            					null!=(String) tableModel.getValueAt(i, 3) &&
+            					null!=(String) tableModel.getValueAt(i, 4) &&
+            					null!=(String) tableModel.getValueAt(i, 5)) 
+            			{
+                			arrayDataWind.add(
+                    			new DataWind(
+                    				(String) tableModel.getValueAt(i, 0), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 3)), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 4)), 
+                    				Double.valueOf((String) tableModel.getValueAt(i, 5))
+                    			)
+                    		);	
+            			}
+            		}
+            	}
+        	}
+        	
+        	if(null!=arrayDataThermal && !arrayDataThermal.isEmpty())
+        	{
+        		Producer.setDataThermal(arrayDataThermal);
+        	}
+        	if(null!=arrayDataHydro && !arrayDataHydro.isEmpty())
+        	{
+        		Producer.setDataHydro(arrayDataHydro);
+        	}
+        	if(null!=arrayDataWind && !arrayDataWind.isEmpty())
+        	{
+        		Producer.setDataWind(arrayDataWind);
+        	}
+        	
+        }
         this.dispose();
     }//GEN-LAST:event_jButton_OkActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */

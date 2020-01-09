@@ -110,6 +110,14 @@ public class ProducerData {
         this.price.add(Price);
     }
 
+	public void setPrice(ArrayList<Float> price) {
+		this.price = price;
+	}
+
+	public void setPower(ArrayList<Float> power) {
+		this.power = power;
+	}
+
 	public void addDataThermal(String ID, Double PMax, Double Pmin, String Fuel, Double FCost){
         
         DataThermal newDataThermal = new DataThermal(ID, PMax, Pmin, Fuel, FCost);
@@ -230,103 +238,28 @@ public class ProducerData {
         this.period_TotalPrice_aSym.add(period_TotalPrice);
     }
 
-    public static class DataHydro {
-        
-        private String ID;
-        private Double Pi;
-        private Double FCost;
+	public ArrayList<DataHydro> getDataHydro() {
+		return DataHydro;
+	}
 
-        public DataHydro(String ID, Double Pi, Double FCost) {
-            this.ID = ID;
-            this.Pi = Pi;
-            this.FCost = FCost;
-            
-            
-        }
-        
-        public String getID(){
-            return this.ID;
-        }
-        
-        public Double getPi(){
-            return this.Pi;
-        }
-        
-        public Double getFCost(){
-            return this.FCost;
-        }
-    }
+	public void setDataHydro(ArrayList<DataHydro> dataHydro) {
+		DataHydro = dataHydro;
+	}
 
-    public static class DataThermal {
-        
-        private String ID;
-        private Double PMax;
-        private Double Pmin;
-        private String Fuel;
-        private Double FCost;
+	public ArrayList<DataThermal> getDataThermal() {
+		return DataThermal;
+	}
 
-        public DataThermal(String ID, Double PMax, Double Pmin, String Fuel, Double FCost) {
-            this.ID = ID;
-            this.PMax = PMax;
-            this.Pmin = Pmin;
-            this.Fuel = Fuel;
-            this.FCost = FCost;
-            
-            
-        }
-        
-        public String getID(){
-            return this.ID;
-        }
-        
-        public Double getPMax(){
-            return this.PMax;
-        }
-        
-        public Double getPmin(){
-            return this.Pmin;
-        }
-        
-        public String getFuel(){
-            return this.Fuel;
-        }
-        
-        public Double getFCost(){
-            return this.FCost;
-        }
-        
-    }
+	public void setDataThermal(ArrayList<DataThermal> dataThermal) {
+		DataThermal = dataThermal;
+	}
 
-    public static class DataWind {
-        
-        private String ID;
-        private Double PMax;
-        private Double Pmin;
-        private Double FCost;
+	public ArrayList<DataWind> getDataWind() {
+		return DataWind;
+	}
 
-        public DataWind(String ID, Double PMax, Double Pmin, Double FCost) {
-            this.ID = ID;
-            this.PMax = PMax;
-            this.Pmin = Pmin;
-            this.FCost = FCost;
-            
-            
-        }
-        
-        public String getID(){
-            return this.ID;
-        }
-        
-        public Double getPMax(){
-            return this.PMax;
-        }
-        
-        public Double getPmin(){
-            return this.Pmin;
-        }
-        
-        public Double getFCost(){
-            return this.FCost;
-        }
-    }    
+	public void setDataWind(ArrayList<DataWind> dataWind) {
+		DataWind = dataWind;
+	}
+ 
 }
